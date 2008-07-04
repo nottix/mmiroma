@@ -1,13 +1,9 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<math.h>
-#include <csim.h>
+#include "gaussiana_inversa.h"
 
+//double mu = 3.86;
+//double lambda = 9.46;
 
-double mu = 3.86;
-double lambda = 9.46;
-
-double calc_gauss_inverse() 
+double session_request(double mu, double lambda)   //dimensionare come un intero???
 {
  double x; 
  double v = normal(0,1);
@@ -25,20 +21,45 @@ double calc_gauss_inverse()
  return x;
 }
 
-double calc_p(double x) 
+double user_think_time(double alfa)
 {
-  return sqrt(lambda/(2*M_PI))*pow(x,-3/2)*pow(M_E,(-lambda*pow((x-mu),2))/(2*pow(mu,2)*x));
-  
+  double x = 0.0;
+  while(x < 1) {
+    x = pareto(alfa);
+  }
+  return x;
 }
 
-void sim(int argc, char **argv) 
+int object_per_request(double alfa)
 {
-  int i = 0;
-  for(;i<1000;i++) {
-    double res = calc_gauss_inverse(); 
-    printf("%lf\n",p);
-    //double p = calc_p(res); 
-
-
+  int x = 0;
+  while(x < 2) {
+    x = (int)round(pareto(alfa));
   }
+  return x;
+}
+
+double html_page_size(double mu, double sigma, double alfa)
+{
+  double x = 0.0;
+  int k = 10240; //dimensionarlo in KB???
+  x = lognormal(mu,sigma);
+  if(x<k)
+    return x;
+  else {
+    x = pareto(alfa);
+    while(x < k) {
+       x = pareto(alfa);
+    }	 
+  }
+  return x;
+}
+
+double embedded_object_size(double mu, double sigma) 
+{
+ double x = 0.0;
+ while(x <= 0.0) {
+   x = lognormal(mu,sigma);
+ }
+ return x;
 }
