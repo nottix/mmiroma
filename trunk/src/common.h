@@ -10,7 +10,7 @@
 #define CONTROLLER_TIME 0,2 //millisecondi
 #define ROTATIONAL_SPEED 7200 //RPM
 #define TRANSFER_RATE 100 //MB/sec
-#define BANDWIDTH_L2 1 //Gbit/sec
+#define BANDWIDTH_L2 1024 // Mbps
 //#define NUM_SERVER ??? i punti interrogativi sono messi perchè bisogna trovare il valore corretto
 //#define NUM_DISK ??? // come sopra
 FACILITY cpuWS[];
