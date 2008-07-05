@@ -49,5 +49,5 @@ double D_LAN(double docSize);
 double D_Cpu(double speed);
 
 //Calcola la domanda di servizio sottomessa ad un disco del Web Server (sec)
-double D_WSDisk(double docSize);
+double D_WSDisk();
 
