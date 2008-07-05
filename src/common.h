@@ -13,10 +13,11 @@
 #define BANDWIDTH_L2 1024 // Mbps
 //#define NUM_SERVER ??? i punti interrogativi sono messi perchè bisogna trovare il valore corretto
 //#define NUM_DISK ??? // come sopra
-FACILITY cpuWS[];
-FACILITY diskWS[];
-FACILITY WS[];
+FACILITY cpuWS[NUM_SERVER];
+FACILITY diskWS[NUM_DISK];
+//FACILITY WS[NUM_SERVER];
 FACILITY L2;
+FACILITY CPU_web_switch;
 FACILITY inLink;
 FACILITY outLink;
 TABLE wsrtime;

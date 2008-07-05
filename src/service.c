@@ -53,13 +53,13 @@ double D_LAN(double docSize)
 }
 
 //Calcola la domanda di servizio sottomessa ad una CPU (sia Web Switch che web server) (sec), fattore 2 perchè la comunicazione è two way ??? e nel caso con la modifica???
-double D_WebSwitchCpu()
+double D_CPU(double speed)
 {
-  return 2 / CPU_WEB_SWITCH_SPEED;
+  return 1 / speed;
 }
 
 //Calcola la domanda di servizio sottomessa ad un disco del Web Server (sec)
-double D_WSDisk(double docSize)
+double D_WSDisk()
 {
  NBlocks(docSize) * (DISK_SEEK_TIME + ROTATIONAL_LATENCY + CONTROLLER_TIME + (BLOCK_SIZE/DISK_TRANSFER_RATE));
 }
