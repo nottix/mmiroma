@@ -21,12 +21,17 @@ int web_client(double doc_size)
 	num_blocks = getNumBlocks(doc_size);
 	
 	//implementare qui quale disco selezionare
+	
 	use(disk_WS[/*quale disco*/], num_blocks*D_WSDisk());
 
 	use(cpu_WS[tmp_server], DCpuWebServer(CPU_SERVICE_RATE));
 	
 	//use(L2, D_LAN()); è diversa dalla domanda in entrata???
-		
+
+	/*
+	caso con il link in più
+	  use(L3, D_LAN()); è diversa dalla domanda in entrata???
+	*/	
 	use(CPU_web_switch, D_Cpu(cpu_web_switch_speed));
 	
 	use(outLink, D_OutLink(doc_size));
