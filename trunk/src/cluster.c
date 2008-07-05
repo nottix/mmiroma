@@ -110,7 +110,7 @@ void cluster(double *array, int array_length, int k)
   	for(i=0; i < array_length; i++) {
 			distance = fabs(centroids[0] - array[i]);
     	for(j=1; j < k; j++) {
-				double distance_temp = fabs(centroids[j]-array[i]);
+			  double distance_temp = fabs(centroids[j]-array[i]);
 				if(distance > distance_temp) {
 					distance = distance_temp;
 					counter = j;
@@ -120,6 +120,7 @@ void cluster(double *array, int array_length, int k)
 			total_data_per_cluster[counter] += array[i];
 			distance = 0;
 			j = 0;
+			counter = 0;
 		}
 		//step per tenere memoria l'iterazione precedente
 		for(i=0; i < k; i++) {
@@ -172,20 +173,6 @@ void sim(int argc, char **argv)
 			}
 		}
 	}
-		while(count<nsamples){
-			session_req = getSessionReq(3.86, 9.46);
-			for(j=0; j<session_req; j++){
-				if(count<nsamples)
-					samples[count] = getHTMLSize(1,3398.19,4461.5);
-				count++;
-				n_obj = getNumObj(1.33);
-				for(k=0; k<n_obj; k++){
-					if(count<nsamples)
-						samples[count] = getObjSize(5660.79, 29244.63);
-					count++;
-				}
-			}
-		}
 	cluster(array,array_length,3);
 }
 
