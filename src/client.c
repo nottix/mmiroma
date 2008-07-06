@@ -49,3 +49,25 @@ int web_client(double doc_size)
 	return 0;
 }
 
+//dove devo mettere il think time?
+void web_session(int cli_id, int variant)
+{
+	char *prova = "prova"; //il nome del processo, dovrebbe essere univoco sulla base dell'id
+	create("prova");
+	double html_page, embedded_object_size;
+	int num_embedded_objects;
+	double session = session_request(mu_session, lambda_session);
+	int i = 0;
+	int j = 0;
+	for(; i < session; i++) {
+		html_page = html_page_size(mu_html, sigma_html, alfa_html);
+		//setProcessClass???
+		web_client(html_page);
+		num_embedded_objects = object_per_request(alfa_obj);
+		for(j=0; j < num_embedded_objects; j++) {
+			embedded_object_size = embedded_object_size(mu_emb, sigma_emb);
+			//setProcessClass????
+		}
+	}
+	csim_terminate();
+}
