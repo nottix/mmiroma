@@ -15,6 +15,9 @@ int web_client(double doc_size)
 	use(L2, D_LAN(doc_size));
 	
 	// implementare qui random, round robin e least_loaded
+	/* random */
+	tmp_server = csim_random_int(0, NUM_SERVER-1);
+	/* fine random ?? */
 
 	use(cpu_WS[tmp_server], D_CPU(CPU_SERVICE_RATE));
 
@@ -40,7 +43,7 @@ int web_client(double doc_size)
 	
 	num_osservazioni++;
 	
-	/*
+	/* codice di dammy
 	if(transientBoolean == TRUE && observed_sample<=maxObservation){
 		observations[iterationIndex][observed_sample] = simtime()-startTime;
 		observed_sample++;
@@ -49,7 +52,6 @@ int web_client(double doc_size)
 	return 0;
 }
 
-//dove devo mettere il think time?
 void web_session(int cli_id, int variant)
 {
 	char *prova = "prova"; //il nome del processo, dovrebbe essere univoco sulla base dell'id
@@ -68,6 +70,8 @@ void web_session(int cli_id, int variant)
 			embedded_object_size = embedded_object_size(mu_emb, sigma_emb);
 			//setProcessClass????
 		}
+		//hold(user_think_time(alfa_tt); ???
+		//qui bisogna inserire il think time?
 	}
 	csim_terminate();
 }

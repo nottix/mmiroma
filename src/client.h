@@ -25,6 +25,7 @@ double sigma_html = 1.001;
 double alfa_html = 1;
 double mu_emb = 8.215;
 double sigma_emb = 1.46;
+int num_osservazioni;
 
 int web_client(double document_size);
 
