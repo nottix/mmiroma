@@ -6,15 +6,6 @@
 #include "gaussiana_inversa.h"
 #include "service.h"
 
-FACILITY cpuWS[NUM_SERVER];
-FACILITY diskWS[NUM_DISK];
-//FACILITY WS[NUM_SERVER];
-FACILITY L2;
-FACILITY CPU_web_switch;
-FACILITY inLink;
-FACILITY outLink;
-TABLE wsrtime;
-TABLE rtime;
 
 double mu_session = 3.86;
 double lambda_session = 9.46;

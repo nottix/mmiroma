@@ -1,5 +1,16 @@
 #include "client.h"
 
+extern FACILITY cpuWS[NUM_SERVER];
+extern FACILITY diskWS[NUM_DISK];
+extern BOX WebServer[NUM_SERVER];
+extern FACILITY L2;
+extern FACILITY CPU_web_switch;
+extern FACILITY inLink;
+extern FACILITY outLink;
+extern TABLE wsrtime;
+extern TABLE rtime;
+extern CLASS requestClasses[4];
+
 int web_client(double doc_size)
 {
 	double startTime, endTime, disk_start_time, server_start_time;
@@ -10,7 +21,7 @@ int web_client(double doc_size)
 
 	use(inLink, DinLink());
 
-	use(CPU_web_switch, D_cpu(cpu_web_switch_speed)); //cpu_web_switch_speed è ancora da modellare
+	use(CPU_web_switch, D_cpu(CPU_WEB_SWITCH_SERVICE_RATE)); //cpu_web_switch_speed è ancora da modellare
 
 	use(L2, D_LAN(doc_size));
 	
@@ -19,17 +30,19 @@ int web_client(double doc_size)
 	tmp_server = csim_random_int(0, NUM_SERVER-1);
 	/* fine random ?? */
 
+	server_start_time = enter_box(WebServer);
 	use(cpu_WS[tmp_server], D_CPU(CPU_SERVICE_RATE));
 
 	num_blocks = getNumBlocks(doc_size);
 	
 	//implementare qui quale disco selezionare
-	
+
 	use(disk_WS[/*quale disco*/], num_blocks*D_WSDisk());
 
 	use(cpu_WS[tmp_server], DCpuWebServer(CPU_SERVICE_RATE));
+	exit_box(WebServer);
 	
-	//use(L2, D_LAN()); è diversa dalla domanda in entrata???
+	use(L2, D_LAN()); 
 
 	/*
 	caso con il link in più
@@ -54,8 +67,9 @@ int web_client(double doc_size)
 
 void web_session(int cli_id, int variant)
 {
-	char *prova = "prova"; //il nome del processo, dovrebbe essere univoco sulla base dell'id
-	create("prova");
+	char *prova = (char*)malloc(64); //il nome del processo, dovrebbe essere univoco sulla base dell'id
+	sprintf(prova,"%d",cli_id);
+	create(prova);
 	double html_page, embedded_object_size;
 	int num_embedded_objects;
 	double session = session_request(mu_session, lambda_session);
@@ -70,8 +84,8 @@ void web_session(int cli_id, int variant)
 			embedded_object_size = embedded_object_size(mu_emb, sigma_emb);
 			//setProcessClass????
 		}
-		//hold(user_think_time(alfa_tt); ???
-		//qui bisogna inserire il think time?
+		hold(user_think_time(alfa_tt); 
+
 	}
 	csim_terminate();
 }
