@@ -59,7 +59,7 @@ int web_client(double doc_size)
 	num_osservazioni++;
 	
 	/* codice di dammy
-	if(transientBoolean == TRUE && observed_sample<=maxObservation){
+	if(transient == TRUE && observed_sample<=maxObservation){
 		observations[iterationIndex][observed_sample] = simtime()-startTime;
 		observed_sample++;
 	}*/
