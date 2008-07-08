@@ -20,6 +20,8 @@ extern CLASS requestClasses[4];
 
 extern int num_osservazioni;
 
+TABLE resptime;
+
 void sim(int argc, char **argv) 
 {
 	int i=0;
@@ -53,7 +55,7 @@ void sim(int argc, char **argv)
 		facility_set(diskWS, "diskWS", NUM_SERVER*NUM_DISK);
 		//facility_set(LW2_out, "LW2_out", NUM_SERVER);
 	
-		respTime = table("System Response Time"); // table intialization
+		resptime = table("System Response Time"); // table intialization
 	
 		char className[20];
 		className[0] = '\0';
@@ -88,10 +90,10 @@ void sim(int argc, char **argv)
 		}
 		printf("Fine generazione a %g - iterazione %d\n", simtime(), i);
 		report_facilities();
-		report_table(respTime);
+		report_table(rtime);
 		report_boxes();
 		meter_summary();
-		tabulate(respTime, table_mean(rtime));
+		tabulate(resptime, table_mean(rtime));
 		stampa_indici(i, variante);
 		rerun();
 	}
