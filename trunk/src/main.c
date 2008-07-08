@@ -16,12 +16,50 @@ extern FACILITY outLink;
 extern TABLE wsrtime;
 extern TABLE rtime;
 extern METER lambda;
+//decidere quante classi fare sulla base del clustering
 extern CLASS requestClasses[4];
 
 extern int num_osservazioni;
 
 TABLE resptime;
+double lambda_tmp;
 
+/*
+void statistics()
+{
+	double utilizzazione_L2[NUM_CLASSES], utilizzazione_inLink[NUM_CLASSES], utilizzazione_outLink[NUM_CLASSES], 
+	       utilizzazione_cpu_web_switch[NUM_CLASSES], utilizzazione_cpu_web_server[NUM_CLASSES], utilizzazione_disco_web_server[NUM_CLASSES];
+	double qlen_L2[NUM_CLASSES], qlen_inLink[NUM_CLASSES], qlen_outLink[NUM_CLASSES], qlen_cpu_web_switch[NUM_CLASSES], 
+	       qlen_cpu_web_server[NUM_CLASSES], qlen_disco_web_server[NUM_CLASSES]; 
+	double rtime_L2[NUM_CLASSES]; rtime_inLink[NUM_CLASSES], rtime_outLink[NUM_CLASSES], rtime_cpu_web_switch[NUM_CLASSES], 
+	       rtime_cpu_web_server[NUM_CLASSES], rtime_disco_web_server[NUM_CLASSES];
+	
+	lambda_tmp += meter_rate(lambda);
+	int i = 0;
+	// per ogni classe colleziono le statistiche della LAN, dell'inlink, dell'outlink e della cpu del web switch
+	for(; i<NUM_CLASSES; i++){ 		
+	  utilizzazione_L2[i] += class_util(L2, requestClasses[i]);
+		qlen_L2[i] += class_qlen(L2, requestClasses[i]);
+		rtime_L2[i] += class_resp(L2, requestClasses[i]);
+	
+		utilizzazione_inLink[i] += class_util(inLink, requestClasses[i]);
+		qLen_inLink[i] += class_qlen(inLink, requestClasses[i]);
+		rtime_inLink[i] += class_resp(inLink, requestClasses[i]);
+		
+		utilizzazione_outLink[i] += class_util(outLink, requestClasses[i]);
+		qlen_outLink[i] += class_qlen(outLink, requestClasses[i]);
+		rtime_outLink[i] += class_resp(outLink, requestClasses[i]);
+		
+		utilizzazione_cpu_web_switch[i] += class_util(CPU_web_switch, requestClasses[i]);
+		qlen_cpu_web_switch[i] += class_qlen(CPU_web_switch, requestClasses[i]);
+		rtime_cpu_web_switch[i] += class_resp(CPU_web_switch, requestClasses[i]);
+	}
+	
+	
+	
+}
+
+*/
 void sim(int argc, char **argv) 
 {
 	int i=0;
