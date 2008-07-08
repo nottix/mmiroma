@@ -15,6 +15,8 @@ extern FACILITY inLink;
 extern FACILITY outLink;
 extern TABLE wsrtime;
 extern TABLE rtime;
+extern METER lambda;
+extern CLASS requestClasses[4];
 
 extern int num_osservazioni;
 
@@ -79,8 +81,8 @@ void sim(int argc, char **argv)
 				printf("Reset statistics %g\n", simtime());
 				reset();
 				reset=1;
-				table_confidence(respTime);
-				table_run_length(respTime, 0.005, 0.98, 5000.0);
+				table_confidence(rtime);
+				table_run_length(rtime, 0.005, 0.98, 5000.0);
 	
 			}
 		}
@@ -89,7 +91,7 @@ void sim(int argc, char **argv)
 		report_table(respTime);
 		report_boxes();
 		meter_summary();
-		tabulate(permRespTime, table_mean(respTime));
+		tabulate(respTime, table_mean(rtime));
 		stampa_indici(i, variante);
 		rerun();
 	}
