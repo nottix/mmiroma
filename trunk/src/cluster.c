@@ -3,6 +3,7 @@
 #include<math.h>
 #include<string.h>
 #include<csim.h>
+#include "gaussiana_inversa.h"
 
 double mu_session = 3.86;
 double lambda_session = 9.46;
@@ -14,6 +15,7 @@ double alfa_html = 1;
 double mu_emb = 8.215;
 double sigma_emb = 1.46;
 
+/*
 double session_request(double mu, double lambda)   //dimensionare come un intero???
 {
  double x; 
@@ -70,6 +72,7 @@ double embedded_object_size(double mu, double sigma)
 {
   return lognormal(mu,sigma);
 }
+*/
 
 void cluster(double *array, int array_length, int k)
 {
