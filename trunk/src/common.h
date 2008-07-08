@@ -29,4 +29,5 @@ FACILITY inLink;
 FACILITY outLink;
 TABLE wsrtime;
 TABLE rtime;
+METER lambda;
 CLASS requestClasses[4];

@@ -9,6 +9,7 @@ extern FACILITY inLink;
 extern FACILITY outLink;
 extern TABLE wsrtime;
 extern TABLE rtime;
+extern METER lambda;
 extern CLASS requestClasses[4];
 
 int web_client(double doc_size)
@@ -18,7 +19,8 @@ int web_client(double doc_size)
 	startTime = simtime();
 	double enterTime = 0.0, server_enterTime = 0.0;
 	int tmp_disk = 0;
-
+	//vedi pag. 131 user guide
+  note_passage(lambda);
 	use(inLink, DinLink());
 
 	use(CPU_web_switch, D_cpu(CPU_WEB_SWITCH_SERVICE_RATE)); //cpu_web_switch_speed è ancora da modellare
