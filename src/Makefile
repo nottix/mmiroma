@@ -1,9 +1,29 @@
 CC = gcc
 CFLAGS = -g -Wall
-INCFLAGS = -I./ -I/usr/local/csim19/lib
-LDFLAGS = -Wl,-rpath,/usr/local/lib $* /usr/local/csim19/lib/csim.a
+CSIMPATH = ../lib/csim_c-19.0
+INCFLAGS = -I./ -I$(CSIMPATH)/lib
+LDFLAGS = -Wl,-rpath,/usr/local/lib $(CSIMPATH)/lib/csim.a
+OBJECTS = gaussiana_inversa.o service.o client.o
 LIBS = -lm 
 
-main: main.c
-	$(CC) -o main main.c $(LDFLAGS) $(LIBS) $(INCFLAGS)
+all: main cluster
 
+main: main.c client.o gaussiana_inversa.o service.c
+	$(CC) $(INCFLAGS) $(LDFLAGS) $(CFLAGS) $(CPPFLAGS) -o main main.c $(OBJECTS)
+
+cluster: cluster.c gaussiana_inversa.o
+	$(CC) $(INCFLAGS) $(LDFLAGS) $(CFLAGS) $(CPPFLAGS) -o cluster cluster.c $(OBJECTS)
+
+######## MODULE ########
+
+client.o: client.h client.c
+	$(CC) $(INCFLAGS) $(LDFLAGS) $(CFLAGS) $(CPPFLAGS) -o client.o -c client.c
+
+gaussiana_inversa.o: gaussiana_inversa.h gaussiana_inversa.c
+	$(CC) $(INCFLAGS) $(LDFLAGS) $(CFLAGS) $(CPPFLAGS) -o gaussiana_inversa.o -c gaussiana_inversa.c
+
+service.o: service.h service.c
+	$(CC) $(INCFLAGS) $(LDFLAGS) $(CFLAGS) $(CPPFLAGS) -o service.o -c service.c
+
+clean:
+	rm -rf *.o main cluster
