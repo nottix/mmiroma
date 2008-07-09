@@ -8,7 +8,7 @@
 
 extern FACILITY cpuWS[NUM_SERVER];
 extern FACILITY diskWS[NUM_DISK];
-extern BOX WebServer[NUM_SERVER];
+extern BOX WebServer;
 extern FACILITY L2;
 extern FACILITY CPU_web_switch;
 extern FACILITY inLink;
@@ -24,10 +24,10 @@ extern int num_osservazioni;
 TABLE resptime;
 double lambda_tmp;
 
-/*
+
 void statistics()
 {
-	double utilizzazione_L2[NUM_CLASSES], utilizzazione_inLink[NUM_CLASSES], utilizzazione_outLink[NUM_CLASSES], 
+/*	double utilizzazione_L2[NUM_CLASSES], utilizzazione_inLink[NUM_CLASSES], utilizzazione_outLink[NUM_CLASSES], 
 	       utilizzazione_cpu_web_switch[NUM_CLASSES], utilizzazione_cpu_web_server[NUM_CLASSES], utilizzazione_disco_web_server[NUM_CLASSES];
 	double qlen_L2[NUM_CLASSES], qlen_inLink[NUM_CLASSES], qlen_outLink[NUM_CLASSES], qlen_cpu_web_switch[NUM_CLASSES], 
 	       qlen_cpu_web_server[NUM_CLASSES], qlen_disco_web_server[NUM_CLASSES]; 
@@ -55,11 +55,11 @@ void statistics()
 		rtime_cpu_web_switch[i] += class_resp(CPU_web_switch, requestClasses[i]);
 	}
 	
-	
+*/	
 	
 }
 
-*/
+
 void sim(int argc, char **argv) 
 {
 	int i=0;
@@ -115,7 +115,7 @@ void sim(int argc, char **argv)
 		//reseedStream(seed*i);
 		while(state(converged)==NOT_OCC && num_osservazioni<400000){
 			hold(exponential(1/(double)ARRIVAL));
-			webSession(client_id, variante);
+			web_session(client_id, variante);
 			client_id++;
 			if(num_osservazioni>100000 &&(!reset)){
 				printf("Reset statistics %g\n", simtime());
@@ -132,7 +132,7 @@ void sim(int argc, char **argv)
 		report_boxes();
 		meter_summary();
 		tabulate(resptime, table_mean(rtime));
-		stampa_indici(i, variante);
+		statistics(i, variante);
 		rerun();
 	}
 	table_summary();

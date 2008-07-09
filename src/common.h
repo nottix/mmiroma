@@ -12,8 +12,8 @@
 #define TRANSFER_RATE 100 //MB/sec
 #define BANDWIDTH_L2 1024 // Mbps
 #define CPU_WEB_SWITCH_SERVICE_RATE 150 //richieste/secondo tasso servizio CPU switch
-//#define NUM_SERVER ??? i punti interrogativi sono messi perchè bisogna trovare il valore corretto
-//#define NUM_DISK ??? // come sopra
+#define NUM_SERVER 1 // i punti interrogativi sono messi perchè bisogna trovare il valore corretto
+#define NUM_DISK 1 // come sopra
 
 #define MAX_SERVERS 500
 #define MAX_PROCESSES 1000000
@@ -21,9 +21,11 @@
 #define MAX_CLASSES 10
 #define MAX_OBSERVATION 400000#define NUM_CLASSES 4
 
+#define NUM_ITERATIONS 1 //???
+
 FACILITY cpuWS[NUM_SERVER];
 FACILITY diskWS[NUM_DISK];
-BOX WebServer[NUM_SERVER];
+BOX WebServer;
 FACILITY L2;
 FACILITY CPU_web_switch;
 FACILITY inLink;

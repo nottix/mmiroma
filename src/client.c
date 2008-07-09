@@ -2,7 +2,7 @@
 
 extern FACILITY cpuWS[NUM_SERVER];
 extern FACILITY diskWS[NUM_DISK];
-extern BOX WebServer[NUM_SERVER];
+extern BOX WebServer;
 extern FACILITY L2;
 extern FACILITY CPU_web_switch;
 extern FACILITY inLink;
@@ -21,9 +21,9 @@ int web_client(double doc_size)
 	int tmp_disk = 0;
 	//vedi pag. 131 user guide
   note_passage(lambda);
-	use(inLink, DinLink());
+	use(inLink, D_InLink());
 
-	use(CPU_web_switch, D_cpu(CPU_WEB_SWITCH_SERVICE_RATE)); //cpu_web_switch_speed è ancora da modellare
+	use(CPU_web_switch, D_CPU(CPU_WEB_SWITCH_SERVICE_RATE)); //cpu_web_switch_speed è ancora da modellare
 
 	use(L2, D_LAN(doc_size));
 	
@@ -33,28 +33,28 @@ int web_client(double doc_size)
 	/* fine random ?? */
 
 	server_start_time = enter_box(WebServer);
-	use(cpu_WS[tmp_server], D_CPU(CPU_SERVICE_RATE));
+	use(cpuWS[tmp_server], D_CPU(CPU_SERVICE_RATE));
 
 	num_blocks = getNumBlocks(doc_size);
 	
 	//implementare qui quale disco selezionare
 
-	use(disk_WS[/*quale disco*/], num_blocks*D_WSDisk());
+	use(diskWS[/*quale disco*/1], num_blocks*D_WSDisk());
 
-	use(cpu_WS[tmp_server], DCpuWebServer(CPU_SERVICE_RATE));
-	exit_box(WebServer);
+	use(cpuWS[tmp_server], D_CPU(CPU_SERVICE_RATE));
+	exit_box(WebServer, server_start_time);
 	
-	use(L2, D_LAN()); 
+	use(L2, D_LAN(doc_size)); 
 
 	/*
 	caso con il link in più
 	  use(L3, D_LAN()); è diversa dalla domanda in entrata???
 	*/	
-	use(CPU_web_switch, D_Cpu(cpu_web_switch_speed));
+	use(CPU_web_switch, D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE));
 	
 	use(outLink, D_OutLink(doc_size));
 				
-	tabulate(respTime, simtime()-startTime);
+	tabulate(rtime, simtime()-startTime);
 	
 	num_osservazioni++;
 	
@@ -72,7 +72,7 @@ void web_session(int cli_id, int variant)
 	char *prova = (char*)malloc(64); //il nome del processo, dovrebbe essere univoco sulla base dell'id
 	sprintf(prova,"%d",cli_id);
 	create(prova);
-	double html_page, embedded_object_size;
+	double html_page, emb_obj_size;
 	int num_embedded_objects;
 	double session = session_request(mu_session, lambda_session);
 	int i = 0;
@@ -83,10 +83,10 @@ void web_session(int cli_id, int variant)
 		web_client(html_page);
 		num_embedded_objects = object_per_request(alfa_obj);
 		for(j=0; j < num_embedded_objects; j++) {
-			embedded_object_size = embedded_object_size(mu_emb, sigma_emb);
+			emb_obj_size = embedded_object_size(mu_emb, sigma_emb);
 			//setProcessClass????
 		}
-		hold(user_think_time(alfa_tt); 
+		hold(user_think_time(alfa_tt)); 
 
 	}
 	csim_terminate();

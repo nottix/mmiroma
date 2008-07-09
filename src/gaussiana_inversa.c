@@ -6,7 +6,7 @@ double calc_mean_lognorma(double mu, double sigma)
  return exp(sum);
 }
 
-double calc_stddev_lognormal(double mu, ouble sigma)
+double calc_stddev_lognormal(double mu, double sigma)
 {
  double sum = (exp(pow(sigma,2))-1)*exp(2*mu+pow(sigma,2));
  return sqrt(sum);
