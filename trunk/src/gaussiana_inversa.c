@@ -1,11 +1,20 @@
 #include "gaussiana_inversa.h"
 
-//double mu = 3.86;
-//double lambda = 9.46;
-
-double session_request(double mu, double lambda)   //dimensionare come un intero???
+double calc_mean_lognorma(double mu, double sigma) 
 {
- double x; 
+ double sum = mu+(pow(sigma,2)/2);
+ return exp(sum);
+}
+
+double calc_stddev_lognormal(double mu, ouble sigma)
+{
+ double sum = (exp(pow(sigma,2))-1)*exp(2*mu+pow(sigma,2));
+ return sqrt(sum);
+}
+
+int session_request(double mu, double lambda)   //dimensionare come un intero???
+{
+ int x; 
  double v = normal(0,1);
  double y = pow(v,2);
  double x1 = 0;
@@ -13,10 +22,10 @@ double session_request(double mu, double lambda)   //dimensionare come un intero
  double u = uniform(0,1);
  double temp = mu/(mu+x1);
  if(u <= temp) {
-	x = x1;
+	x = (int)round(x1);
  } 
  else
-	x = pow(mu,2)/x1;
+	x = (int)round(pow(mu,2)/x1);
 
  return x;
 }
@@ -43,7 +52,7 @@ double html_page_size(double mu, double sigma, double alfa)
 {
   double x = 0.0;
   int k = 10240; //dimensionarlo in KB???
-  x = lognormal(mu,sigma);
+  x = lognormal(calc_mean_lognormal(mu,sigma),calc_stddev_lognormal(mu,sigma));
   if(x<k)
     return x;
   else {
@@ -59,7 +68,7 @@ double embedded_object_size(double mu, double sigma)
 {
  double x = 0.0;
  while(x <= 0.0) {
-   x = lognormal(mu,sigma);
+   x = lognormal(calc_mean_lognormal(mu,sigma),calc_stddev_lognormal(mu,sigma));
  }
  return x;
 }

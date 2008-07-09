@@ -1,7 +1,11 @@
 #include<math.h>
 #include <csim.h>
 
-double session_request(double mu, double lambda);   //dimensionare come un intero???
+double calc_mean_lognorma(double mu, double sigma) ;
+
+double calc_stddev_lognormal(double mu, ouble sigma);
+
+int session_request(double mu, double lambda);   //dimensionare come un intero???
 
 double user_think_time(double alfa);
 
