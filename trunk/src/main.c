@@ -69,6 +69,7 @@ void sim(int argc, char **argv)
 	int i=0;
 	int client_id;
 	int variante = 0;
+	char filename[25];
 	for(i=0; i<NUM_ITERATIONS; i++){
 		num_osservazioni = 0;
 		int reset = 0;
@@ -77,13 +78,13 @@ void sim(int argc, char **argv)
 		max_facilities(MAX_FACILITIES);
 		max_servers(MAX_SERVERS);
 		max_classes(MAX_CLASSES);
-		/*fileName[0] = '\0';
-		sprintf(fileName, "Sim_%d_%d", variante, i);
+		fileName[0] = '\0';
+		sprintf(fileName, "Sim_%d", i);
 		out = fopen(fileName, "w");
 		set_output_file(out);
 		
 		initStream(); // we initialize all the streams
-		*/
+		
 		//inizializzazione delle facility
 		inLink = facility("inLink");
 		outLink = facility("outLink");
@@ -108,7 +109,7 @@ void sim(int argc, char **argv)
 		lambda = meter("Arrival Rate");
 	
 	
-		for(i=0; i<4; i++){
+		for(i=0; i<K; i++){
 			className[0] = '\0';
 			sprintf(className, "Classe%d", i);
 			requestClasses[i] = process_class(className);
