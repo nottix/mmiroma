@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -std=c99
 CSIMPATH = ../lib/csim_c-19.0
 INCFLAGS = -I./ -I$(CSIMPATH)/lib
 LDFLAGS = -Wl,-rpath,/usr/local/lib 

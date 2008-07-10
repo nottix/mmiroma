@@ -6,6 +6,10 @@
 #include "gaussiana_inversa.h"
 #include "service.h"
 
+#ifndef _ISOC99_SOURCE
+#define _ISOC99_SOURCE
+#endif
+
 extern FACILITY cpuWS[NUM_SERVER];
 extern FACILITY diskWS[NUM_DISK];
 extern BOX WebServer;
