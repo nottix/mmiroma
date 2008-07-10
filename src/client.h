@@ -15,4 +15,6 @@ int web_client(double document_size);
 
 void web_session(int cli_id, int variant);
 
+int get_doc_class(double doc_size);
+
 #endif

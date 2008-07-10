@@ -20,7 +20,7 @@ extern FACILITY outLink;
 extern TABLE wsrtime;
 extern TABLE rtime;
 extern METER lambda;
-extern CLASS requestClasses[4];
+extern CLASS requestClasses[K];
 
 int web_client(double doc_size)
 {
@@ -40,7 +40,7 @@ int web_client(double doc_size)
 	// implementare qui random, round robin e least_loaded
 	/* random */
 	tmp_server = csim_random_int(0, NUM_SERVER-1);
-	/* fine random ?? */
+	/* fine random */
 
 	server_start_time = enter_box(WebServer);
 	use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE));
@@ -89,15 +89,35 @@ void web_session(int cli_id, int variant)
 	int j = 0;
 	for(; i < session; i++) {
 		html_page = html_page_size(mu_html, sigma_html, alfa_html);
-		//setProcessClass???
+
+		set_process_class(requestClasses[get_doc_class(html_page)]);
 		web_client(html_page);
 		num_embedded_objects = object_per_request(alfa_obj);
 		for(j=0; j < num_embedded_objects; j++) {
 			emb_obj_size = embedded_object_size(mu_emb, sigma_emb);
-			//setProcessClass????
+			set_process_class(requestClasses[get_doc_class(emb_obj_size)]);
 		}
 		hold(user_think_time(alfa_tt)); 
 
 	}
 	csim_terminate();
+}
+
+int get_doc_class(double doc_size)
+{
+ double distance[K];
+ int i = 0;
+ double min;
+ int index = 0;
+ distance[0] = fabs(10281-doc_size);
+ distance[1] = fabs(279513744-doc_size);
+ distance[2] = fabs(715827882-doc_size);
+ min = distance[0];
+ for(i=1; i < K; i++) {
+ 	if(distance[i] < min) {
+ 		min = distance[i];
+ 		index = i;
+ 	}
+ }
+ return index;
 }

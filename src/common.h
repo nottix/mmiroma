@@ -27,6 +27,7 @@
 #define MAX_CLASSES 10
 #define MAX_OBSERVATION 400000#define NUM_CLASSES 4
 
+#define K 3
 #define NUM_ITERATIONS 1 //???
 #define SEED 3
 
@@ -40,6 +41,6 @@ FACILITY outLink;
 TABLE wsrtime;
 TABLE rtime;
 METER lambda;
-CLASS requestClasses[4];
+CLASS requestClasses[K];
 
 #endif
