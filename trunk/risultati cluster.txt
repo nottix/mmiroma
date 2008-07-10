@@ -1,0 +1,3 @@
+centroide: 10281 - tot_dati: 9999995	
+centroide: 2.79514e+08 - tot_dati: 4	
+centroide: 7.15828e+08 - tot_dati: 1	
