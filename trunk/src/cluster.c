@@ -91,7 +91,7 @@ void cluster(double *array, int array_length, int k)
 		for(i=0; i < k; i++) {
 
 			centroids[i] = total_data_per_cluster[i] / ((double)num_data_per_cluster[i]); 
-		  printf("centroide: %g - tot_dati: %d\t", centroids[i], num_data_per_cluster[i]);
+		  printf("centroide: %lf - tot_dati: %d\t", centroids[i], num_data_per_cluster[i]);
 			if( fabs(centroids[i]-old_centroids[i]) < pow(10,-10) ) {  //valore epsilon = 10^-15
 				converged++;
 			}
@@ -152,10 +152,10 @@ void sim(int argc, char **argv)
 	int m=0;
 	FILE *fd_file;
 	char *pathname = (char*)malloc(128);
-  sprintf(pathname, "docs.txt");
+  sprintf(pathname, "docs");
    fd_file = fopen(pathname, "w");
 	for(m=0;m<array_length;m++) {
-	fprintf(fd_file, "%lf\n", array[m]);
+	fprintf(fd_file, "%g\n", array[m]);
 	}
 	fclose(fd_file); 
 	

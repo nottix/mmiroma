@@ -21,7 +21,7 @@ extern TABLE wsrtime;
 extern TABLE rtime;
 extern METER lambda;
 //decidere quante classi fare sulla base del clustering
-extern CLASS requestClasses[4];
+extern CLASS requestClasses[K];
 
 extern int num_osservazioni;
 
