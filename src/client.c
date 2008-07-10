@@ -45,7 +45,7 @@ int web_client(double doc_size)
 	server_start_time = enter_box(WebServer);
 	use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE));
 
-	num_blocks = getNumBlocks(doc_size);
+	num_blocks = number_of_blocks(doc_size);
 	
 	//implementare qui quale disco selezionare
 
