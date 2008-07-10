@@ -6,7 +6,7 @@ int NDatagrams(double m)
   int n;
   double f;
   f=m/(double)MSS;	//MSS in Byte
-  n=(int)ceilf(f);
+  n=(int)ceil(f);
   return n;
 }
 
@@ -32,13 +32,13 @@ double NetworkTime(double m, double bandwidth)
 //Domanda di servizio (sec), dove prendo AvgSizeHTTPRequest e Bandwidth? Di L1 non ho nessuna informazione
 double D_InLink()
 {
- return NetworkTime(AvgSizeHTTPRequest, LinkBandwidth) + 3*NetworkTime(0.0001, LinkBandwidth)
+ return NetworkTime(AVG_SIZE_HTTP_REQ, INLINK_BANDWIDTH) + 3*NetworkTime(0.0001, INLINK_BANDWIDTH);
 }
 
 //manca LinkBandwidth
 double D_OutLink(double docSize)
 {
- return NetworkTime(docSize, LinkBandwidth) + 2 * NetworkTime(0.0001, LinkBandwidth) 
+ return NetworkTime(docSize, OUTLINK_BANDWIDTH) + 2 * NetworkTime(0.0001, OUTLINK_BANDWIDTH); 
 }
 
 
@@ -49,7 +49,7 @@ double D_OutLink(double docSize)
 */
 double D_LAN(double docSize)
 {
- return NetworkTime(AvgSizeHTTPRequest, BANDWIDTH_L2) + NetworkTime(1024 * docSize, BANDWIDTH_L2); //forse moltiplicare per un fattore 2 il secondo Network Time??? BOH
+ return NetworkTime(AVG_SIZE_HTTP_REQ, BANDWIDTH_L2) + NetworkTime(1024 * docSize, BANDWIDTH_L2); //forse moltiplicare per un fattore 2 il secondo Network Time??? BOH
 }
 
 //Calcola la domanda di servizio sottomessa ad una CPU (sia Web Switch che web server) (sec), fattore 2 perchè la comunicazione è two way ??? e nel caso con la modifica???
@@ -59,7 +59,12 @@ double D_CPU(double speed)
 }
 
 //Calcola la domanda di servizio sottomessa ad un disco del Web Server (sec)
-double D_WSDisk()
+double D_WSDisk(double doc_size)
 {
- NBlocks(docSize) * (DISK_SEEK_TIME + ROTATIONAL_LATENCY + CONTROLLER_TIME + (BLOCK_SIZE/DISK_TRANSFER_RATE));
+ return (number_of_blocks(doc_size)) * (DISK_SEEK_TIME + ROTATIONAL_LATENCY + CONTROLLER_TIME + (BLOCK_SIZE/DISK_TRANSFER_RATE));
+}
+
+double D_linkAdd(double doc_size)
+{
+ return NetworkTime(doc_size, BANDWIDTH_LINKADD) + 2 * NetworkTime(0.0001, BANDWIDTH_LINKADD); 
 }

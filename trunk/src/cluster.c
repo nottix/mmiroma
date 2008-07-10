@@ -15,6 +15,14 @@ double alfa_html = 1;
 double mu_emb = 8.215;
 double sigma_emb = 1.46;
 
+extern STREAM sess_req_1;
+extern STREAM sess_req_2;
+extern STREAM user_tt;
+extern STREAM object_req;
+extern STREAM html_1;
+extern STREAM html_2;
+extern STREAM obj_size
+
 void cluster(double *array, int array_length, int k)
 {
   int i= 0;
@@ -79,7 +87,7 @@ void cluster(double *array, int array_length, int k)
 		  else
 		  	centroids[i] = 0;
 		  printf("centroide: %lf - tot_dati: %lf\t", centroids[i], num_data_per_cluster[i]);
-			if( fabs(centroids[i]-old_centroids[i]) < pow(10,-10) ) {  //valore epsilon = 10^-15 (col main di prova non va, se si abbassa epsilon funziona
+			if( fabs(centroids[i]-old_centroids[i]) < pow(10,-10) ) {  //valore epsilon = 10^-15
 				converged++;
 			}
 		}
@@ -93,7 +101,21 @@ void cluster(double *array, int array_length, int k)
 
 void sim(int argc, char **argv)
 {
-	create_stream();
+	sess_req_1 = create_stream();
+	reseed(sess_req1, SEED);
+	sess_req_2 = create_stream();
+	reseed(sess_req2, SEED);
+	user_tt = create_stream();
+	reseed(user_tt, SEED);
+	object_req = create_stream();
+	reseed(object_req, SEED);
+	html_1 = create_stream();
+	reseed(html_1, SEED);
+	html_2 = create_stream();
+	reseed(html_2, SEED);
+	obj_size = create_stream();
+	reseed(obj_size, SEED);
+	
 	create("prova");
 	int array_length= 1000000;
 	double *array = (double*)malloc(sizeof(double)*array_length);

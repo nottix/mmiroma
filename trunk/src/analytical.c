@@ -1,5 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <string.h>
+#include <stdarg.h>
 #include "common.h"
 #include "service.h"
 
@@ -15,45 +20,224 @@ double calc_response_time(double service, double utilization)
 
 int main(int argc, char **argv)
 {
- double utilizzazione_L2[NUM_CLASSES], utilizzazione_inLink[NUM_CLASSES], utilizzazione_outLink[NUM_CLASSES], 
-	      utilizzazione_cpu_web_switch[NUM_CLASSES], utilizzazione_cpu_web_server[NUM_CLASSES], utilizzazione_disco_web_server[NUM_CLASSES];
+ FILE *fd_file;
+ char *pathname = (char*)malloc(128);
+ sprintf(pathname, "risultati modello analitico.txt");
+ fd_file = fopen(pathname, "w");
  
- double coda_L2, coda_inLink, coda_outLink, coda_cpu_web_switch, coda_cpu_web_server, coda_disco_web_server;    
- double tr_L2[NUM_CLASSES], tr_inLink[NUM_CLASSES], tr_outLink[NUM_CLASSES], 
-	      tr_cpu_web_switch[NUM_CLASSES], tr_cpu_web_server[NUM_CLASSES], tr_disco_web_server[NUM_CLASSES];
- double doc_size[NUM_CLASSES];      
+ double utilizzazione_L2[NUM_CLASSES], utilizzazione_inLink[NUM_CLASSES], utilizzazione_outLink[NUM_CLASSES], 
+	      utilizzazione_cpu_web_switch[NUM_CLASSES], utilizzazione_cpu_web_server[NUM_CLASSES], utilizzazione_disco_web_server[NUM_CLASSES], utilizzazione_link_add[NUM_CLASSES];
+ 
+ double coda_L2, coda_inLink, coda_outLink, coda_cpu_web_switch, coda_cpu_web_server, coda_disco_web_server, coda_link_add;    
+ double tr_L2, tr_inLink, tr_outLink, tr_cpu_web_switch, tr_cpu_web_server, tr_disco_web_server;
+ double doc_size[NUM_CLASSES];  
+ double miss = 1- P_HIT;    
  int i = 0;
+ 
+ fprintf(fd_file, "calcolo indici locali variante standard\n");
+ 
  //calcolo utilizzazioni
  for(i=0; i < NUM_cLASSES; i++) {
+ fprintf(fd_file, "utilizzazioni classe %d\n",i);
  	utilizzazione_L2[i] = lambda[i]*D_LAN(doc_size[i]);
+ 	fprintf(fd_file, "%7f\n", utilizzazione_L2[i]);
+ 	
  	utilizzazione_inLink[i] = lambda[i]*D_inLink();
+ 	fprintf(fd_file, "%7f\n", utilizzazione_inLink[i]);
+ 	
  	utilizzazione_outLink[i] = lambda[i]*D_outLink(doc_size[i]);
- 	utilizzazione_cpu_web_switch[i] = lambda[i] * D_CPU(CPU_WEB_SWITCH_SERVICE_RATE)* 2 //fattore due perchè processa sia richieste in entrata che in uscita (two-way) 
+ 	fprintf(fd_file, "%7f\n", utilizzazione_outLink[i]);
+ 	
+ 	utilizzazione_cpu_web_switch[i] = lambda[i] * D_CPU(CPU_WEB_SWITCH_SERVICE_RATE)* 2; //fattore due perchè processa sia richieste in entrata che in uscita (two-way) 
+ 	fprintf(fd_file, "%7f\n", utilizzazione_cpu_web_switch[i]);
+ 	
  	utilizzazione_cpu_web_server[i] = (lambda[i] * D_CPU(CPU_SERVICE_RATE) * 2)/(double) NUM_SERVER;
+ 	fprintf(fd_file, "%7f\n", utilizzazione_cpu_web_server[i]);
+ 	
  	utilizzazione_disco_web_server[i] = (lambda[i] * D_WSDisk())/(NUM_SERVER*NUM_DISK);
+ 	fprintf(fd_file, "%7f\n", utilizzazione_disco_web_server[i]);
  }	      
  
  //calcolo lunghezza code
  for(i=0; i < NUM_CLASSES; i++) {
+ 	fprintf(fd_file, "lunghezze code classe %d\n",i);
  	coda_L2 = calc_queue_length(utilizzazione_L2[i]);
- 	coda_inLink += calc_queue_length(utilizzazione_inLink[i]; 	
- 	coda_outLink += calc_queue_length(utilizzazione_outLink[i]);
- 	coda_cpu_web_switch += calc_queue_length(utilizzazione_cpu_web_switch[i]);
- 	coda_cpu_web_server += calc_queue_length(utilizzazione_cpu_web_server[i]);
- 	coda_disco_web_server += calc_queue_length(utilizzazione_disco_web_server[i]);
+ 	fprintf(fd_file, "%7f\n", coda_L2);
+ 	
+ 	coda_inLink = calc_queue_length(utilizzazione_inLink[i];
+ 	fprintf(fd_file, "%7f\n", coda_inLink);
+ 	 	
+ 	coda_outLink = calc_queue_length(utilizzazione_outLink[i]);
+ 	fprintf(fd_file, "%7f\n", coda_outLink);
+ 	
+ 	coda_cpu_web_switch = calc_queue_length(utilizzazione_cpu_web_switch[i]);
+ 	fprintf(fd_file, "%7f\n", coda_cpu_web_switch);
+ 	
+ 	coda_cpu_web_server = calc_queue_length(utilizzazione_cpu_web_server[i]);
+ 	fprintf(fd_file, "%7f\n", coda_cpu_web_server);
+ 	
+ 	coda_disco_web_server = calc_queue_length(utilizzazione_disco_web_server[i]);
+ 	fprintf(fd_file, "%7f\n", coda_disco_web_server);
  }
+ 
  //tempi di residenza
-  for(i=0; i < NUM_cLASSES; i++) {
- 	tr_L2[i] = calc_response_time(D_LAN(doc_size[i]), utilizzazione_L2[i]);
- 	tr_inLink[i] = calc_response_time(D_inLink(), utilizzazione_inLink[i]);
- 	tr_outLink[i] = calc_response_time(D_outLink(doc_size[i]), utilizzazione_outLink[i]);
- 	tr_cpu_web_switch[i] = calc_response_time(D_CPU(CPU_WEB_SWITCH_SERVICE_RATE)* 2, utilizzazione_cpu_web_switch[i]);
- 	tr_cpu_web_server[i] = calc_response_time(D_CPU(CPU_SERVICE_RATE) * 2, utilizzazione_cpu_web_server[i]);
- 	tr_disco_web_server[i] = calc_response_time(D_WSDisk(), utilizzazione_disco_web_server[i]);
+  for(i=0; i < NUM_CLASSES; i++) {
+  fprintf("tempi di residenza %d\n", i);
+ 	tr_L2 = calc_response_time(D_LAN(doc_size[i]), utilizzazione_L2[i]);
+ 	fprintf(fd_file, "%7f\n", tr_L2);
+ 	
+ 	tr_inLink = calc_response_time(D_inLink(), utilizzazione_inLink[i]);
+ 	fprintf(fd_file, "%7f\n", tr_inLink);
+ 	
+ 	tr_outLink = calc_response_time(D_outLink(doc_size[i]), utilizzazione_outLink[i]);
+ 	fprintf(fd_file, "%7f\n", tr_outLink);
+ 	
+ 	tr_cpu_web_switch = calc_response_time(D_CPU(CPU_WEB_SWITCH_SERVICE_RATE)* 2, utilizzazione_cpu_web_switch[i]);
+ 	fprintf(fd_file, "%7f\n", tr_cpu_web_switch);
+ 	
+ 	tr_cpu_web_server = calc_response_time(D_CPU(CPU_SERVICE_RATE) * 2, utilizzazione_cpu_web_server[i]);
+ 	fprintf(fd_file, "%7f\n", tr_cpu_web_server);
+ 	
+ 	tr_disco_web_server = calc_response_time(D_WSDisk(), utilizzazione_disco_web_server[i]);
+ 	fprintf(fd_file, "%7f\n", tr_disco_web_server);
  }	
  
  //nel caso di inserimento del proxy bisogna moltiplicare tutte le utilizzazioni per 0.6 (in teoria si potrebbe evitare di scrivere nel codice e metterlo direttamente in un  
  //file excel, nel caso di link addizionale bisogna ricalcolare l'utilizzazione della cpu del web switch dividendola per 2 e calcolare la nuova utilizzazione della L3.
+ fprintf(fd_file, "calcolo indici locali con link addizionale\n");
  
-  
+ //calcolo utilizzazioni link addizionale, cosa cambia nella LAN L2?
+ for(i=0; i < NUM_cLASSES; i++) {
+ fprintf(fd_file, "utilizzazioni classe %d\n",i);
+ 	utilizzazione_L2[i] = lambda[i]*D_LAN(doc_size[i]);
+ 	fprintf(fd_file, "%7f\n", utilizzazione_L2[i]);
+ 	
+ 	utilizzazione_inLink[i] = lambda[i]*D_inLink();
+ 	fprintf(fd_file, "%7f\n", utilizzazione_inLink[i]);
+ 	
+ 	utilizzazione_cpu_web_switch[i] = lambda[i] * D_CPU(CPU_WEB_SWITCH_SERVICE_RATE);//fattore due perchè processa sia richieste in entrata che in uscita (two-way) 
+ 	fprintf(fd_file, "%7f\n", utilizzazione_cpu_web_switch[i]);
+ 	
+ 	utilizzazione_cpu_web_server[i] = (lambda[i] * D_CPU(CPU_SERVICE_RATE) * 2)/(double) NUM_SERVER;
+ 	fprintf(fd_file, "%7f\n", utilizzazione_cpu_web_server[i]);
+ 	
+ 	utilizzazione_disco_web_server[i] = (lambda[i] * D_WSDisk())/(NUM_SERVER*NUM_DISK);
+ 	fprintf(fd_file, "%7f\n", utilizzazione_disco_web_server[i]);
+ 	
+ 	utilizzazione_link_add[i] = lambda[i]*D_linkAdd(doc_size[i]);
+ 	fprintf(fd_file, "%7f\n", utilizzazione_link_add[i]);
+ 	
+ }	      
+  //calcolo lunghezza code
+ for(i=0; i < NUM_CLASSES; i++) {
+ 	fprintf(fd_file, "lunghezze code classe %d\n",i);
+ 	coda_L2 = calc_queue_length(utilizzazione_L2[i]);
+ 	fprintf(fd_file, "%7f\n", coda_L2);
+ 	
+ 	coda_inLink = calc_queue_length(utilizzazione_inLink[i];
+ 	fprintf(fd_file, "%7f\n", coda_inLink);
+ 	 	
+ 	coda_cpu_web_switch = calc_queue_length(utilizzazione_cpu_web_switch[i]);
+ 	fprintf(fd_file, "%7f\n", coda_cpu_web_switch);
+ 	
+ 	coda_cpu_web_server = calc_queue_length(utilizzazione_cpu_web_server[i]);
+ 	fprintf(fd_file, "%7f\n", coda_cpu_web_server);
+ 	
+ 	coda_disco_web_server = calc_queue_length(utilizzazione_disco_web_server[i]);
+ 	fprintf(fd_file, "%7f\n", coda_disco_web_server);
+ 	
+ 	coda_link_add = calc_queue_length(utilizzazione_link_add[i]);
+  fprintf(fd_file, "%7f\n", coda_link_add);
+ 	
+ }
+ 
+ //tempi di residenza
+  for(i=0; i < NUM_CLASSES; i++) {
+  fprintf("tempi di residenza %d\n", i);
+ 	tr_L2 = calc_response_time(D_LAN(doc_size[i]), utilizzazione_L2[i]);
+ 	fprintf(fd_file, "%7f\n", tr_L2);
+ 	
+ 	tr_inLink = calc_response_time(D_inLink(), utilizzazione_inLink[i]);
+ 	fprintf(fd_file, "%7f\n", tr_inLink);
+ 	
+ 	tr_outLink = calc_response_time(D_outLink(doc_size[i]), utilizzazione_outLink[i]);
+ 	fprintf(fd_file, "%7f\n", tr_outLink);
+ 	
+ 	tr_cpu_web_switch = calc_response_time(D_CPU(CPU_WEB_SWITCH_SERVICE_RATE)* 2, utilizzazione_cpu_web_switch[i]);
+ 	fprintf(fd_file, "%7f\n", tr_cpu_web_switch);
+ 	
+ 	tr_cpu_web_server = calc_response_time(D_CPU(CPU_SERVICE_RATE) * 2, utilizzazione_cpu_web_server[i]);
+ 	fprintf(fd_file, "%7f\n", tr_cpu_web_server);
+ 	
+ 	tr_disco_web_server = calc_response_time(D_WSDisk(), utilizzazione_disco_web_server[i]);
+ 	fprintf(fd_file, "%7f\n", tr_disco_web_server);
+ }	
+ 
+ fprintf(fd_file, "calcolo indici locali con proxy\n");
+ 
+ for(i=0; i < NUM_cLASSES; i++) {
+  fprintf(fd_file, "utilizzazioni classe %d\n",i);
+ 	utilizzazione_L2[i] = miss*lambda[i]*D_LAN(doc_size[i]);
+ 	fprintf(fd_file, "%7f\n", utilizzazione_L2[i]);
+ 	
+ 	utilizzazione_inLink[i] = miss*lambda[i]*D_inLink();
+ 	fprintf(fd_file, "%7f\n", utilizzazione_inLink[i]);
+ 	
+ 	utilizzazione_outLink[i] = miss*lambda[i]*D_outLink(doc_size[i]);
+ 	fprintf(fd_file, "%7f\n", utilizzazione_outLink[i]);
+ 	
+ 	utilizzazione_cpu_web_switch[i] = miss*lambda[i] * D_CPU(CPU_WEB_SWITCH_SERVICE_RATE)* 2; //fattore due perchè processa sia richieste in entrata che in uscita (two-way) 
+ 	fprintf(fd_file, "%7f\n", utilizzazione_cpu_web_switch[i]);
+ 	
+ 	utilizzazione_cpu_web_server[i] = miss*(lambda[i] * D_CPU(CPU_SERVICE_RATE) * 2)/(double) NUM_SERVER;
+ 	fprintf(fd_file, "%7f\n", utilizzazione_cpu_web_server[i]);
+ 	
+ 	utilizzazione_disco_web_server[i] = miss*(lambda[i] * D_WSDisk())/(NUM_SERVER*NUM_DISK);
+ 	fprintf(fd_file, "%7f\n", utilizzazione_disco_web_server[i]);
+ }	      
+ //calcolo lunghezza code
+ for(i=0; i < NUM_CLASSES; i++) {
+ 	fprintf(fd_file, "lunghezze code classe %d\n",i);
+ 	coda_L2 = calc_queue_length(utilizzazione_L2[i]);
+ 	fprintf(fd_file, "%7f\n", coda_L2);
+ 	
+ 	coda_inLink = calc_queue_length(utilizzazione_inLink[i];
+ 	fprintf(fd_file, "%7f\n", coda_inLink);
+ 	 	
+ 	coda_outLink = calc_queue_length(utilizzazione_outLink[i]);
+ 	fprintf(fd_file, "%7f\n", coda_outLink);
+ 	
+ 	coda_cpu_web_switch = calc_queue_length(utilizzazione_cpu_web_switch[i]);
+ 	fprintf(fd_file, "%7f\n", coda_cpu_web_switch);
+ 	
+ 	coda_cpu_web_server = calc_queue_length(utilizzazione_cpu_web_server[i]);
+ 	fprintf(fd_file, "%7f\n", coda_cpu_web_server);
+ 	
+ 	coda_disco_web_server = calc_queue_length(utilizzazione_disco_web_server[i]);
+ 	fprintf(fd_file, "%7f\n", coda_disco_web_server);
+ }
+ 
+ //tempi di residenza
+  for(i=0; i < NUM_CLASSES; i++) {
+  fprintf("tempi di residenza %d\n", i);
+ 	tr_L2 = calc_response_time(D_LAN(doc_size[i]), utilizzazione_L2[i]);
+ 	fprintf(fd_file, "%7f\n", tr_L2);
+ 	
+ 	tr_inLink = calc_response_time(D_inLink(), utilizzazione_inLink[i]);
+ 	fprintf(fd_file, "%7f\n", tr_inLink);
+ 	
+ 	tr_outLink = calc_response_time(D_outLink(doc_size[i]), utilizzazione_outLink[i]);
+ 	fprintf(fd_file, "%7f\n", tr_outLink);
+ 	
+ 	tr_cpu_web_switch = calc_response_time(D_CPU(CPU_WEB_SWITCH_SERVICE_RATE)* 2, utilizzazione_cpu_web_switch[i]);
+ 	fprintf(fd_file, "%7f\n", tr_cpu_web_switch);
+ 	
+ 	tr_cpu_web_server = calc_response_time(D_CPU(CPU_SERVICE_RATE) * 2, utilizzazione_cpu_web_server[i]);
+ 	fprintf(fd_file, "%7f\n", tr_cpu_web_server);
+ 	
+ 	tr_disco_web_server = calc_response_time(D_WSDisk(), utilizzazione_disco_web_server[i]);
+ 	fprintf(fd_file, "%7f\n", tr_disco_web_server);
+ }	
+ fclose(fd_file);
+ return 0;
 }

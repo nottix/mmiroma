@@ -19,6 +19,10 @@
 #define ROTATIONAL_LATENCY 0.5*DISK_REVOLUTION_TIME //sec 
 #define DISK_TRANSFER_RATE 100 //MB/sec
 #define BANDWIDTH_L2 1024 //Mbps
+#define BANDWIDTH_LINKADD 1024 //Mbps
+#define AVG_SIZE_HTTP_REQ 2000 //valore a cazzo
+#define INLINK_BANDWIDTH 1024 //come sopra
+#define OUTLINK_BANDWIDTH 1024 //come sopra
 
 //Divide il numero di Byte m in ingresso in datagrammi
 int NDatagrams(double m);
@@ -38,16 +42,12 @@ double D_InLink();
 
 double D_OutLink(double docSize);
 
-/*Calcola la domanda di servizio sottomessa alla LAN che collega i Web Server con il File Server.
-  Ogni richiesta attraversa la LAN per 2 volte: 
-  1: comunicazione router -> Web Server (pacchetto HTTP standard)
-  2: comunicazione Web Server -> router (dimensione dipendente dalla richiesta)
-*/
 double D_LAN(double docSize);
 
 //Calcola la domanda di servizio sottomessa ad una CPU (sia Web Switch che web server) (sec)
 double D_Cpu(double speed);
 
 //Calcola la domanda di servizio sottomessa ad un disco del Web Server (sec)
-double D_WSDisk();
+double D_WSDisk(double doc_size);
 
+double D_linkAdd(double doc_size);

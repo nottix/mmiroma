@@ -1,7 +1,7 @@
 #include<math.h>
 #include <csim.h>
 
-double calc_mean_lognorma(double mu, double sigma) ;
+double calc_mean_lognormal(double mu, double sigma) ;
 
 double calc_stddev_lognormal(double mu, double sigma);
 
