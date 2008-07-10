@@ -1,3 +1,6 @@
+#ifndef _GAUSSIANA_INVERSA_H
+#define _GAUSSIANA_INVERSA_H
+
 #include<math.h>
 #include <csim.h>
 
@@ -14,3 +17,5 @@ int object_per_request(double alfa);
 double html_page_size(double mu, double sigma, double alfa);
 
 double embedded_object_size(double mu, double sigma);
+
+#endif

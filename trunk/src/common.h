@@ -1,5 +1,10 @@
+#ifndef _COMMON_H
+#define _COMMON_H
 
 #include <csim.h>
+
+#define _ISOC99_SOURCE
+
 #define SIMULATION_TIME 500000 //copiato dall'esempio, non so se serve
 #define TRANSIENT_TIME 0.02*SIMULATION_TIME //come sopra. 
 #define BLOCK_SIZE 2048 //dimensione in byte
@@ -36,3 +41,5 @@ TABLE wsrtime;
 TABLE rtime;
 METER lambda;
 CLASS requestClasses[4];
+
+#endif

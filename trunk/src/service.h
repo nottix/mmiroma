@@ -1,3 +1,6 @@
+#ifndef _SERVICE_H
+#define _SERVICE_H
+
 #include<math.h>
 
 /* Assunzioni */
@@ -51,3 +54,5 @@ double D_Cpu(double speed);
 double D_WSDisk(double doc_size);
 
 double D_linkAdd(double doc_size);
+
+#endif
