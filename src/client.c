@@ -1,5 +1,15 @@
 #include "client.h"
 
+double mu_session = 3.86;
+double lambda_session = 9.46;
+double alfa_tt = 1.4;
+double alfa_obj = 1.33;
+double mu_html = 7.63;
+double sigma_html = 1.001;
+double alfa_html = 1;
+double mu_emb = 8.215;
+double sigma_emb = 1.46;
+
 extern FACILITY cpuWS[NUM_SERVER];
 extern FACILITY diskWS[NUM_DISK];
 extern BOX WebServer;
@@ -23,7 +33,7 @@ int web_client(double doc_size)
   note_passage(lambda);
 	use(inLink, D_InLink());
 
-	use(CPU_web_switch, D_CPU(CPU_WEB_SWITCH_SERVICE_RATE)); //cpu_web_switch_speed è ancora da modellare
+	use(CPU_web_switch, D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE)); //cpu_web_switch_speed è ancora da modellare
 
 	use(L2, D_LAN(doc_size));
 	
@@ -33,15 +43,15 @@ int web_client(double doc_size)
 	/* fine random ?? */
 
 	server_start_time = enter_box(WebServer);
-	use(cpuWS[tmp_server], D_CPU(CPU_SERVICE_RATE));
+	use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE));
 
 	num_blocks = getNumBlocks(doc_size);
 	
 	//implementare qui quale disco selezionare
 
-	use(diskWS[/*quale disco*/1], num_blocks*D_WSDisk());
+	use(diskWS[/*quale disco*/1], num_blocks*D_WSDisk(doc_size));
 
-	use(cpuWS[tmp_server], D_CPU(CPU_SERVICE_RATE));
+	use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE));
 	exit_box(WebServer, server_start_time);
 	
 	use(L2, D_LAN(doc_size)); 

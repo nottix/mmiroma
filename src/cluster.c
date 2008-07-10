@@ -4,16 +4,17 @@
 #include<string.h>
 #include<csim.h>
 #include "gaussiana_inversa.h"
+#include "client.h"
 
-double mu_session = 3.86;
-double lambda_session = 9.46;
-double alfa_tt = 1.4;
-double alfa_obj = 1.33;
-double mu_html = 7.63;
-double sigma_html = 1.001;
-double alfa_html = 1;
-double mu_emb = 8.215;
-double sigma_emb = 1.46;
+extern double mu_session;
+extern double lambda_session;
+extern double alfa_tt;
+extern double alfa_obj;
+extern double mu_html;
+extern double sigma_html;
+extern double alfa_htm;
+extern double mu_emb = ;
+extern double sigma_emb;
 
 extern STREAM sess_req_1;
 extern STREAM sess_req_2;
