@@ -34,13 +34,13 @@ void cluster(double *array, int array_length, int k)
   int iter = 0;
   int counter = 0;
   int converged = 0;
-  double distance;
-  double distance_temp;
+  double distance = 0.0;
+  double distance_temp = 0.0;
   double min = array[0];
   double max = array[0];
   double *centroids = (double*)malloc(sizeof(double)*k) ;
   double *old_centroids = (double*)malloc(sizeof(double)*k);
-  long *num_data_per_cluster = (long*)malloc(sizeof(long)*k);
+  int *num_data_per_cluster = (int*)malloc(sizeof(long)*k);
   double *total_data_per_cluster = (double*)malloc(sizeof(double)*k);
   //calcolo del minimo e del massimo
   for(i=1;i < array_length; i++) {
@@ -62,9 +62,7 @@ void cluster(double *array, int array_length, int k)
   }
   printf("centroide medio %lf\n", centroids[1]);
   while(!iter) {
-	for(i=0; i < k; i++) {
-	 printf("centroid temp %lf\n", centroids[i]); 
-   } 
+	
     //assegnazione dei dati ad ogni cluster
   	for(i=0; i < array_length; i++) {
 			distance = fabs(centroids[0] - array[i]);
@@ -75,17 +73,16 @@ void cluster(double *array, int array_length, int k)
 				if(distance > distance_temp) {
 					distance = distance_temp;
 					counter = j;
-					
-				
 				}
 			}
+			
 			num_data_per_cluster[counter] += 1;
 			total_data_per_cluster[counter] += array[i];
-			distance = 0;
+			distance = 0.0;
 			j = 0;
 			counter = 0;
 		}
-		//step per tenere memoria l'iterazione precedente
+		//step per tenere memoria dell'iterazione precedente
 		for(i=0; i < k; i++) {
 			old_centroids[i] = centroids[i];
 		}
@@ -94,7 +91,7 @@ void cluster(double *array, int array_length, int k)
 		for(i=0; i < k; i++) {
 
 			centroids[i] = total_data_per_cluster[i] / ((double)num_data_per_cluster[i]); 
-		  printf("centroide: %f - tot_dati: %ld\t", centroids[i], num_data_per_cluster[i]);
+		  printf("centroide: %g - tot_dati: %d\t", centroids[i], num_data_per_cluster[i]);
 			if( fabs(centroids[i]-old_centroids[i]) < pow(10,-10) ) {  //valore epsilon = 10^-15
 				converged++;
 			}
@@ -102,10 +99,13 @@ void cluster(double *array, int array_length, int k)
 		if(converged == k) {
 			iter = 1;
 		}
+		converged = 0;
 		memset(num_data_per_cluster,0,k*sizeof(double));
 		memset(total_data_per_cluster,0,k*sizeof(double));
 	}
 }
+
+
 
 void sim(int argc, char **argv)
 {
@@ -147,6 +147,8 @@ void sim(int argc, char **argv)
 			}
 		}
 	}
+	cluster(array,array_length,3);
+	
 	int m=0;
 	FILE *fd_file;
 	char *pathname = (char*)malloc(128);
@@ -156,6 +158,7 @@ void sim(int argc, char **argv)
 	fprintf(fd_file, "%lf\n", array[m]);
 	}
 	fclose(fd_file); 
-	cluster(array,array_length,3);
+	
+
 }
 
