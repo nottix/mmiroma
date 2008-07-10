@@ -4,6 +4,10 @@
 #include<math.h>
 #include <csim.h>
 
+#ifndef _ISOC99_SOURCE
+#define _ISOC99_SOURCE
+#endif
+
 double calc_mean_lognormal(double mu, double sigma) ;
 
 double calc_stddev_lognormal(double mu, double sigma);

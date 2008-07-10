@@ -596,7 +596,7 @@ EXTERN_FUNCTION( void	set_stream_prob2, (SP2) );
 #define uniform01()              stream_uniform01(NIL)
 #define uniform(mn,mx)			 stream_uniform(NIL,mn,mx)
 #define triangular(mn,mx,mode)	 stream_triangular(NIL,mn,mx,mode)
-#define gamma(mean,stddev)       stream_gamma(NIL,mean,stddev)
+#define gamma2(mean,stddev)       stream_gamma(NIL,mean,stddev)
 #define expntl(mean)             stream_exponential(NIL,mean)
 #define exponential(mean)        stream_exponential(NIL,mean)
 #define erlang(mean,var)         stream_erlang(NIL,mean,var)
