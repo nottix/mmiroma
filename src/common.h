@@ -14,14 +14,14 @@
 #define ROTATIONAL_SPEED 7200 //RPM
 #define TRANSFER_RATE 100 //MB/sec
 #define BANDWIDTH_L2 1024 // Mbps
-#define CPU_WEB_SWITCH_SERVICE_RATE 1000 //richieste/secondo tasso servizio CPU switch
-#define NUM_SERVER 10 // i punti interrogativi sono messi perchè bisogna trovare il valore corretto
+#define CPU_WEB_SWITCH_SERVICE_RATE 15000 //richieste/secondo tasso servizio CPU switch
+#define NUM_SERVER 70 // i punti interrogativi sono messi perchè bisogna trovare il valore corretto
 #define NUM_DISK 10 // come sopra
 #define P_HIT 0.4 
 
-#define MAX_SERVERS 500
+#define MAX_SERVERS 5000
 #define MAX_PROCESSES 100000000
-#define MAX_FACILITIES 3000
+#define MAX_FACILITIES 5000
 #define MAX_CLASSES 10
 #define MAX_OBSERVATION 400000#define NUM_CLASSES 3 //uguale a K
 

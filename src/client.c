@@ -17,7 +17,6 @@ extern FACILITY L2;
 extern FACILITY CPU_web_switch;
 extern FACILITY inLink;
 extern FACILITY outLink;
-extern TABLE wsrtime;
 extern TABLE rtime;
 extern METER lambda;
 extern CLASS requestClasses[K];
@@ -27,10 +26,9 @@ int num_osservazioni;
 
 int web_client(double doc_size)
 {
-	double startTime, endTime, disk_start_time, server_start_time;
-	int tmp_server, num_blocks, i;
+	double startTime, server_start_time;
+	int tmp_server, num_blocks;
 	startTime = simtime();
-	double enterTime = 0.0, server_enterTime = 0.0;
 	int tmp_disk = 0;
 	//vedi pag. 131 user guide
   note_passage(lambda);
@@ -69,7 +67,8 @@ int web_client(double doc_size)
 	use(outLink, D_OutLink(doc_size));
 				
 	tabulate(rtime, simtime()-startTime);
-	
+	if(num_osservazioni > 2850)
+	 printf("ibra gay %d\n", num_osservazioni);
 	num_osservazioni++;
 	
 	/* codice di dammy
@@ -100,10 +99,14 @@ void web_session(int cli_id, int variant)
 		for(j=0; j < num_embedded_objects; j++) {
 			emb_obj_size = embedded_object_size(mu_emb, sigma_emb);
 			set_process_class(requestClasses[get_doc_class(emb_obj_size)]);
+			if(num_osservazioni >= 2843)
+			 printf("obj size %lf\n", emb_obj_size);
+			web_client(emb_obj_size);
 		}
 		hold(user_think_time(alfa_tt)); 
 
 	}
+	printf("num_osservazioni %d\n", num_osservazioni);
 	csim_terminate();
 }
 
