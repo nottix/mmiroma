@@ -25,7 +25,6 @@ extern FACILITY L2;
 extern FACILITY CPU_web_switch;
 extern FACILITY inLink;
 extern FACILITY outLink;
-extern TABLE wsrtime;
 extern TABLE rtime;
 extern METER lambda;
 //decidere quante classi fare sulla base del clustering
@@ -100,16 +99,15 @@ void statistics(int iteration)
 	}	
 
 	FILE *fd_file;
-	char *pathname = (char*)malloc(128);
+	char *pathname = (char*)malloc(25);
   sprintf(pathname, "util_qlen_rtime");
-  fd_file = fopen(pathname, "w");
 	
 	if(iteration==NUM_ITERATIONS-1){
 		fd_file = fopen(pathname, "w");
 		fprintf(fd_file, "\n\nUtilizzazione cpu web server i-esimo: \t");
 		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", utilizzazione_cpu_web_server[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nUtilizzazione diso i-esimo              : \t");
+		fprintf(fd_file, "\nUtilizzazione disco i-esimo              : \t");
 		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", utilizzazione_disk[j]/(NUM_ITERATIONS));
 		fprintf(fd_file, "\nUtilizzazione inLink     : \t");
@@ -196,19 +194,19 @@ void sim(int argc, char **argv)
 		
 		//inizializzazione degli stream (reseed seed+i*num)
 		sess_req_1 = create_stream();
-		reseed(sess_req_1, SEED+i);
+		reseed(sess_req_1, (int)simtime()+i);
 		sess_req_2 = create_stream();
-		reseed(sess_req_2, SEED+i*2);
+		reseed(sess_req_2, (int)simtime()*2+i);
 		user_tt = create_stream();
-		reseed(user_tt, SEED+i*3);
+		reseed(user_tt, (int)simtime()*3+i);
 		object_req = create_stream();
-		reseed(object_req, SEED+i*4);
+		reseed(object_req, (int)simtime()*4+i);
 		html_1 = create_stream();
-		reseed(html_1, SEED+i*5);
+		reseed(html_1, (int)simtime()*5+i);
 		html_2 = create_stream();
-		reseed(html_2, SEED+i*6);
+		reseed(html_2, (int)simtime()*6+i);
 		obj_size = create_stream();
-		reseed(obj_size, SEED+i*7);
+		reseed(obj_size, (int)simtime()*7+i);
 		
 		//inizializzazione delle facility
 		inLink = facility("inLink");
@@ -227,7 +225,6 @@ void sim(int argc, char **argv)
 	  resptime = permanent_table("Tempo di risposta del sistema");
 		char className[20];
 		className[0] = '\0';
-	
 
 		WebServer = box("Web Server");
 	
@@ -243,16 +240,17 @@ void sim(int argc, char **argv)
 		collect_class_facility_all();
 		
 		printf("dopo collect\n");
-		reseed(sess_req_1, SEED+i);
-		reseed(sess_req_2, SEED+i*2);
-		reseed(user_tt, SEED+i*3);
-		reseed(object_req, SEED+i*4);
-		reseed(html_1, SEED+i*5);
-		reseed(html_2, SEED+i*6);
-		reseed(obj_size, SEED+i*7);
+		reseed(sess_req_1, (int)simtime()+i);
+		reseed(sess_req_2, (int)simtime()*2+i);
+		reseed(user_tt, (int)simtime()*3+i);
+		reseed(object_req, (int)simtime()*4+i);
+		reseed(html_1, (int)simtime()*5+i);
+		reseed(html_2, (int)simtime()*6+i);
+		reseed(obj_size, (int)simtime()*7+i);
 		
 		while(state(converged)==NOT_OCC && num_osservazioni<400000){
 			hold(exponential(1/(double)ARRIVAL));
+//		  printf("num_osservazioni %d\n", num_osservazioni);
 			web_session(client_id, variante);
 			client_id++;
 			if(num_osservazioni>100000 &&(!reset)){
@@ -278,7 +276,7 @@ void sim(int argc, char **argv)
 		statistics(i);
     printf("EEEEE\n");
 		rerun();
-		csim_terminate();
+		//csim_terminate();
 	}
 	table_summary();
 }
