@@ -25,7 +25,7 @@
 #define MAX_PROCESSES 1000000
 #define MAX_FACILITIES 3000
 #define MAX_CLASSES 10
-#define MAX_OBSERVATION 400000#define NUM_CLASSES 4
+#define MAX_OBSERVATION 400000#define NUM_CLASSES 3 //uguale a K
 
 #define K 3
 #define NUM_ITERATIONS 1 //???
