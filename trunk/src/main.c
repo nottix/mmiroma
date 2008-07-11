@@ -19,7 +19,7 @@ extern STREAM html_2;
 extern STREAM obj_size;
 
 extern FACILITY cpuWS[NUM_SERVER];
-extern FACILITY diskWS[NUM_DISK];
+extern FACILITY diskWS[NUM_DISK*NUM_SERVER];
 extern BOX WebServer;
 extern FACILITY L2;
 extern FACILITY CPU_web_switch;
@@ -67,7 +67,7 @@ void statistics(int iteration)
 		qlen_cpu_web_switch[i] += class_qlen(CPU_web_switch, requestClasses[i]);
 		rtime_cpu_web_switch[i] += class_resp(CPU_web_switch, requestClasses[i]);
 	}
-	
+
 	double util_cpu_tmp[NUM_CLASSES];
 	double qLen_cpu_tmp[NUM_CLASSES];
 	double rtime_cpu_tmp[NUM_CLASSES];
@@ -98,70 +98,70 @@ void statistics(int iteration)
 		qlen_disk[j] += qLen_disk_tmp[j]/(double)(NUM_SERVER*NUM_DISK);
 		rtime_disk[j] += rtime_disk_tmp[j]/(double)(NUM_SERVER*NUM_DISK);
 	}	
-	
+
 	FILE *fd_file;
 	char *pathname = (char*)malloc(128);
-  sprintf(pathname, "util_qlen_rtime.txt");
+  sprintf(pathname, "util_qlen_rtime");
   fd_file = fopen(pathname, "w");
 	
 	if(iteration==NUM_ITERATIONS-1){
 		fd_file = fopen(pathname, "w");
 		fprintf(fd_file, "\n\nUtilizzazione cpu web server i-esimo: \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", utilizzazione_cpu_web_server[j]/(NUM_ITERATIONS));
 		fprintf(fd_file, "\nUtilizzazione diso i-esimo              : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", utilizzazione_disk[j]/(NUM_ITERATIONS));
 		fprintf(fd_file, "\nUtilizzazione inLink     : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", utilizzazione_inLink[j]/(NUM_ITERATIONS));
 		fprintf(fd_file, "\nUtilizzazione outLink     : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", utilizzazione_outLink[j]/(NUM_ITERATIONS));
 		fprintf(fd_file, "\nUtilizzazione cpu web switch            : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", utilizzazione_cpu_web_switch[j]/(NUM_ITERATIONS));
 		fprintf(fd_file, "\nUtilizzazione LAN                       : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", utilizzazione_L2[j]/(NUM_ITERATIONS));
 		
 		fprintf(fd_file, "\n\nLunghezza coda cpu web server i-esimo : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", qlen_cpu_web_server[j]/(NUM_ITERATIONS));
 		fprintf(fd_file, "\nLunghezza coda disco i-esimo              : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", qlen_disk[j]/(NUM_ITERATIONS));
 		fprintf(fd_file, "\nLunghezza coda inLink      : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", qlen_inLink[j]/(NUM_ITERATIONS));
 		fprintf(fd_file, "\nLunghezza coda outLink       : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", qlen_outLink[j]/(NUM_ITERATIONS));
 		fprintf(fd_file, "\nLunghezza coda cpu web switch             : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", qlen_cpu_web_switch[j]/(NUM_ITERATIONS));
 		fprintf(fd_file, "\nLunghezza coda LAN                        : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", qlen_L2[j]/(NUM_ITERATIONS));
 
 		fprintf(fd_file, "\n\nTempo medio di risposta cpu web server i-esimo: \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", rtime_cpu_web_server[j]/(NUM_ITERATIONS));
 		fprintf(fd_file, "\nTempo medio di risposta disco i-esimo             : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", rtime_disk[j]/(NUM_ITERATIONS));
 	
 		fprintf(fd_file, "\nTempo medio di risposta inLink     : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", rtime_inLink[j]/(NUM_ITERATIONS));
 		fprintf(fd_file, "\nTempo medio di risposta link internet uscita      : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", rtime_outLink[j]/(NUM_ITERATIONS));
 		fprintf(fd_file, "\nTempo medio di risposta cpu web switch            : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", rtime_cpu_web_switch[j]/(NUM_ITERATIONS));
 		fprintf(fd_file, "\nTempo medio di risposta LAN                       : \t");
-		for(j=0; j<4; j++)
+		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", rtime_L2[j]/(NUM_ITERATIONS));
 		
 		fprintf(fd_file, "\n\n Tasso medio di arrivi                        : %g\n", lambda_tmp/(NUM_ITERATIONS));
@@ -175,6 +175,7 @@ void statistics(int iteration)
 
 void sim(int argc, char **argv) 
 {
+	printf("inizio main\n");
 	int i=0;
 	int client_id;
 	int variante = 0;
@@ -221,33 +222,41 @@ void sim(int argc, char **argv)
 		facility_set(cpuWS, "cpuWS", NUM_SERVER);
 		facility_set(diskWS, "diskWS", NUM_SERVER*NUM_DISK);
 		//facility_set(LW2_out, "LW2_out", NUM_SERVER);
-	
-		resptime = table("System Response Time"); // table intialization
-	
+		
+		rtime = table("System Response Time"); // table intialization
+	  resptime = permanent_table("Tempo di risposta del sistema");
 		char className[20];
 		className[0] = '\0';
 	
-	//	webSwitch = box("Web Switch");
+
 		WebServer = box("Web Server");
 	
 		lambda = meter("Arrival Rate");
 	
-	
-		for(i=0; i<K; i++){
+		int tmp=0;
+		for(; tmp<NUM_CLASSES; tmp++){
 			className[0] = '\0';
-			sprintf(className, "Classe%d", i);
-			requestClasses[i] = process_class(className);
+			sprintf(className, "Classe%d", tmp);
+			requestClasses[tmp] = process_class(className);
 		}
 
 		collect_class_facility_all();
 		
-		//reseedStream(seed*i);
+		printf("dopo collect\n");
+		reseed(sess_req_1, SEED+i);
+		reseed(sess_req_2, SEED+i*2);
+		reseed(user_tt, SEED+i*3);
+		reseed(object_req, SEED+i*4);
+		reseed(html_1, SEED+i*5);
+		reseed(html_2, SEED+i*6);
+		reseed(obj_size, SEED+i*7);
+		
 		while(state(converged)==NOT_OCC && num_osservazioni<400000){
 			hold(exponential(1/(double)ARRIVAL));
 			web_session(client_id, variante);
 			client_id++;
 			if(num_osservazioni>100000 &&(!reset)){
-				printf("Reset fd_fileistics %g\n", simtime());
+				printf("Reset statistics %g\n", simtime());
 				reset();
 				reset=1;
 				table_confidence(rtime);
@@ -257,11 +266,17 @@ void sim(int argc, char **argv)
 		}
 		printf("Fine generazione a %g - iterazione %d\n", simtime(), i);
 		report_facilities();
+
 		report_table(rtime);
+
 		report_boxes();
+
 		meter_summary();
+		printf("Q\n");
 		tabulate(resptime, table_mean(rtime));
+    printf("i %d\n", i);
 		statistics(i);
+    printf("EEEEE\n");
 		rerun();
 	}
 	table_summary();

@@ -11,7 +11,7 @@ double mu_emb = 8.215;
 double sigma_emb = 1.46;
 
 extern FACILITY cpuWS[NUM_SERVER];
-extern FACILITY diskWS[NUM_DISK];
+extern FACILITY diskWS[NUM_DISK*NUM_SERVER];
 extern BOX WebServer;
 extern FACILITY L2;
 extern FACILITY CPU_web_switch;
@@ -21,6 +21,9 @@ extern TABLE wsrtime;
 extern TABLE rtime;
 extern METER lambda;
 extern CLASS requestClasses[K];
+
+int currentDisk[NUM_SERVER];
+int num_osservazioni;
 
 int web_client(double doc_size)
 {
@@ -47,9 +50,10 @@ int web_client(double doc_size)
 
 	num_blocks = number_of_blocks(doc_size);
 	
-	//implementare qui quale disco selezionare
-
-	use(diskWS[/*quale disco*/1], num_blocks*D_WSDisk(doc_size));
+	//implementare qui quale disco selezionare per ora prova
+  tmp_disk = currentDisk[tmp_server];
+	currentDisk[tmp_server] = (tmp_disk+1)%NUM_DISK;
+	use(diskWS[tmp_server*NUM_DISK + tmp_disk], num_blocks*D_WSDisk(doc_size));
 
 	use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE));
 	exit_box(WebServer, server_start_time);
@@ -84,10 +88,10 @@ void web_session(int cli_id, int variant)
 	create(prova);
 	double html_page, emb_obj_size;
 	int num_embedded_objects;
-	double session = session_request(mu_session, lambda_session);
+	int session = session_request(mu_session, lambda_session);
 	int i = 0;
 	int j = 0;
-	for(; i < session; i++) {
+	for(i=0; i < session; i++) {
 		html_page = html_page_size(mu_html, sigma_html, alfa_html);
 
 		set_process_class(requestClasses[get_doc_class(html_page)]);

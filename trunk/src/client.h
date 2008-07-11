@@ -9,7 +9,6 @@
 #include "gaussiana_inversa.h"
 #include "service.h"
 
-int num_osservazioni;
 
 int web_client(double document_size);
 
