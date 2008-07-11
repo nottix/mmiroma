@@ -5,8 +5,6 @@
 
 #define _ISOC99_SOURCE
 
-//#define SIMULATION_TIME 500000 //copiato dall'esempio, non so se serve
-//#define TRANSIENT_TIME 0.02*SIMULATION_TIME //come sopra. 
 #define BLOCK_SIZE 2048 //dimensione in byte
 #define MBYTE 1048576  //equivalente di un mega espresso in byte
 #define ARRIVAL 150 //richieste/sec  da parte degli utenti
@@ -16,13 +14,13 @@
 #define ROTATIONAL_SPEED 7200 //RPM
 #define TRANSFER_RATE 100 //MB/sec
 #define BANDWIDTH_L2 1024 // Mbps
-#define CPU_WEB_SWITCH_SERVICE_RATE 150 //richieste/secondo tasso servizio CPU switch
+#define CPU_WEB_SWITCH_SERVICE_RATE 1000 //richieste/secondo tasso servizio CPU switch
 #define NUM_SERVER 10 // i punti interrogativi sono messi perchè bisogna trovare il valore corretto
 #define NUM_DISK 10 // come sopra
 #define P_HIT 0.4 
 
 #define MAX_SERVERS 500
-#define MAX_PROCESSES 1000000
+#define MAX_PROCESSES 100000000
 #define MAX_FACILITIES 3000
 #define MAX_CLASSES 10
 #define MAX_OBSERVATION 400000#define NUM_CLASSES 3 //uguale a K
@@ -32,7 +30,7 @@
 #define SEED 3
 
 FACILITY cpuWS[NUM_SERVER];
-FACILITY diskWS[NUM_DISK];
+FACILITY diskWS[NUM_DISK*NUM_SERVER];
 BOX WebServer;
 FACILITY L2;
 FACILITY CPU_web_switch;
