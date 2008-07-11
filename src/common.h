@@ -10,7 +10,7 @@
 #define ARRIVAL 150 //richieste/sec  da parte degli utenti
 #define CPU_SERVICE_RATE 150 //richieste/secondo tasso servizio CPU
 #define SEEK_TIME_DISK 8.5 //millisecondi
-#define CONTROLLER_TIME 0,2 //millisecondi
+#define CONTROLLER_TIME 0.2 //millisecondi
 #define ROTATIONAL_SPEED 7200 //RPM
 #define TRANSFER_RATE 100 //MB/sec
 #define BANDWIDTH_L2 1024 // Mbps

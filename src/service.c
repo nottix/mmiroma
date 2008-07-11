@@ -61,7 +61,8 @@ double D_Cpu(double speed)
 //Calcola la domanda di servizio sottomessa ad un disco del Web Server (sec)
 double D_WSDisk(double doc_size)
 {
- return (number_of_blocks(doc_size)) * (DISK_SEEK_TIME + ROTATIONAL_LATENCY + CONTROLLER_TIME + (BLOCK_SIZE/DISK_TRANSFER_RATE));
+ double ret = (number_of_blocks(doc_size)) * (DISK_SEEK_TIME + ROTATIONAL_LATENCY + CONTROLLER_TIME + (BLOCK_SIZE/DISK_TRANSFER_RATE));
+ return ret;
 }
 
 double D_linkAdd(double doc_size)
