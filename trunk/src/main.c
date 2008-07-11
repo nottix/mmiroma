@@ -278,6 +278,7 @@ void sim(int argc, char **argv)
 		statistics(i);
     printf("EEEEE\n");
 		rerun();
+		csim_terminate();
 	}
 	table_summary();
 }
