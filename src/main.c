@@ -48,6 +48,7 @@ void statistics(int iteration)
 	lambda_tmp += meter_rate(lambda);
 	int i = 0;
 	int j = 0;
+	
 	// per ogni classe colleziono le fd_fileistiche della LAN, dell'inlink, dell'outlink e della cpu del web switch
 	for(; i<NUM_CLASSES; i++){ 		
 	  utilizzazione_L2[i] += class_util(L2, requestClasses[i]);
@@ -74,7 +75,14 @@ void statistics(int iteration)
 	double util_disk_tmp[NUM_CLASSES];
 	double qLen_disk_tmp[NUM_CLASSES];
 	double rtime_disk_tmp[NUM_CLASSES];
-	
+	for(i=0; i < NUM_CLASSES; i++) {
+		util_cpu_tmp[i] = 0.0;
+		qLen_cpu_tmp[i] = 0.0;
+		rtime_cpu_tmp[i] = 0.0;
+		util_disk_tmp[i] = 0.0;
+		qLen_disk_tmp[i] = 0.0;
+		rtime_disk_tmp[i] = 0.0;
+	}
 	
 	for(j=0; j<NUM_CLASSES; j++){ // per ogni classe colleziono le fd_fileistiche di interesse (mediate sul numero dei server e dei dischi)
 		//calcolo metriche cpu web server
@@ -250,7 +258,7 @@ void sim(int argc, char **argv)
 		
 		while(state(converged)==NOT_OCC && num_osservazioni<400000){
 			hold(exponential(1/(double)ARRIVAL));
-//		  printf("num_osservazioni %d\n", num_osservazioni);
+      printf("num_osservazioni %d\n", num_osservazioni);
 			web_session(client_id, variante);
 			client_id++;
 			if(num_osservazioni>100000 &&(!reset)){

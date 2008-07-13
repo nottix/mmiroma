@@ -19,12 +19,12 @@
 #define DISK_SEEK_TIME 8.5 //millisecondi
 //#define CONTROLLER_TIME 0.2 //millisecondi
 //#define ROTATIONAL_SPEED 7200 //RPM
-#define DISK_REVOLUTION_TIME 60/ROTATIONAL_SPEED // sec
+#define DISK_REVOLUTION_TIME 60/(double)ROTATIONAL_SPEED // sec
 #define ROTATIONAL_LATENCY 0.5*DISK_REVOLUTION_TIME //sec 
 #define DISK_TRANSFER_RATE 100 //MB/sec
 //#define BANDWIDTH_L2 1024 //Mbps
 #define BANDWIDTH_LINKADD 1024 //Mbps
-#define AVG_SIZE_HTTP_REQ 2000 //valore a cazzo
+#define AVG_SIZE_HTTP_REQ 300 //valore a cazzo
 #define INLINK_BANDWIDTH 10000 //come sopra
 #define OUTLINK_BANDWIDTH 1000 //come sopra
 
