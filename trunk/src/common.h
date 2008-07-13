@@ -15,8 +15,8 @@
 #define TRANSFER_RATE 100 //MB/sec
 #define BANDWIDTH_L2 1024 // Mbps
 #define CPU_WEB_SWITCH_SERVICE_RATE 15000 //richieste/secondo tasso servizio CPU switch
-#define NUM_SERVER 70 // i punti interrogativi sono messi perchè bisogna trovare il valore corretto
-#define NUM_DISK 10 // come sopra
+#define NUM_SERVER 200 // i punti interrogativi sono messi perchè bisogna trovare il valore corretto
+#define NUM_DISK 20 // come sopra
 #define P_HIT 0.4 
 
 #define MAX_SERVERS 5000

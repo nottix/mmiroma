@@ -23,10 +23,12 @@ extern CLASS requestClasses[K];
 
 int currentDisk[NUM_SERVER];
 int num_osservazioni;
+int current_server;
 
 int web_client(double doc_size)
 {
-	double startTime, server_start_time;
+	double startTime;
+	double server_start_time = 0.0;
 	int tmp_server, num_blocks;
 	startTime = simtime();
 	int tmp_disk = 0;
@@ -40,18 +42,19 @@ int web_client(double doc_size)
 	
 	// implementare qui random, round robin e least_loaded
 	/* random */
-	tmp_server = csim_random_int(0, NUM_SERVER-1);
+	tmp_server = current_server;
+	current_server = csim_random_int(0, NUM_SERVER-1);
 	/* fine random */
 
 	server_start_time = enter_box(WebServer);
 	use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE));
 
-	num_blocks = number_of_blocks(doc_size);
+	//num_blocks = number_of_blocks(doc_size);
 	
 	//implementare qui quale disco selezionare per ora prova
   tmp_disk = currentDisk[tmp_server];
 	currentDisk[tmp_server] = (tmp_disk+1)%NUM_DISK;
-	use(diskWS[tmp_server*NUM_DISK + tmp_disk], num_blocks*D_WSDisk(doc_size));
+	use(diskWS[tmp_server*NUM_DISK + tmp_disk], D_WSDisk(doc_size));
 
 	use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE));
 	exit_box(WebServer, server_start_time);
@@ -67,8 +70,6 @@ int web_client(double doc_size)
 	use(outLink, D_OutLink(doc_size));
 				
 	tabulate(rtime, simtime()-startTime);
-	if(num_osservazioni > 2850)
-	 printf("ibra gay %d\n", num_osservazioni);
 	num_osservazioni++;
 	
 	/* codice di dammy
@@ -99,14 +100,12 @@ void web_session(int cli_id, int variant)
 		for(j=0; j < num_embedded_objects; j++) {
 			emb_obj_size = embedded_object_size(mu_emb, sigma_emb);
 			set_process_class(requestClasses[get_doc_class(emb_obj_size)]);
-			if(num_osservazioni >= 2843)
-			 printf("obj size %lf\n", emb_obj_size);
 			web_client(emb_obj_size);
 		}
 		hold(user_think_time(alfa_tt)); 
 
 	}
-	printf("num_osservazioni %d\n", num_osservazioni);
+
 	csim_terminate();
 }
 
