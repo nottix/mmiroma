@@ -34,22 +34,27 @@ extern int num_osservazioni;
 
 TABLE resptime;
 double lambda_tmp;
-
-
-void statistics(int iteration)
-{
   double utilizzazione_L2[NUM_CLASSES], utilizzazione_inLink[NUM_CLASSES], utilizzazione_outLink[NUM_CLASSES], 
 	       utilizzazione_cpu_web_switch[NUM_CLASSES], utilizzazione_cpu_web_server[NUM_CLASSES], utilizzazione_disk[NUM_CLASSES];
 	double qlen_L2[NUM_CLASSES], qlen_inLink[NUM_CLASSES], qlen_outLink[NUM_CLASSES], qlen_cpu_web_switch[NUM_CLASSES], 
 	       qlen_cpu_web_server[NUM_CLASSES], qlen_disk[NUM_CLASSES]; 
 	double rtime_L2[NUM_CLASSES], rtime_inLink[NUM_CLASSES], rtime_outLink[NUM_CLASSES], rtime_cpu_web_switch[NUM_CLASSES], 
 	       rtime_cpu_web_server[NUM_CLASSES], rtime_disk[NUM_CLASSES];
+
+void statistics(int iteration)
+{
+ /* double utilizzazione_L2[NUM_CLASSES], utilizzazione_inLink[NUM_CLASSES], utilizzazione_outLink[NUM_CLASSES], 
+	       utilizzazione_cpu_web_switch[NUM_CLASSES], utilizzazione_cpu_web_server[NUM_CLASSES], utilizzazione_disk[NUM_CLASSES];
+	double qlen_L2[NUM_CLASSES], qlen_inLink[NUM_CLASSES], qlen_outLink[NUM_CLASSES], qlen_cpu_web_switch[NUM_CLASSES], 
+	       qlen_cpu_web_server[NUM_CLASSES], qlen_disk[NUM_CLASSES]; 
+	double rtime_L2[NUM_CLASSES], rtime_inLink[NUM_CLASSES], rtime_outLink[NUM_CLASSES], rtime_cpu_web_switch[NUM_CLASSES], 
+	       rtime_cpu_web_server[NUM_CLASSES], rtime_disk[NUM_CLASSES]; */
 	
 	lambda_tmp += meter_rate(lambda);
 	int i = 0;
 	int j = 0;
 	
-	// per ogni classe colleziono le fd_fileistiche della LAN, dell'inlink, dell'outlink e della cpu del web switch
+	// per ogni classe colleziono le statistiche della LAN, dell'inlink, dell'outlink e della cpu del web switch
 	for(; i<NUM_CLASSES; i++){ 		
 	  utilizzazione_L2[i] += class_util(L2, requestClasses[i]);
 		qlen_L2[i] += class_qlen(L2, requestClasses[i]);
@@ -170,7 +175,7 @@ void statistics(int iteration)
 		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", rtime_L2[j]/(NUM_ITERATIONS));
 		
-		fprintf(fd_file, "\n\n Tasso medio di arrivi                        : %g\n", lambda_tmp/(NUM_ITERATIONS));
+		fprintf(fd_file, "\n\n Tasso medio di arrivi (lambda)                        : %g\n", lambda_tmp/(NUM_ITERATIONS));
 		
 		fclose(fd_file);
 	}
@@ -200,7 +205,7 @@ void sim(int argc, char **argv)
 		output = fopen(filename, "w");
 		set_output_file(output);
 		
-		//inizializzazione degli stream (reseed seed+i*num)
+		//inizializzazione degli stream (reseed simtime*i+num)
 		sess_req_1 = create_stream();
 		reseed(sess_req_1, (int)simtime()+i);
 		sess_req_2 = create_stream();
@@ -256,7 +261,7 @@ void sim(int argc, char **argv)
 		reseed(html_2, (int)simtime()*6+i);
 		reseed(obj_size, (int)simtime()*7+i);
 		
-		while(state(converged)==NOT_OCC && num_osservazioni<400000){
+		while(state(converged)==NOT_OCC && num_osservazioni<900000){
 			hold(exponential(1/(double)ARRIVAL));
       printf("num_osservazioni %d\n", num_osservazioni);
 			web_session(client_id, variante);
