@@ -44,15 +44,15 @@ double D_OutLink(double docSize)
 
 /*Calcola la domanda di servizio sottomessa alla LAN che collega i Web Server con il File Server.
   Ogni richiesta attraversa la LAN per 2 volte: 
-  1: comunicazione router -> Web Server (pacchetto HTTP standard)
-  2: comunicazione Web Server -> router (dimensione dipendente dalla richiesta)
+  1: comunicazione switch -> Web Server (pacchetto HTTP standard)
+  2: comunicazione Web Server -> switch (dimensione dipendente dalla richiesta). Il fattore moltiplicativo 1024 è commentato perchè le richieste sono già espressi in byte
 */
 double D_LAN(double docSize)
 {
- return NetworkTime(AVG_SIZE_HTTP_REQ, BANDWIDTH_L2) + NetworkTime(1024 * docSize, BANDWIDTH_L2); //forse moltiplicare per un fattore 2 il secondo Network Time??? BOH
+ return NetworkTime(AVG_SIZE_HTTP_REQ, BANDWIDTH_L2) + NetworkTime(/*1024 **/ docSize, BANDWIDTH_L2);
 }
 
-//Calcola la domanda di servizio sottomessa ad una CPU (sia Web Switch che web server) (sec), fattore 2 perchè la comunicazione è two way ??? e nel caso con la modifica???
+//Calcola la domanda di servizio sottomessa ad una CPU (sia Web Switch che web server) (sec), 
 double D_Cpu(double speed)
 {
   return 1 / speed;
