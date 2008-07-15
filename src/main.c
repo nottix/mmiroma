@@ -183,13 +183,13 @@ void statistics(int iteration)
 	
 }
 
-
+//trovare un modo elegante di passare la variante, per ora passo RANDOM
 void sim(int argc, char **argv) 
 {
 	printf("inizio main\n");
 	int i=0;
 	int client_id;
-	int variante = 0;
+	int variante = RANDOM;
 	char filename[25];
 	FILE *output;
 	for(i=0; i<NUM_ITERATIONS; i++){
@@ -201,7 +201,7 @@ void sim(int argc, char **argv)
 		max_servers(MAX_SERVERS);
 		max_classes(MAX_CLASSES);
 		filename[0] = '\0';
-		sprintf(filename, "Sim_%d", i);
+		sprintf(filename, "Sim_prova_%d", i);
 		output = fopen(filename, "w");
 		set_output_file(output);
 		
@@ -261,7 +261,7 @@ void sim(int argc, char **argv)
 		reseed(html_2, (int)simtime()*6+i);
 		reseed(obj_size, (int)simtime()*7+i);
 		
-		while(state(converged)==NOT_OCC && num_osservazioni<900000){
+		while(state(converged)==NOT_OCC && num_osservazioni<500000){
 			hold(exponential(1/(double)ARRIVAL));
       printf("num_osservazioni %d\n", num_osservazioni);
 			web_session(client_id, variante);
@@ -289,7 +289,6 @@ void sim(int argc, char **argv)
 		statistics(i);
     printf("EEEEE\n");
 		rerun();
-		//csim_terminate();
 	}
 	table_summary();
 }

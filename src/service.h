@@ -24,8 +24,8 @@
 #define DISK_TRANSFER_RATE 100 //MB/sec
 //#define BANDWIDTH_L2 1024 //Mbps
 #define BANDWIDTH_LINKADD 1024 //Mbps
-#define AVG_SIZE_HTTP_REQ 300 //valore a cazzo
-#define INLINK_BANDWIDTH 10000 //come sopra
+#define AVG_SIZE_HTTP_REQ 290 
+#define INLINK_BANDWIDTH 45 //prova
 #define OUTLINK_BANDWIDTH 1000 //come sopra
 
 //Divide il numero di Byte m in ingresso in datagrammi
