@@ -29,53 +29,53 @@ extern STREAM obj_size;
 
 void cluster(double *array, int array_length, int k)
 {
-  int i= 0;
-  int j = 0;
-  int iter = 0;
-  int counter = 0;
-  int converged = 0;
-  double distance = 0.0;
-  double distance_temp = 0.0;
-  double min = array[0];
-  double max = array[0];
-  double *centroids = (double*)malloc(sizeof(double)*k) ;
-  double *old_centroids = (double*)malloc(sizeof(double)*k);
-  int *num_data_per_cluster = (int*)malloc(sizeof(long)*k);
-  double *total_data_per_cluster = (double*)malloc(sizeof(double)*k);
-  //calcolo del minimo e del massimo
-  for(i=1;i < array_length; i++) {
-     if(array[i] > max)
-        max = array[i];
-     if(array[i] < min)
-        min = array[i];
-  }
-  //assegnazione dei primi due centroidi
-  centroids[0] = min;
-  printf("centroide min %lf\n", centroids[0]);
-  centroids[k-1] = max;
-  printf("centroide max %lf\n", centroids[2]);
-  //calcolo degli altri centroidi in caso k>2 (forse da rivedere la formula)
-  if(k>2) {
-  	for(i=1; i < k-1; i++) {
-    		centroids[i] = (max-min)/(k-1) * i;
-  	}
-  }
-  printf("centroide medio %lf\n", centroids[1]);
-  while(!iter) {
-	
-    //assegnazione dei dati ad ogni cluster
-  	for(i=0; i < array_length; i++) {
-			distance = fabs(centroids[0] - array[i]);
-		
-    	for(j=1; j < k; j++) {
+	int i= 0;
+	int j = 0;
+	int iter = 0;
+	int counter = 0;
+	int converged = 0;
+	double distance = 0.0;
+	double distance_temp = 0.0;
+	double min = array[0];
+	double max = array[0];
+	double *centroids = (double*)malloc(sizeof(double)*k) ;
+	double *old_centroids = (double*)malloc(sizeof(double)*k);
+	int *num_data_per_cluster = (int*)malloc(sizeof(long)*k);
+	double *total_data_per_cluster = (double*)malloc(sizeof(double)*k);
+	//calcolo del minimo e del massimo
+	for(i=1;i < array_length; i++) {
+		if(array[i] > max)
+			max = array[i];
+		if(array[i] < min)
+			min = array[i];
+	}
+	//assegnazione dei primi due centroidi
+	centroids[0] = min;
+	printf("centroide min %lf\n", centroids[0]);
+	centroids[k-1] = max;
+	printf("centroide max %lf\n", centroids[2]);
+	//calcolo degli altri centroidi in caso k>2 (forse da rivedere la formula)
+	if(k>2) {
+		for(i=1; i < k-1; i++) {
+			centroids[i] = (max-min)/(k-1) * i;
+		}
+	}
+	printf("centroide medio %lf\n", centroids[1]);
+	while(!iter) {
 
-			  distance_temp = fabs(centroids[j]-array[i]);
+		//assegnazione dei dati ad ogni cluster
+		for(i=0; i < array_length; i++) {
+			distance = fabs(centroids[0] - array[i]);
+
+			for(j=1; j < k; j++) {
+
+				distance_temp = fabs(centroids[j]-array[i]);
 				if(distance > distance_temp) {
 					distance = distance_temp;
 					counter = j;
 				}
 			}
-			
+
 			num_data_per_cluster[counter] += 1;
 			total_data_per_cluster[counter] += array[i];
 			distance = 0.0;
@@ -91,7 +91,7 @@ void cluster(double *array, int array_length, int k)
 		for(i=0; i < k; i++) {
 
 			centroids[i] = total_data_per_cluster[i] / ((double)num_data_per_cluster[i]); 
-		  printf("centroide: %lf - tot_dati: %d\t", centroids[i], num_data_per_cluster[i]);
+			printf("centroide: %lf - tot_dati: %d\t", centroids[i], num_data_per_cluster[i]);
 			if( fabs(centroids[i]-old_centroids[i]) < pow(10,-10) ) {  //valore epsilon = 10^-15
 				converged++;
 			}
@@ -123,7 +123,7 @@ void sim(int argc, char **argv)
 	reseed(html_2, SEED);
 	obj_size = create_stream();
 	reseed(obj_size, SEED);
-	
+
 	create("prova");
 	int array_length= 10000000;
 	double *array = (double*)malloc(sizeof(double)*array_length);
@@ -141,24 +141,24 @@ void sim(int argc, char **argv)
 			i++;
 			objects = object_per_request(alfa_obj);
 			for(k=0; k<objects; k++){
-					if(i<array_length)
-						array[i] = embedded_object_size(mu_emb, sigma_emb);
-					i++;
+				if(i<array_length)
+					array[i] = embedded_object_size(mu_emb, sigma_emb);
+				i++;
 			}
 		}
 	}
 	cluster(array,array_length,3);
-	
+
 	int m=0;
 	FILE *fd_file;
 	char *pathname = (char*)malloc(128);
-  sprintf(pathname, "docs");
-   fd_file = fopen(pathname, "w");
+	sprintf(pathname, "docs");
+	fd_file = fopen(pathname, "w");
 	for(m=0;m<array_length;m++) {
-	fprintf(fd_file, "%g\n", array[m]);
+		fprintf(fd_file, "%g\n", array[m]);
 	}
 	fclose(fd_file); 
-	
+
 
 }
 
