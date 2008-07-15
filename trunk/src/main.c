@@ -1,6 +1,6 @@
-#include<stdlib.h>
-#include<stdio.h>
-#include<csim.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <csim.h>
 #include "client.h"
 #include "common.h"
 #include "gaussiana_inversa.h"
@@ -34,40 +34,32 @@ extern int num_osservazioni;
 
 TABLE resptime;
 double lambda_tmp;
-  double utilizzazione_L2[NUM_CLASSES], utilizzazione_inLink[NUM_CLASSES], utilizzazione_outLink[NUM_CLASSES], 
-	       utilizzazione_cpu_web_switch[NUM_CLASSES], utilizzazione_cpu_web_server[NUM_CLASSES], utilizzazione_disk[NUM_CLASSES];
-	double qlen_L2[NUM_CLASSES], qlen_inLink[NUM_CLASSES], qlen_outLink[NUM_CLASSES], qlen_cpu_web_switch[NUM_CLASSES], 
-	       qlen_cpu_web_server[NUM_CLASSES], qlen_disk[NUM_CLASSES]; 
-	double rtime_L2[NUM_CLASSES], rtime_inLink[NUM_CLASSES], rtime_outLink[NUM_CLASSES], rtime_cpu_web_switch[NUM_CLASSES], 
-	       rtime_cpu_web_server[NUM_CLASSES], rtime_disk[NUM_CLASSES];
+double utilizzazione_L2[NUM_CLASSES], utilizzazione_inLink[NUM_CLASSES], utilizzazione_outLink[NUM_CLASSES], 
+utilizzazione_cpu_web_switch[NUM_CLASSES], utilizzazione_cpu_web_server[NUM_CLASSES], utilizzazione_disk[NUM_CLASSES];
+double qlen_L2[NUM_CLASSES], qlen_inLink[NUM_CLASSES], qlen_outLink[NUM_CLASSES], qlen_cpu_web_switch[NUM_CLASSES], 
+qlen_cpu_web_server[NUM_CLASSES], qlen_disk[NUM_CLASSES]; 
+double rtime_L2[NUM_CLASSES], rtime_inLink[NUM_CLASSES], rtime_outLink[NUM_CLASSES], rtime_cpu_web_switch[NUM_CLASSES], 
+rtime_cpu_web_server[NUM_CLASSES], rtime_disk[NUM_CLASSES];
 
-void statistics(int iteration)
-{
- /* double utilizzazione_L2[NUM_CLASSES], utilizzazione_inLink[NUM_CLASSES], utilizzazione_outLink[NUM_CLASSES], 
-	       utilizzazione_cpu_web_switch[NUM_CLASSES], utilizzazione_cpu_web_server[NUM_CLASSES], utilizzazione_disk[NUM_CLASSES];
-	double qlen_L2[NUM_CLASSES], qlen_inLink[NUM_CLASSES], qlen_outLink[NUM_CLASSES], qlen_cpu_web_switch[NUM_CLASSES], 
-	       qlen_cpu_web_server[NUM_CLASSES], qlen_disk[NUM_CLASSES]; 
-	double rtime_L2[NUM_CLASSES], rtime_inLink[NUM_CLASSES], rtime_outLink[NUM_CLASSES], rtime_cpu_web_switch[NUM_CLASSES], 
-	       rtime_cpu_web_server[NUM_CLASSES], rtime_disk[NUM_CLASSES]; */
-	
+void statistics(int iteration) {
 	lambda_tmp += meter_rate(lambda);
 	int i = 0;
 	int j = 0;
-	
+
 	// per ogni classe colleziono le statistiche della LAN, dell'inlink, dell'outlink e della cpu del web switch
-	for(; i<NUM_CLASSES; i++){ 		
-	  utilizzazione_L2[i] += class_util(L2, requestClasses[i]);
+	for(; i<NUM_CLASSES; i++) { 		
+		utilizzazione_L2[i] += class_util(L2, requestClasses[i]);
 		qlen_L2[i] += class_qlen(L2, requestClasses[i]);
 		rtime_L2[i] += class_resp(L2, requestClasses[i]);
-	
+
 		utilizzazione_inLink[i] += class_util(inLink, requestClasses[i]);
 		qlen_inLink[i] += class_qlen(inLink, requestClasses[i]);
 		rtime_inLink[i] += class_resp(inLink, requestClasses[i]);
-		
+
 		utilizzazione_outLink[i] += class_util(outLink, requestClasses[i]);
 		qlen_outLink[i] += class_qlen(outLink, requestClasses[i]);
 		rtime_outLink[i] += class_resp(outLink, requestClasses[i]);
-		
+
 		utilizzazione_cpu_web_switch[i] += class_util(CPU_web_switch, requestClasses[i]);
 		qlen_cpu_web_switch[i] += class_qlen(CPU_web_switch, requestClasses[i]);
 		rtime_cpu_web_switch[i] += class_resp(CPU_web_switch, requestClasses[i]);
@@ -76,7 +68,7 @@ void statistics(int iteration)
 	double util_cpu_tmp[NUM_CLASSES];
 	double qLen_cpu_tmp[NUM_CLASSES];
 	double rtime_cpu_tmp[NUM_CLASSES];
-	
+
 	double util_disk_tmp[NUM_CLASSES];
 	double qLen_disk_tmp[NUM_CLASSES];
 	double rtime_disk_tmp[NUM_CLASSES];
@@ -88,7 +80,7 @@ void statistics(int iteration)
 		qLen_disk_tmp[i] = 0.0;
 		rtime_disk_tmp[i] = 0.0;
 	}
-	
+
 	for(j=0; j<NUM_CLASSES; j++){ // per ogni classe colleziono le fd_fileistiche di interesse (mediate sul numero dei server e dei dischi)
 		//calcolo metriche cpu web server
 		for(i=0; i<NUM_SERVER; i++){
@@ -99,7 +91,7 @@ void statistics(int iteration)
 		utilizzazione_cpu_web_server[j] += util_cpu_tmp[j]/(double)NUM_SERVER;
 		qlen_cpu_web_server[j] += qLen_cpu_tmp[j]/(double)NUM_SERVER;
 		rtime_cpu_web_server[j] += rtime_cpu_tmp[j]/(double)NUM_SERVER;
-		
+
 		// calcolo metriche disco
 		for(i=0; i<(NUM_SERVER*NUM_DISK); i++){
 			util_disk_tmp[j] += class_util(diskWS[i], requestClasses[j]);
@@ -113,8 +105,8 @@ void statistics(int iteration)
 
 	FILE *fd_file;
 	char *pathname = (char*)malloc(25);
-  sprintf(pathname, "util_qlen_rtime");
-	
+	sprintf(pathname, "util_qlen_rtime");
+
 	if(iteration==NUM_ITERATIONS-1){
 		fd_file = fopen(pathname, "w");
 		fprintf(fd_file, "\n\nUtilizzazione cpu web server i-esimo: \t");
@@ -135,7 +127,7 @@ void statistics(int iteration)
 		fprintf(fd_file, "\nUtilizzazione LAN                       : \t");
 		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", utilizzazione_L2[j]/(NUM_ITERATIONS));
-		
+
 		fprintf(fd_file, "\n\nLunghezza coda cpu web server i-esimo : \t");
 		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", qlen_cpu_web_server[j]/(NUM_ITERATIONS));
@@ -161,7 +153,7 @@ void statistics(int iteration)
 		fprintf(fd_file, "\nTempo medio di risposta disco i-esimo             : \t");
 		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", rtime_disk[j]/(NUM_ITERATIONS));
-	
+
 		fprintf(fd_file, "\nTempo medio di risposta inLink     : \t");
 		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", rtime_inLink[j]/(NUM_ITERATIONS));
@@ -174,27 +166,25 @@ void statistics(int iteration)
 		fprintf(fd_file, "\nTempo medio di risposta LAN                       : \t");
 		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", rtime_L2[j]/(NUM_ITERATIONS));
-		
+
 		fprintf(fd_file, "\n\n Tasso medio di arrivi (lambda)                        : %g\n", lambda_tmp/(NUM_ITERATIONS));
-		
+
 		fclose(fd_file);
 	}
-
-	
 }
 
 //trovare un modo elegante di passare la variante, per ora passo RANDOM
-void sim(int argc, char **argv) 
-{
-	printf("inizio main\n");
+void sim(int argc, char **argv) {
+	printf("Starting simulation...\n");
 	int i=0;
 	int client_id;
 	int variante = RANDOM;
+	int reset;
 	char filename[25];
 	FILE *output;
-	for(i=0; i<NUM_ITERATIONS; i++){
+	for(i=0; i<NUM_ITERATIONS; i++) {
 		num_osservazioni = 0;
-		int reset = 0;
+		reset = 0;
 		create("simulation");
 		max_processes(MAX_PROCESSES);
 		max_facilities(MAX_FACILITIES);
@@ -204,8 +194,8 @@ void sim(int argc, char **argv)
 		sprintf(filename, "Sim_prova_%d", i);
 		output = fopen(filename, "w");
 		set_output_file(output);
-		
-		//inizializzazione degli stream (reseed simtime*i+num)
+
+		//! Inizializzazione degli stream (reseed simtime*i+num)
 		sess_req_1 = create_stream();
 		reseed(sess_req_1, (int)simtime()+i);
 		sess_req_2 = create_stream();
@@ -220,8 +210,8 @@ void sim(int argc, char **argv)
 		reseed(html_2, (int)simtime()*6+i);
 		obj_size = create_stream();
 		reseed(obj_size, (int)simtime()*7+i);
-		
-		//inizializzazione delle facility
+
+		//! Inizializzazione delle facility
 		inLink = facility("inLink");
 		outLink = facility("outLink");
 		//LS1 = facility("LS1");
@@ -233,16 +223,17 @@ void sim(int argc, char **argv)
 		facility_set(cpuWS, "cpuWS", NUM_SERVER);
 		facility_set(diskWS, "diskWS", NUM_SERVER*NUM_DISK);
 		//facility_set(LW2_out, "LW2_out", NUM_SERVER);
-		
-		rtime = table("System Response Time"); // table intialization
-	  resptime = permanent_table("Tempo di risposta del sistema");
+
+		//! Table initialization
+		rtime = table("System Response Time");
+		resptime = permanent_table("Tempo di risposta del sistema");
 		char className[20];
 		className[0] = '\0';
 
 		WebServer = box("Web Server");
-	
+
 		lambda = meter("Arrival Rate");
-	
+
 		int tmp=0;
 		for(; tmp<NUM_CLASSES; tmp++){
 			className[0] = '\0';
@@ -251,8 +242,7 @@ void sim(int argc, char **argv)
 		}
 
 		collect_class_facility_all();
-		
-		printf("dopo collect\n");
+
 		reseed(sess_req_1, (int)simtime()+i);
 		reseed(sess_req_2, (int)simtime()*2+i);
 		reseed(user_tt, (int)simtime()*3+i);
@@ -260,10 +250,10 @@ void sim(int argc, char **argv)
 		reseed(html_1, (int)simtime()*5+i);
 		reseed(html_2, (int)simtime()*6+i);
 		reseed(obj_size, (int)simtime()*7+i);
-		
+
 		while(state(converged)==NOT_OCC && num_osservazioni<500000){
 			hold(exponential(1/(double)ARRIVAL));
-      printf("num_osservazioni %d\n", num_osservazioni);
+			printf("num_osservazioni %d\n", num_osservazioni);
 			web_session(client_id, variante);
 			client_id++;
 			if(num_osservazioni>100000 &&(!reset)){
@@ -272,7 +262,7 @@ void sim(int argc, char **argv)
 				reset=1;
 				table_confidence(rtime);
 				table_run_length(rtime, 0.005, 0.98, 5000.0);
-	
+
 			}
 		}
 		printf("Fine generazione a %g - iterazione %d\n", simtime(), i);
@@ -283,12 +273,10 @@ void sim(int argc, char **argv)
 		report_boxes();
 
 		meter_summary();
-		printf("Q\n");
 		tabulate(resptime, table_mean(rtime));
-    printf("i %d\n", i);
 		statistics(i);
-    printf("EEEEE\n");
 		rerun();
+		printf("End %i\n", i);
 	}
 	table_summary();
 }

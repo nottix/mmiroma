@@ -30,29 +30,29 @@ int current_server;
 //ritorna l'indice del server meno utilizzato (serve per la least loaded)
 int get_least_loaded() 
 {
- int i=0;
- int j=0;
- double disk_qlen = 0.0;
- double server_qlen = 0.0;
- double qlen_tmp = 0.0;
- int index = 0;
- for(i=0; i < NUM_DISK; i++) 
- 	disk_qlen += qlength(diskWS[i]);
- 	
- server_qlen = qlength(cpuWS[0])+disk_qlen;
- for(i=1; i<NUM_SERVER; i++) {
- 	disk_qlen = 0.0;
- 	for(j=0; j < NUM_DISK; j++) {
- 		disk_qlen += qlength(diskWS[j+i*NUM_DISK]); //i*NUM_DISK perchè per 		ogni server ci sono NUM_DISK dischi
- 	}
- 	qlen_tmp = disk_qlen+qlength(cpuWS[i]);
- 	if(server_qlen > qlen_tmp) {
- 		server_qlen = qlen_tmp;
- 		index = i;
- 	}
- 	qlen_tmp = 0.0;
- }
- 	return index;
+	int i=0;
+	int j=0;
+	double disk_qlen = 0.0;
+	double server_qlen = 0.0;
+	double qlen_tmp = 0.0;
+	int index = 0;
+	for(i=0; i < NUM_DISK; i++) 
+		disk_qlen += qlength(diskWS[i]);
+
+	server_qlen = qlength(cpuWS[0])+disk_qlen;
+	for(i=1; i<NUM_SERVER; i++) {
+		disk_qlen = 0.0;
+		for(j=0; j < NUM_DISK; j++) {
+			disk_qlen += qlength(diskWS[j+i*NUM_DISK]); //i*NUM_DISK perchè per 		ogni server ci sono NUM_DISK dischi
+		}
+		qlen_tmp = disk_qlen+qlength(cpuWS[i]);
+		if(server_qlen > qlen_tmp) {
+			server_qlen = qlen_tmp;
+			index = i;
+		}
+		qlen_tmp = 0.0;
+	}
+	return index;
 }
 
 int web_client(double doc_size, int variant)
@@ -63,13 +63,13 @@ int web_client(double doc_size, int variant)
 	startTime = simtime();
 	int tmp_disk = 0;
 	//vedi pag. 131 user guide
-  note_passage(lambda);
+	note_passage(lambda);
 	use(inLink, D_InLink());
 
 	use(CPU_web_switch, D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE)); //cpu_web_switch_speed è ancora da modellare
 
 	use(L2, D_LAN(doc_size));
-	
+
 	// implementare qui random, round robin e least_loaded
 	/* random */
 	if(variant == RANDOM || variant == LINK_ADD || variant == PROXY) {
@@ -87,9 +87,9 @@ int web_client(double doc_size, int variant)
 	server_start_time = enter_box(WebServer);
 	use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE));
 
-	
+
 	//implementare qui quale disco selezionare per ora round robin
-  tmp_disk = currentDisk[tmp_server];
+	tmp_disk = currentDisk[tmp_server];
 	currentDisk[tmp_server] = (tmp_disk+1)%NUM_DISK;
 	use(diskWS[tmp_server*NUM_DISK + tmp_disk], D_WSDisk(doc_size));
 	use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE));
@@ -100,20 +100,20 @@ int web_client(double doc_size, int variant)
 		use(outLink, D_OutLink(doc_size));
 	}	
 	else {
-	  /*
+		/*
 		caso con il link in più
 	  use(L3, D_linkAdd()); è diversa dalla domanda in entrata, è solo un 		     outlink o no???
-	*/	
+		 */	
 	}		
 	tabulate(rtime, simtime()-startTime);
 	num_osservazioni++;
-	
+
 	/* codice di dammy
 	if(transient == TRUE && observed_sample<=maxObservation){
 		observations[iterationIndex][observed_sample] = simtime()-startTime;
 		observed_sample++;
 	}*/
-	
+
 	return 0;
 }
 
@@ -157,19 +157,19 @@ void web_session(int cli_id, int variant)
 
 int get_doc_class(double doc_size)
 {
- double distance[K];
- int i = 0;
- double min;
- int index = 0;
- distance[0] = fabs(10281-doc_size);
- distance[1] = fabs(279513744-doc_size);
- distance[2] = fabs(715827882-doc_size);
- min = distance[0];
- for(i=1; i < K; i++) {
- 	if(distance[i] < min) {
- 		min = distance[i];
- 		index = i;
- 	}
- }
- return index;
+	double distance[K];
+	int i = 0;
+	double min;
+	int index = 0;
+	distance[0] = fabs(10281-doc_size);
+	distance[1] = fabs(279513744-doc_size);
+	distance[2] = fabs(715827882-doc_size);
+	min = distance[0];
+	for(i=1; i < K; i++) {
+		if(distance[i] < min) {
+			min = distance[i];
+			index = i;
+		}
+	}
+	return index;
 }
