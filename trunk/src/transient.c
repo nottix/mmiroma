@@ -103,18 +103,6 @@ FILE * mov_avg_fd;
 	
 	max_processes(100000000);	//numero massimo dei processi in giro nella rete	
 	
-	/*facility_set(cpuWS, "cpuWS", N);
-	
-	cpuFS = facility("cpuFS");
-	
-	facility_set(diskFS, "diskFS", P);
-	
-	LAN=facility("LAN");
-
-	inLink=facility("inLink");
-
-	outLink=facility("outLink");
-  */
   inLink = facility("inLink");
 	outLink = facility("outLink");
 	CPU_web_switch = facility("CPU_web_switch");

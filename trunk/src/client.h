@@ -10,7 +10,7 @@
 #include "service.h"
 
 
-int web_client(double document_size);
+int web_client(double document_size, int variant);
 
 void web_session(int cli_id, int variant);
 

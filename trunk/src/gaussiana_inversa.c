@@ -7,6 +7,7 @@ STREAM object_req;
 STREAM html_1;
 STREAM html_2;
 STREAM obj_size;
+STREAM p_hit_proxy;
 
 double calc_mean_lognormal(double mu, double sigma) 
 {

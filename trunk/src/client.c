@@ -21,6 +21,8 @@ extern TABLE rtime;
 extern METER lambda;
 extern CLASS requestClasses[K];
 
+extern STREAM p_hit_proxy;
+
 int currentDisk[NUM_SERVER];
 int num_osservazioni;
 int current_server;
@@ -53,11 +55,11 @@ int get_least_loaded()
  	return index;
 }
 
-int web_client(double doc_size)
+int web_client(double doc_size, int variant)
 {
 	double startTime;
 	double server_start_time = 0.0;
-	int tmp_server, num_blocks;
+	int tmp_server;
 	startTime = simtime();
 	int tmp_disk = 0;
 	//vedi pag. 131 user guide
@@ -70,33 +72,39 @@ int web_client(double doc_size)
 	
 	// implementare qui random, round robin e least_loaded
 	/* random */
-	tmp_server = current_server;
-	current_server = csim_random_int(0, NUM_SERVER-1);
-	/* fine random */
+	if(variant == RANDOM || variant == LINK_ADD || variant == PROXY) {
+		tmp_server = current_server;
+		current_server = csim_random_int(0, NUM_SERVER-1);
+	}
+	else if (variant == ROUND_ROBIN) { //round robin
+		tmp_server = current_server;
+		current_server = (tmp_server+1)%NUM_SERVER;
+	}
+	else if (variant == LEAST_LOADED) {
+		tmp_server = get_least_loaded();
+	}
 
 	server_start_time = enter_box(WebServer);
 	use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE));
 
-	//num_blocks = number_of_blocks(doc_size);
 	
-	//implementare qui quale disco selezionare per ora prova
+	//implementare qui quale disco selezionare per ora round robin
   tmp_disk = currentDisk[tmp_server];
 	currentDisk[tmp_server] = (tmp_disk+1)%NUM_DISK;
 	use(diskWS[tmp_server*NUM_DISK + tmp_disk], D_WSDisk(doc_size));
-
 	use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE));
 	exit_box(WebServer, server_start_time);
-	
-	use(L2, D_LAN(doc_size)); 
-
-	/*
-	caso con il link in più
-	  use(L3, D_LAN()); è diversa dalla domanda in entrata???
+	if(variant != LINK_ADD) {
+		use(L2, D_LAN(doc_size)); 
+		use(CPU_web_switch, D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE));
+		use(outLink, D_OutLink(doc_size));
+	}	
+	else {
+	  /*
+		caso con il link in più
+	  use(L3, D_linkAdd()); è diversa dalla domanda in entrata, è solo un 		     outlink o no???
 	*/	
-	use(CPU_web_switch, D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE));
-	
-	use(outLink, D_OutLink(doc_size));
-				
+	}		
 	tabulate(rtime, simtime()-startTime);
 	num_osservazioni++;
 	
@@ -123,12 +131,22 @@ void web_session(int cli_id, int variant)
 		html_page = html_page_size(mu_html, sigma_html, alfa_html);
 
 		set_process_class(requestClasses[get_doc_class(html_page)]);
-		web_client(html_page);
+		if(variant == PROXY && stream_prob(p_hit_proxy) > 0.4) { 
+			web_client(html_page, variant);
+		}
+		if(variant != PROXY) {
+			web_client(html_page, variant);
+		}
 		num_embedded_objects = object_per_request(alfa_obj);
 		for(j=0; j < num_embedded_objects; j++) {
 			emb_obj_size = embedded_object_size(mu_emb, sigma_emb);
 			set_process_class(requestClasses[get_doc_class(emb_obj_size)]);
-			web_client(emb_obj_size);
+			if(variant == PROXY && stream_prob(p_hit_proxy) > 0.4) {
+				web_client(emb_obj_size, variant);
+			}
+			if(variant != PROXY) {
+				web_client(emb_obj_size, variant);
+			}
 		}
 		hold(user_think_time(alfa_tt)); 
 
