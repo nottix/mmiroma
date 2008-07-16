@@ -27,7 +27,7 @@ int currentDisk[NUM_SERVER];
 int num_osservazioni;
 int current_server;
 
-//ritorna l'indice del server meno utilizzato (serve per la least loaded)
+//! Ritorna l'indice del server meno utilizzato (serve per la least loaded)
 int get_least_loaded() 
 {
 	int i=0;
@@ -43,7 +43,7 @@ int get_least_loaded()
 	for(i=1; i<NUM_SERVER; i++) {
 		disk_qlen = 0.0;
 		for(j=0; j < NUM_DISK; j++) {
-			disk_qlen += qlength(diskWS[j+i*NUM_DISK]); //i*NUM_DISK perchè per 		ogni server ci sono NUM_DISK dischi
+			disk_qlen += qlength(diskWS[j+i*NUM_DISK]); //i*NUM_DISK perchè per ogni server ci sono NUM_DISK dischi
 		}
 		qlen_tmp = disk_qlen+qlength(cpuWS[i]);
 		if(server_qlen > qlen_tmp) {
