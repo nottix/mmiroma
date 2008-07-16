@@ -65,23 +65,24 @@ void statistics(int iteration) {
 		rtime_cpu_web_switch[i] += class_resp(CPU_web_switch, requestClasses[i]);
 	}
 
-	double util_cpu_tmp[NUM_CLASSES];
-	double qLen_cpu_tmp[NUM_CLASSES];
-	double rtime_cpu_tmp[NUM_CLASSES];
+	double util_cpu_tmp[NUM_CLASSES] = {0.0};
+	double qLen_cpu_tmp[NUM_CLASSES] = {0.0};
+	double rtime_cpu_tmp[NUM_CLASSES] = {0.0};
 
-	double util_disk_tmp[NUM_CLASSES];
-	double qLen_disk_tmp[NUM_CLASSES];
-	double rtime_disk_tmp[NUM_CLASSES];
-	for(i=0; i < NUM_CLASSES; i++) {
-		util_cpu_tmp[i] = 0.0;
-		qLen_cpu_tmp[i] = 0.0;
-		rtime_cpu_tmp[i] = 0.0;
-		util_disk_tmp[i] = 0.0;
-		qLen_disk_tmp[i] = 0.0;
-		rtime_disk_tmp[i] = 0.0;
-	}
+	double util_disk_tmp[NUM_CLASSES] = {0.0};
+	double qLen_disk_tmp[NUM_CLASSES] = {0.0};
+	double rtime_disk_tmp[NUM_CLASSES] = {0.0};
+//	for(i=0; i < NUM_CLASSES; i++) {
+//		util_cpu_tmp[i] = 0.0;
+//		qLen_cpu_tmp[i] = 0.0;
+//		rtime_cpu_tmp[i] = 0.0;
+//		util_disk_tmp[i] = 0.0;
+//		qLen_disk_tmp[i] = 0.0;
+//		rtime_disk_tmp[i] = 0.0;
+//	}
 
-	for(j=0; j<NUM_CLASSES; j++){ // per ogni classe colleziono le fd_fileistiche di interesse (mediate sul numero dei server e dei dischi)
+	// Per ogni classe colleziono le statistiche di interesse (mediate sul numero dei server e dei dischi)
+	for(j=0; j<NUM_CLASSES; j++){
 		//calcolo metriche cpu web server
 		for(i=0; i<NUM_SERVER; i++){
 			util_cpu_tmp[j] += class_util(cpuWS[i], requestClasses[j]);
@@ -104,9 +105,8 @@ void statistics(int iteration) {
 	}	
 
 	FILE *fd_file;
-	char *pathname = (char*)malloc(25);
-	sprintf(pathname, "util_qlen_rtime");
-
+	char *pathname = "util_qlen_rtime";
+	
 	if(iteration==NUM_ITERATIONS-1){
 		fd_file = fopen(pathname, "w");
 		fprintf(fd_file, "\n\nUtilizzazione cpu web server i-esimo: \t");
@@ -195,7 +195,7 @@ void sim(int argc, char **argv) {
 		output = fopen(filename, "w");
 		set_output_file(output);
 
-		//! Inizializzazione degli stream (reseed simtime*i+num)
+		// Inizializzazione degli stream (reseed simtime*i+num)
 		sess_req_1 = create_stream();
 		reseed(sess_req_1, (int)simtime()+i);
 		sess_req_2 = create_stream();
@@ -211,7 +211,7 @@ void sim(int argc, char **argv) {
 		obj_size = create_stream();
 		reseed(obj_size, (int)simtime()*7+i);
 
-		//! Inizializzazione delle facility
+		// Inizializzazione delle facility
 		inLink = facility("inLink");
 		outLink = facility("outLink");
 		//LS1 = facility("LS1");
@@ -224,7 +224,7 @@ void sim(int argc, char **argv) {
 		facility_set(diskWS, "diskWS", NUM_SERVER*NUM_DISK);
 		//facility_set(LW2_out, "LW2_out", NUM_SERVER);
 
-		//! Table initialization
+		// Table initialization
 		rtime = table("System Response Time");
 		resptime = permanent_table("Tempo di risposta del sistema");
 		char className[20];
@@ -234,11 +234,11 @@ void sim(int argc, char **argv) {
 
 		lambda = meter("Arrival Rate");
 
-		int tmp=0;
-		for(; tmp<NUM_CLASSES; tmp++){
+		int j=0;
+		for(; j<NUM_CLASSES; j++){
 			className[0] = '\0';
-			sprintf(className, "Classe%d", tmp);
-			requestClasses[tmp] = process_class(className);
+			sprintf(className, "Classe%d", j);
+			requestClasses[j] = process_class(className);
 		}
 
 		collect_class_facility_all();
