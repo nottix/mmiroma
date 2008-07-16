@@ -42,6 +42,7 @@ FACILITY L2;
 FACILITY CPU_web_switch;
 FACILITY inLink;
 FACILITY outLink;
+FACILITY link_add;
 TABLE wsrtime;
 TABLE rtime;
 METER lambda;
