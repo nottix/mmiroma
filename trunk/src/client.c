@@ -100,10 +100,7 @@ int web_client(double doc_size, int variant)
 		use(outLink, D_OutLink(doc_size));
 	}	
 	else {
-		/*
-		caso con il link in più
-	  use(L3, D_linkAdd()); è diversa dalla domanda in entrata, è solo un 		     outlink o no???
-		 */	
+	  use(link_add, D_linkAdd(doc_size));
 	}		
 	tabulate(rtime, simtime()-startTime);
 	num_osservazioni++;
