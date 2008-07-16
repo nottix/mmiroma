@@ -82,7 +82,7 @@ void statistics(int iteration) {
 //	}
 
 	// Per ogni classe colleziono le statistiche di interesse (mediate sul numero dei server e dei dischi)
-	for(j=0; j<NUM_CLASSES; j++){
+	for(j=0; j<NUM_CLASSES; j++) {
 		//calcolo metriche cpu web server
 		for(i=0; i<NUM_SERVER; i++){
 			util_cpu_tmp[j] += class_util(cpuWS[i], requestClasses[j]);
@@ -107,7 +107,7 @@ void statistics(int iteration) {
 	FILE *fd_file;
 	char *pathname = "util_qlen_rtime";
 	
-	if(iteration==NUM_ITERATIONS-1){
+	if(iteration==NUM_ITERATIONS-1) {
 		fd_file = fopen(pathname, "w");
 		fprintf(fd_file, "\n\nUtilizzazione cpu web server i-esimo: \t");
 		for(j=0; j<NUM_CLASSES; j++)
@@ -251,18 +251,17 @@ void sim(int argc, char **argv) {
 		reseed(html_2, (int)simtime()*6+i);
 		reseed(obj_size, (int)simtime()*7+i);
 
-		while(state(converged)==NOT_OCC && num_osservazioni<500000){
+		while(state(converged)==NOT_OCC && num_osservazioni<500000) {
 			hold(exponential(1/(double)ARRIVAL));
 			printf("num_osservazioni %d\n", num_osservazioni);
 			web_session(client_id, variante);
 			client_id++;
-			if(num_osservazioni>100000 &&(!reset)){
+			if(num_osservazioni>100000 &&(!reset)) {
 				printf("Reset statistics %g\n", simtime());
 				reset();
 				reset=1;
 				table_confidence(rtime);
 				table_run_length(rtime, 0.005, 0.98, 5000.0);
-
 			}
 		}
 		printf("Fine generazione a %g - iterazione %d\n", simtime(), i);
