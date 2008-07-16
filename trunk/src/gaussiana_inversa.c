@@ -32,7 +32,7 @@ int session_request(double mu, double lambda)   //dimensionare come un intero???
 	double temp = mu/(mu+x1);
 	if(u <= temp) {
 		x = (int)round(x1);
-	} 
+	}
 	else
 		x = (int)round(pow(mu,2)/x1);
 
