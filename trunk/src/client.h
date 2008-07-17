@@ -10,9 +10,9 @@
 #include "service.h"
 
 
-int web_client(double document_size, int variant);
+int web_client(double document_size, int variant, int bool_transient, int iter);
 
-void web_session(int cli_id, int variant);
+void web_session(int cli_id, int variant, int bool_transient, int iter);
 
 int get_doc_class(double doc_size);
 

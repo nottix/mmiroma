@@ -2600,7 +2600,7 @@ TABLE 5:  System Response Time
       results of run length control using confidence intervals
 
       cpu time limit    5000.0          accuracy requested      0.005000
-      cpu time used        3.0          accuracy achieved       0.071921
+      cpu time used        7.7          accuracy achieved       0.071921
 
       > warning - requested accuracy has not been achieved
 

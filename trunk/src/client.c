@@ -26,6 +26,9 @@ extern STREAM p_hit_proxy;
 int currentDisk[NUM_SERVER];
 int num_osservazioni;
 int current_server;
+double **observations;
+int observed_sample;
+int maxObservation;
 
 double client_response_time;
 //! Ritorna l'indice del server meno utilizzato (serve per la least loaded)
@@ -56,7 +59,7 @@ int get_least_loaded()
 	return index;
 }
 
-int web_client(double doc_size, int variant)
+int web_client(double doc_size, int variant, int bool_transient, int iter)
 {
 	double startTime;
 	double server_start_time = 0.0;
@@ -108,16 +111,16 @@ int web_client(double doc_size, int variant)
 	tabulate(rtime, simtime()-startTime);
 	num_osservazioni++;
 
-	/* codice di dammy
-	if(transient == TRUE && observed_sample<=maxObservation){
-		observations[iterationIndex][observed_sample] = simtime()-startTime;
+
+	if(bool_transient == 1 && observed_sample<=maxObservation){
+		observations[iter][observed_sample] = simtime()-startTime;
 		observed_sample++;
-	}*/
+	}
 
 	return 0;
 }
 
-void web_session(int cli_id, int variant)
+void web_session(int cli_id, int variant, int bool_transient, int iter)
 {
 	char *prova = (char*)malloc(64); //il nome del processo, dovrebbe essere univoco sulla base dell'id
 	sprintf(prova,"%d",cli_id);
@@ -132,20 +135,20 @@ void web_session(int cli_id, int variant)
 
 		set_process_class(requestClasses[get_doc_class(html_page)]);
 		if(variant == PROXY && stream_prob(p_hit_proxy) > 0.4) { 
-			web_client(html_page, variant);
+			web_client(html_page, variant, bool_transient, iter);
 		}
 		if(variant != PROXY) {
-			web_client(html_page, variant);
+			web_client(html_page, variant, bool_transient, iter);
 		}
 		num_embedded_objects = object_per_request(alfa_obj);
 		for(j=0; j < num_embedded_objects; j++) {
 			emb_obj_size = embedded_object_size(mu_emb, sigma_emb);
 			set_process_class(requestClasses[get_doc_class(emb_obj_size)]);
 			if(variant == PROXY && stream_prob(p_hit_proxy) > 0.4) {
-				web_client(emb_obj_size, variant);
+				web_client(emb_obj_size, variant, bool_transient, iter);
 			}
 			if(variant != PROXY) {
-				web_client(emb_obj_size, variant);
+				web_client(emb_obj_size, variant, bool_transient, iter);
 			}
 		}
 		hold(user_think_time(alfa_tt)); 
