@@ -13,6 +13,9 @@ main: main.c $(OBJECTS)
 
 cluster: cluster.c $(OBJECTS)
 	$(CC) $(INCFLAGS) $(LDFLAGS) $(CFLAGS) -o cluster cluster.c $(OBJECTS) $(LIBS)
+	
+transient: transient.c $(OBJECTS)
+	$(CC) $(INCFLAGS) $(LDFLAGS) $(CFLAGS) -o transient transient.c $(OBJECTS) $(LIBS)
 
 ######## MODULE ########
 

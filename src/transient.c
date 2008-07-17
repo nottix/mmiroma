@@ -4,6 +4,34 @@
 #include<csim.h>
 #include "gaussiana_inversa.h"
 #include "client.h"
+#include "common.h"
+
+#define SAMPLE_TIME 1 // tempo di campionamento, per ora pari ad uno
+
+extern FACILITY cpuWS[NUM_SERVER];
+extern FACILITY diskWS[NUM_DISK*NUM_SERVER];
+extern BOX WebServer;
+extern FACILITY L2;
+extern FACILITY CPU_web_switch;
+extern FACILITY inLink;
+extern FACILITY outLink;
+extern FACILITY link_add;
+extern TABLE rtime;
+extern METER lambda;
+extern CLASS requestClasses[K];
+
+extern STREAM sess_req_1;
+extern STREAM sess_req_2;
+extern STREAM user_tt;
+extern STREAM object_req;
+extern STREAM html_1;
+extern STREAM html_2;
+extern STREAM obj_size;
+extern STREAM p_hit_proxy;
+
+extern double client_response_time;
+
+TABLE resptime;
 
 /*
 double* calc_mobile_mean(int W, int iterations, int num_observations, double *observation_average)
@@ -48,7 +76,7 @@ void calc_transient(int num_observations, int iterations, int W)
 		num_campioni = 1;
 		while(num_campioni<=num_observations){
 			hold(exponential(1/(double)150));
-			webSession(client_id/*, i, TRUE,*/ variante); // create a new session
+			webSession(client_id, i, TRUE, variante); // create a new session
 			client_id++;
 		}
 		wait(event_list_empty); // wait for the end of all events
@@ -74,10 +102,32 @@ int	WELCH_N = 0,
 
 char * output_file_name;
 
+void parse_command_line(int argc, char *argv[]){
+
+	if(argc != 5){
+		printf("ERRORE!!!\nUtilizzo: ");
+		printf("./transient <WELCH_N> <WELCH_M> <WELCH_W> <file_output>\n");
+		exit(1);
+	}
+	
+	WELCH_N = atoi(argv[1]);
+	WELCH_M = atoi(argv[2]);
+	WELCH_W = atoi(argv[3]);	
+	output_file_name = argv[4];
+	
+	if(WELCH_W > WELCH_M/2){
+		printf("ERRORE!!!\nIl valore della finestra W deve essere minore della parte intera di M/2.\n\n");
+		exit(1);
+	}
+	
+	
+	return;	
+	
+}
+
 void sim(int argc, char *argv[]){
 
 int clientID=0,
-	 resetted=0,
 	 cont=0,
 	 i,s,
 	 n_repl=0,
@@ -93,39 +143,51 @@ double intT,
 		 old_simtime=0.0,
 		 current_simtime=0.0;
 
-long start_simulation, end_simulation;
-
-char strbuf[30];
-
 FILE * mov_avg_fd;
 
 	create("sim");
 	
-	max_processes(100000000);	//numero massimo dei processi in giro nella rete	
-	
+	max_processes(MAX_PROCESSES);	//numero massimo dei processi in giro nella rete	
+	max_facilities(MAX_FACILITIES);
+	max_servers(MAX_SERVERS);
   inLink = facility("inLink");
 	outLink = facility("outLink");
 	CPU_web_switch = facility("CPU_web_switch");
 	L2 = facility("L2");
 	facility_set(cpuWS, "cpuWS", NUM_SERVER);
 	facility_set(diskWS, "diskWS", NUM_SERVER*NUM_DISK);
-	//facility_set(LW2_out, "LW2_out", NUM_SERVER);
 	
 	resptime = table("System Response Time"); // table intialization
 	
 	char className[20];
-	className[0] = '\0';
 	
-	//	webSwitch = box("Web Switch");
 	WebServer = box("Web Server");
 	
 	lambda = meter("Arrival Rate");
-	max_classes(10);	//viene assegnato il numero massimo di classi per evitare l'errore "TOO MANY PROCESSES CLASS"
-	for(cont=0; cont<NUM_CLASS; cont++){
-
-		requestClasses[cont] = process_class(Classe[cont]);
+	max_classes(MAX_CLASSES);	//viene assegnato il numero massimo di classi per evitare l'errore "TOO MANY PROCESSES CLASS"
+	for(cont=0; cont<NUM_CLASSES; cont++){
+    className[0] = '\0';
+		sprintf(className, "Classe%d", cont);
+		requestClasses[cont] = process_class(className);
 
 	}
+	// Inizializzazione degli stream (reseed simtime*i+num)
+		sess_req_1 = create_stream();
+		reseed(sess_req_1, (int)simtime()+i);
+		sess_req_2 = create_stream();
+		reseed(sess_req_2, (int)simtime()*2+i);
+		user_tt = create_stream();
+		reseed(user_tt, (int)simtime()*3+i);
+		object_req = create_stream();
+		reseed(object_req, (int)simtime()*4+i);
+		html_1 = create_stream();
+		reseed(html_1, (int)simtime()*5+i);
+		html_2 = create_stream();
+		reseed(html_2, (int)simtime()*6+i);
+		obj_size = create_stream();
+		reseed(obj_size, (int)simtime()*7+i);
+		p_hit_proxy = create_stream();
+		reseed(p_hit_proxy, (int)simtime()*8+i);
 
 	collect_class_facility_all();
 	
@@ -149,14 +211,14 @@ FILE * mov_avg_fd;
 	m_repl=0;
 		while(m_repl < WELCH_M){
 
-			intT=stream_exponential(request_stream, 1/(double)(ARRIVAL));
+			intT=exponential(1/(double)(ARRIVAL));
 			hold(intT);		//think time
-			webclient(clientID, resetted);	//invio richiesta //da modificare
+			web_client(clientID, RANDOM);	//invio richiesta //da modificare
 			clientID++;		
 			current_simtime = simtime();
 			if((current_simtime-old_simtime)>SAMPLE_TIME){
 			//printf("campionamento %d effettuato\n", m_repl);
-					sample_matrix[n_repl][m_repl]=CLIENT_RESPONSE_TIME;
+					sample_matrix[n_repl][m_repl]=client_response_time;
 					m_repl++;
 					old_simtime = simtime();
 			}
@@ -165,7 +227,14 @@ FILE * mov_avg_fd;
 		//ogni volta che viene terminata una replica è necessario
 		//riavviare le risorse
 		reset();		
-		
+		reseed(sess_req_1, (int)simtime()+i);
+		reseed(sess_req_2, (int)simtime()*2+i);
+		reseed(user_tt, (int)simtime()*3+i);
+		reseed(object_req, (int)simtime()*4+i);
+		reseed(html_1, (int)simtime()*5+i);
+		reseed(html_2, (int)simtime()*6+i);
+		reseed(obj_size, (int)simtime()*7+i);
+		reseed(p_hit_proxy, (int)simtime()*8+i);
 		n_repl++;	
 	}	
 	
@@ -215,7 +284,7 @@ FILE * mov_avg_fd;
 		fprintf(mov_avg_fd, "%g\n", moving_average[i]);
 	
 	
-	close(mov_avg_fd);	
+	fclose(mov_avg_fd);	
 	
 	printf("Il file %s è stato riempito con l'array Moving Average.\n\n", output_file_name);
 
@@ -228,25 +297,4 @@ FILE * mov_avg_fd;
 
 }
 
-void parse_command_line(int argc, char *argv[]){
 
-	if(argc != 5){
-		printf("ERRORE!!!\nUtilizzo: ");
-		printf("./transient <WELCH_N> <WELCH_M> <WELCH_W> <file_output>\n");
-		exit(1);
-	}
-	
-	WELCH_N = atoi(argv[1]);
-	WELCH_M = atoi(argv[2]);
-	WELCH_W = atoi(argv[3]);	
-	output_file_name = argv[4];
-	
-	if(WELCH_W > WELCH_M/2){
-		printf("ERRORE!!!\nIl valore della finestra W deve essere minore della parte intera di M/2.\n\n");
-		exit(1);
-	}
-	
-	
-	return;	
-	
-}
