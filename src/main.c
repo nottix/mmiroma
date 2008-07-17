@@ -280,7 +280,7 @@ void sim(int argc, char **argv) {
 		while(state(converged)==NOT_OCC && num_osservazioni<500000) {
 			hold(exponential(1/(double)ARRIVAL));
 			printf("num_osservazioni %d\n", num_osservazioni);
-			web_session(client_id, variante);
+			web_session(client_id, variante, 0, -1);
 			client_id++;
 			if(num_osservazioni>100000 &&(!reset)) {
 				printf("Reset statistics %g\n", simtime());

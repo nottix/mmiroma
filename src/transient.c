@@ -30,6 +30,9 @@ extern STREAM obj_size;
 extern STREAM p_hit_proxy;
 
 extern double client_response_time;
+extern double **observations;
+extern int observed_sample;
+extern int maxObservation;
 
 TABLE resptime;
 
@@ -144,7 +147,8 @@ double intT,
 		 current_simtime=0.0;
 
 FILE * mov_avg_fd;
-
+	maxObservation = WELCH_M;
+	observed_sample = 1;
 	create("sim");
 	
 	max_processes(MAX_PROCESSES);	//numero massimo dei processi in giro nella rete	
@@ -197,7 +201,10 @@ FILE * mov_avg_fd;
 		*(sample_matrix+i) = malloc((WELCH_M * sizeof(double)));
 	averaged_process = malloc((WELCH_M +1)*sizeof(double));
 	moving_average=malloc((WELCH_M - WELCH_W +1)*sizeof(double));
-	
+	observations = (double**)malloc(WELCH_N * sizeof(double*));
+	for(i=0; i<WELCH_N; i++){
+		observations[i] = (double*)malloc(WELCH_M * sizeof(double));
+	}
 	//PASSO 1: vengono effettuate WELCH_N repliche di lunghezza WELCH_M ognuna. I risultati
 	//			  sono inseriti nella matrice sample_matrix.
 	//	  	  Il tempo di risposta percepito dal client viene campionato ogni SAMPLE_TIME secondi
@@ -206,22 +213,23 @@ FILE * mov_avg_fd;
 	//ciclo di generazione delle richieste
 
 	printf("n_repl =%d, m_repl =%d\n", n_repl, m_repl);
-	while(n_repl < WELCH_N){	
+	while(n_repl < WELCH_N){
+	observed_sample = 1;
 	old_simtime = simtime();
 	m_repl=0;
-		while(m_repl < WELCH_M){
+		while(/*m_repl*/ observed_sample < WELCH_M){
 
 			intT=exponential(1/(double)(ARRIVAL));
 			hold(intT);		//think time
-			web_client(clientID, RANDOM);	//invio richiesta //da modificare
+			web_client(clientID, RANDOM, 1, n_repl);	//invio richiesta //da modificare
 			clientID++;		
 			current_simtime = simtime();
-			if((current_simtime-old_simtime)>SAMPLE_TIME){
+			/*if((current_simtime-old_simtime)>SAMPLE_TIME){
 			//printf("campionamento %d effettuato\n", m_repl);
 					sample_matrix[n_repl][m_repl]=client_response_time;
 					m_repl++;
 					old_simtime = simtime();
-			}
+			}*/
 		}
 		printf("Replication n° %d terminated\n",n_repl);
 		//ogni volta che viene terminata una replica è necessario
@@ -245,7 +253,7 @@ FILE * mov_avg_fd;
 	for(m_repl = 0; m_repl < WELCH_M; m_repl++){
 	
 		for(n_repl=0;n_repl<WELCH_N; n_repl++)
-			sum += sample_matrix[n_repl][m_repl];
+			sum += observations[n_repl][m_repl];
 		
 		averaged_process[m_repl+1] = sum/(double)WELCH_N;
 		
