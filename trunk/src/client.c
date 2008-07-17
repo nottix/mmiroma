@@ -27,6 +27,7 @@ int currentDisk[NUM_SERVER];
 int num_osservazioni;
 int current_server;
 
+double client_response_time;
 //! Ritorna l'indice del server meno utilizzato (serve per la least loaded)
 int get_least_loaded() 
 {
@@ -102,6 +103,8 @@ int web_client(double doc_size, int variant)
 	else {
 	  use(link_add, D_linkAdd(doc_size));
 	}		
+	client_response_time = simtime()-startTime;
+	
 	tabulate(rtime, simtime()-startTime);
 	num_osservazioni++;
 
