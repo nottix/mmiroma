@@ -6,8 +6,6 @@
 #include "client.h"
 #include "common.h"
 
-#define SAMPLE_TIME 1 // tempo di campionamento, per ora pari ad uno
-
 extern FACILITY cpuWS[NUM_SERVER];
 extern FACILITY diskWS[NUM_DISK*NUM_SERVER];
 extern BOX WebServer;
@@ -35,69 +33,6 @@ extern int observed_sample;
 extern int maxObservation;
 
 TABLE resptime;
-
-/*
-double* calc_mobile_mean(int W, int iterations, int num_observations, double *observation_average)
-{
-  double *media_mobile = (double*)malloc(sizeof(double)*(num_observations-W+1));
-	int i=0;
-	int temp = 0;
-	for(i=0; i <= (num_observations-W); i++) {
-		if(i <= W) {
-			temp = (-1)*(i-1);
-			for(; temp < i-1; temp++) {
-				media_mobile[i] += observation_average[temp];
-			}
-			media_mobile[i] /= (double)(2*i-1);
-		}
-		else {
-			temp = (-1) * W;
-			for(; temp < W; temp ++) {
-				media_mobile[i] += observation_average[temp];
-			}
-			media_mobile[i] /= (double)(2*W+1);
-		}
-	}
-	return media_mobile;
-}
-
-void calc_transient(int num_observations, int iterations, int W)
-{
-	double *media_osservazioni = (double*)malloc(sizeof(double)*(num_observations+1));
-	double *media_mobile = (double*)malloc(sizeof(double)*(num_observations-W+1));
-	double **osservazioni;
-	int i=0;
-	int j=0;
-	int client_id = 0;
-	int num_campioni;
-	int variante = 1;
-	for(; i < iterations; i++) {
-		osservazioni[i] = (double*)malloc(sizeof(double)*num_observations);
-	}
-	//qui manca il cuore del transient e il calcolo della prima media (magari la media come metodo a parte)
-	for(i=0; i<iterations; i++){ // for each iteration
-		num_campioni = 1;
-		while(num_campioni<=num_observations){
-			hold(exponential(1/(double)150));
-			webSession(client_id, i, TRUE, variante); // create a new session
-			client_id++;
-		}
-		wait(event_list_empty); // wait for the end of all events
-		reset(); // reset the collected statistics
-		//reseedStream(i); boh???
-		for(j=1; j < num_observations; i++) { //perchè uno?? l'array parte da zero
-			media_osservazioni[j] = osservazioni[i][j];
-		}
-	}	
-	for(i=1; i < num_observations; i++) {
-		media_osservazioni[i] /= (double)iterations;
-	}
-	media_mobile = calc_mobile_mean(W, iterations, num_observations, media_osservazioni);
-}
-*/
-/*****************************************************************************************/
-//ALTERNATIVA
-
 
 int	WELCH_N = 0,
 	 	WELCH_M = 0,
@@ -139,12 +74,10 @@ int clientID=0,
 	 parse_command_line(argc, argv);
 	 
 double intT,
-		 **sample_matrix,
+		// **sample_matrix,
 		 *averaged_process,
 		 sum=0.0,
-		 *moving_average,
-		 old_simtime=0.0,
-		 current_simtime=0.0;
+		 *moving_average;
 
 FILE * mov_avg_fd;
 	maxObservation = WELCH_M;
@@ -196,15 +129,15 @@ FILE * mov_avg_fd;
 	collect_class_facility_all();
 	
 	rtime=table("Response Time");
-	sample_matrix=malloc(WELCH_N *sizeof(double*));
-	for(i=0;i<WELCH_N;i++)
-		*(sample_matrix+i) = malloc((WELCH_M * sizeof(double)));
+	
 	averaged_process = malloc((WELCH_M +1)*sizeof(double));
 	moving_average=malloc((WELCH_M - WELCH_W +1)*sizeof(double));
 	observations = (double**)malloc(WELCH_N * sizeof(double*));
 	for(i=0; i<WELCH_N; i++){
 		observations[i] = (double*)malloc(WELCH_M * sizeof(double));
 	}
+	//fin qui OK
+	
 	//PASSO 1: vengono effettuate WELCH_N repliche di lunghezza WELCH_M ognuna. I risultati
 	//			  sono inseriti nella matrice sample_matrix.
 	//	  	  Il tempo di risposta percepito dal client viene campionato ogni SAMPLE_TIME secondi
@@ -212,33 +145,28 @@ FILE * mov_avg_fd;
 	
 	//ciclo di generazione delle richieste
 
+
 	printf("n_repl =%d, m_repl =%d\n", n_repl, m_repl);
 	while(n_repl < WELCH_N){
 	observed_sample = 1;
-	old_simtime = simtime();
-	m_repl=0;
+	//m_repl=0;
 		while(/*m_repl*/ observed_sample < WELCH_M){
 
 			intT=exponential(1/(double)(ARRIVAL));
 			hold(intT);		//think time
-			web_client(clientID, RANDOM, 1, n_repl);	//invio richiesta //da modificare
+			web_session(clientID, RANDOM, 1, n_repl);	
 			clientID++;		
-			current_simtime = simtime();
-			/*if((current_simtime-old_simtime)>SAMPLE_TIME){
-			//printf("campionamento %d effettuato\n", m_repl);
-					sample_matrix[n_repl][m_repl]=client_response_time;
-					m_repl++;
-					old_simtime = simtime();
-			}*/
 		}
 		printf("Replication n° %d terminated\n",n_repl);
 		//ogni volta che viene terminata una replica è necessario
 		//riavviare le risorse
+		wait(event_list_empty);
 		reset();		
 		reseed(sess_req_1, (int)simtime()+i);
 		reseed(sess_req_2, (int)simtime()*2+i);
 		reseed(user_tt, (int)simtime()*3+i);
 		reseed(object_req, (int)simtime()*4+i);
+		
 		reseed(html_1, (int)simtime()*5+i);
 		reseed(html_2, (int)simtime()*6+i);
 		reseed(obj_size, (int)simtime()*7+i);
@@ -252,8 +180,10 @@ FILE * mov_avg_fd;
 	
 	for(m_repl = 0; m_repl < WELCH_M; m_repl++){
 	
-		for(n_repl=0;n_repl<WELCH_N; n_repl++)
-			sum += observations[n_repl][m_repl];
+		for(n_repl=0;n_repl<WELCH_N; n_repl++) {
+		  sum += observations[n_repl][m_repl];
+		}
+			
 		
 		averaged_process[m_repl+1] = sum/(double)WELCH_N;
 		
@@ -296,13 +226,11 @@ FILE * mov_avg_fd;
 	
 	printf("Il file %s è stato riempito con l'array Moving Average.\n\n", output_file_name);
 
-	for(i=0;i<WELCH_N;i++)
-		free(*(sample_matrix+i));
-	free(sample_matrix);
 	free(averaged_process);
 	free(moving_average);
 	csim_terminate();
 
 }
+
 
 
