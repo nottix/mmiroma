@@ -17,6 +17,10 @@ cluster: cluster.c $(OBJECTS)
 transient: transient.c $(OBJECTS)
 	$(CC) $(INCFLAGS) $(LDFLAGS) $(CFLAGS) -o transient transient.c $(OBJECTS) $(LIBS)
 
+analytical: analytical.c $(OBJECTS)
+	$(CC) $(INCFLAGS) $(LDFLAGS) $(CFLAGS) -o analytical analytical.c $(OBJECTS) $(LIBS)
+
+
 ######## MODULE ########
 
 client.o: client.h client.c
