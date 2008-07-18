@@ -20,7 +20,6 @@ transient: transient.c $(OBJECTS)
 analytical: analytical.c $(OBJECTS)
 	$(CC) $(INCFLAGS) $(LDFLAGS) $(CFLAGS) -o analytical analytical.c $(OBJECTS) $(LIBS)
 
-
 ######## MODULE ########
 
 client.o: client.h client.c
@@ -34,3 +33,4 @@ service.o: service.h service.c
 
 clean:
 	rm -rf *.o main cluster
+

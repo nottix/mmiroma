@@ -14,6 +14,12 @@ main:
 cluster:
 	make -C ./src
 
+analytical:
+	make -C ./src
+
+transient:
+	make -C ./src
+
 .SUFFIXES:	.c .h .o
 
 count:

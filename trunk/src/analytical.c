@@ -9,6 +9,7 @@
 #include "service.h"
 #define LAMBDA_SIM 1000 //prova
 #define NUM_OBS 1000000
+
 double calc_queue_length(double utilization)
 {
 	return utilization/(1-utilization);
@@ -38,10 +39,10 @@ int main(int argc, char **argv)
 	doc_size[2] = 715827882;
 	double miss = 1- P_HIT;    
 	int i = 0;
-  double lambda[NUM_CLASSES];
-  lambda[0] = (9999995/(double)NUM_OBS)*LAMBDA_SIM;
-  lambda[1] = (4/(double)NUM_OBS)*LAMBDA_SIM;
-  lambda[2] = (1/(double)NUM_OBS)*LAMBDA_SIM;
+  	double lambda[NUM_CLASSES];
+	lambda[0] = (9999995/(double)NUM_OBS)*LAMBDA_SIM;
+	lambda[1] = (4/(double)NUM_OBS)*LAMBDA_SIM;
+	lambda[2] = (1/(double)NUM_OBS)*LAMBDA_SIM;
 	fprintf(fd_file, "calcolo indici locali variante standard\n");
 
 	//calcolo utilizzazioni
@@ -248,4 +249,8 @@ int main(int argc, char **argv)
 	}	
 	fclose(fd_file);
 	return 0;
+}
+
+void sim(int argc, char **argv) {
+
 }
