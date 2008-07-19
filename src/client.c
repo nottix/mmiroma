@@ -124,6 +124,7 @@ int web_client(double doc_size, int variant, int bool_transient, int iter)
 	}		  
 	else {
 		use(L2, D_LAN(doc_size)); 
+		use(LS2, D_LAN(doc_size));
 		use(CPU_web_switch, D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE));
 		use(LS1, D_LS1out(doc_size));
 		use(outLink, D_OutLink(doc_size));

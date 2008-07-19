@@ -16,7 +16,7 @@
 #define BANDWIDTH_L2 1024 // Mbps
 #define CPU_WEB_SWITCH_SERVICE_RATE 9500 //richieste/secondo tasso servizio CPU switch
 #define NUM_SERVER 66 
-#define NUM_DISK 12 
+#define NUM_DISK 12
 #define BANDWIDTH_LINKADD 622 //Mbps
 #define INLINK_BANDWIDTH 45 //Mbps
 #define OUTLINK_BANDWIDTH 1000 //Mbps
