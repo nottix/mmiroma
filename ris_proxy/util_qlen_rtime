@@ -1,24 +1,33 @@
 
 
-Utilizzazione cpu web server i-esimo: 	0.4284471	0.0000002	0.0000001	
-Utilizzazione disco i-esimo              : 	0.1865987	0.0000000	0.0000000	
-Utilizzazione inLink     : 	0.1970600	0.0000002	0.0000001	
-Utilizzazione outLink     : 	0.1787900	0.0000000	0.0000000	
-Utilizzazione cpu web switch            : 	0.4464881	0.0000002	0.0000001	
-Utilizzazione LAN                       : 	0.3614593	0.0039749	0.0060286	
+Utilizzazione cpu web server i-esimo: 	0.4355723	0.0000001	0.0000001	
+Utilizzazione disco i-esimo              : 	0.1893485	0.0000000	0.0000000	
+Utilizzazione inLink     : 	0.2002652	0.0000001	0.0000001	
+Utilizzazione outLink     : 	0.1813914	0.0000000	0.0000000	
+Utilizzazione cpu web switch            : 	0.4539132	0.0000001	0.0000001	
+Utilizzazione LAN                       : 	0.1869116	0.0000000	0.0000000	
+Utilizzazione LS1                       :	0.1904033	0.0000000	0.0000000	
+Utilizzazione LS2                       :	0.0058671	0.0000000	0.0000000	
+Utilizzazione LW2                       :	0.0028320	0.0000000	0.0000000	
 
-Lunghezza coda cpu web server i-esimo : 	0.6278000	0.0000002	0.0000001	
-Lunghezza coda disco i-esimo              : 	1.0764512	0.0000000	0.0000000	
-Lunghezza coda inLink      : 	0.2631758	0.0000003	0.0000001	
-Lunghezza coda outLink       : 	1.0238622	0.0000000	0.0000000	
-Lunghezza coda cpu web switch             : 	1.3004881	0.0000003	0.0000001	
-Lunghezza coda LAN                        : 	14.7147724	0.0039751	0.0060286	
+Lunghezza coda cpu web server i-esimo : 	0.6200525	0.0000003	0.0000005	
+Lunghezza coda disco i-esimo              : 	0.8235953	0.0000000	0.0000000	
+Lunghezza coda inLink      : 	0.2933667	0.0000001	0.0000001	
+Lunghezza coda outLink       : 	1.4032781	0.0000000	0.0000000	
+Lunghezza coda cpu web switch             : 	0.7674552	0.0000001	0.0000001	
+Lunghezza coda LAN                        : 	0.6755315	0.0000000	0.0000000	
+Lunghezza coda LS1                        : 	1.0767230	0.0000000	0.0000000	
+Lunghezza coda LS2                        : 	0.0058671	0.0000000	0.0000000	
+Lunghezza coda LW2                        : 	0.0029445	0.0000000	0.0000000	
 
-Tempo medio di risposta cpu web server i-esimo: 	0.0097691	0.0000404	0.0000202	
-Tempo medio di risposta disco i-esimo             : 	1.2752395	0.0000000	0.0000000	
-Tempo medio di risposta inLink     : 	0.0001238	0.0000559	0.0000186	
-Tempo medio di risposta link internet uscita      : 	0.0004840	0.0000000	0.0000000	
-Tempo medio di risposta cpu web switch            : 	0.0003070	0.0000645	0.0000211	
-Tempo medio di risposta LAN                       : 	0.0035019	0.7365386	1.1629145	
+Tempo medio di risposta cpu web server i-esimo: 	0.0094878	0.0000551	0.0000926	
+Tempo medio di risposta disco i-esimo             : 	0.5467940	0.0000000	0.0000000	
+Tempo medio di risposta inLink     : 	0.0001359	0.0000186	0.0000186	
+Tempo medio di risposta link internet uscita      : 	0.0006521	0.0000000	0.0000000	
+Tempo medio di risposta cpu web switch            : 	0.0001779	0.0000211	0.0000222	
+Tempo medio di risposta LAN                       : 	0.0001568	0.0000005	0.0000005	
+Tempo medio di risposta LS1                       : 	0.0002500	0.0000008	0.0000008	
+Tempo medio di risposta LS2                       : 	0.0000027	0.0000005	0.0000005	
+Tempo medio di risposta LW2                       : 	0.0000451	0.0000000	0.0000000	
 
- Tasso medio di arrivi (lambda)                        : 2123.49
+ Tasso medio di arrivi (lambda)                        : 2158.04
