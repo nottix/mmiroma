@@ -22,11 +22,16 @@ extern STREAM p_hit_proxy;
 extern FACILITY cpuWS[NUM_SERVER];
 extern FACILITY diskWS[NUM_DISK*NUM_SERVER];
 extern BOX WebServer;
+extern BOX WebSwitch;
 extern FACILITY L2;
 extern FACILITY CPU_web_switch;
 extern FACILITY inLink;
 extern FACILITY outLink;
 extern FACILITY link_add;
+extern FACILITY LS1;
+extern FACILITY LS2;
+extern FACILITY LW2[NUM_SERVER];
+extern FACILITY LW3[NUM_SERVER];
 extern TABLE rtime;
 extern METER lambda;
 //decidere quante classi fare sulla base del clustering
@@ -37,11 +42,11 @@ extern int num_osservazioni;
 TABLE resptime;
 double lambda_tmp;
 double utilizzazione_L2[NUM_CLASSES], utilizzazione_inLink[NUM_CLASSES], utilizzazione_outLink[NUM_CLASSES], 
-utilizzazione_cpu_web_switch[NUM_CLASSES], utilizzazione_cpu_web_server[NUM_CLASSES], utilizzazione_disk[NUM_CLASSES], utilizzazione_link_add[NUM_CLASSES];
+utilizzazione_cpu_web_switch[NUM_CLASSES], utilizzazione_cpu_web_server[NUM_CLASSES], utilizzazione_disk[NUM_CLASSES], utilizzazione_link_add[NUM_CLASSES], utilizzazione_ls1[NUM_CLASSES], utilizzazione_ls2[NUM_CLASSES], utilizzazione_lw2[NUM_CLASSES], utilizzazione_lw3[NUM_CLASSES]; 
 double qlen_L2[NUM_CLASSES], qlen_inLink[NUM_CLASSES], qlen_outLink[NUM_CLASSES], qlen_cpu_web_switch[NUM_CLASSES], 
-qlen_cpu_web_server[NUM_CLASSES], qlen_disk[NUM_CLASSES], qlen_link_add[NUM_CLASSES]; 
+qlen_cpu_web_server[NUM_CLASSES], qlen_disk[NUM_CLASSES], qlen_link_add[NUM_CLASSES], qlen_ls1[NUM_CLASSES], qlen_ls2[NUM_CLASSES], qlen_lw2[NUM_CLASSES], qlen_lw3[NUM_CLASSES];
 double rtime_L2[NUM_CLASSES], rtime_inLink[NUM_CLASSES], rtime_outLink[NUM_CLASSES], rtime_cpu_web_switch[NUM_CLASSES], 
-rtime_cpu_web_server[NUM_CLASSES], rtime_disk[NUM_CLASSES], rtime_link_add[NUM_CLASSES];
+rtime_cpu_web_server[NUM_CLASSES], rtime_disk[NUM_CLASSES], rtime_link_add[NUM_CLASSES], rtime_ls1[NUM_CLASSES], rtime_ls2[NUM_CLASSES], rtime_lw2[NUM_CLASSES], rtime_lw3[NUM_CLASSES];
 
 void statistics(int iteration, int variant) {
 	lambda_tmp += meter_rate(lambda);
@@ -65,6 +70,16 @@ void statistics(int iteration, int variant) {
 		utilizzazione_cpu_web_switch[i] += class_util(CPU_web_switch, requestClasses[i]);
 		qlen_cpu_web_switch[i] += class_qlen(CPU_web_switch, requestClasses[i]);
 		rtime_cpu_web_switch[i] += class_resp(CPU_web_switch, requestClasses[i]);
+
+		utilizzazione_ls1[i] += class_util(LS1, requestClasses[i]);
+		qlen_ls1[i] += class_qlen(LS1, requestClasses[i]);
+		rtime_ls1[i] += class_resp(LS1, requestClasses[i]);
+		
+		
+		utilizzazione_ls2[i] += class_util(LS2, requestClasses[i]);
+		qlen_ls2[i] += class_qlen(LS2, requestClasses[i]);
+		rtime_ls2[i] += class_resp(LS2, requestClasses[i]);
+		
 		if(variant == LINK_ADD) {
 			utilizzazione_link_add[i] += class_util(link_add, requestClasses[i]);
 			qlen_link_add[i] += class_qlen(link_add, requestClasses[i]);
@@ -79,14 +94,16 @@ void statistics(int iteration, int variant) {
 	double util_disk_tmp[NUM_CLASSES] = {0.0};
 	double qLen_disk_tmp[NUM_CLASSES] = {0.0};
 	double rtime_disk_tmp[NUM_CLASSES] = {0.0};
-//	for(i=0; i < NUM_CLASSES; i++) {
-//		util_cpu_tmp[i] = 0.0;
-//		qLen_cpu_tmp[i] = 0.0;
-//		rtime_cpu_tmp[i] = 0.0;
-//		util_disk_tmp[i] = 0.0;
-//		qLen_disk_tmp[i] = 0.0;
-//		rtime_disk_tmp[i] = 0.0;
-//	}
+	
+	double util_lw2_tmp[NUM_CLASSES] = {0.0};
+	double qLen_lw2_tmp[NUM_CLASSES] = {0.0};
+	double rtime_lw2_tmp[NUM_CLASSES] = {0.0};
+
+	double util_lw3_tmp[NUM_CLASSES] = {0.0};
+	double qLen_lw3_tmp[NUM_CLASSES] = {0.0};
+	double rtime_lw3_tmp[NUM_CLASSES] = {0.0};
+	
+
 
 	// Per ogni classe colleziono le statistiche di interesse (mediate sul numero dei server e dei dischi)
 	for(j=0; j<NUM_CLASSES; j++) {
@@ -95,11 +112,29 @@ void statistics(int iteration, int variant) {
 			util_cpu_tmp[j] += class_util(cpuWS[i], requestClasses[j]);
 			qLen_cpu_tmp[j] += class_qlen(cpuWS[i], requestClasses[j]);
 			rtime_cpu_tmp[j] += class_resp(cpuWS[i], requestClasses[j]);
+			
+			util_lw2_tmp[j] += class_util(LW2[i], requestClasses[j]);
+			qLen_lw2_tmp[j] += class_qlen(LW2[i], requestClasses[j]);
+			rtime_lw2_tmp[j] += class_resp(LW2[i], requestClasses[j]);
+			if(variant == LINK_ADD) {
+				util_lw3_tmp[j] += class_util(LW3[i], requestClasses[j]);
+				qLen_lw3_tmp[j] += class_qlen(LW3[i], requestClasses[j]);
+				rtime_lw3_tmp[j] += class_resp(LW3[i], requestClasses[j]);
+			
+			}
 		}
 		utilizzazione_cpu_web_server[j] += util_cpu_tmp[j]/(double)NUM_SERVER;
 		qlen_cpu_web_server[j] += qLen_cpu_tmp[j]/(double)NUM_SERVER;
 		rtime_cpu_web_server[j] += rtime_cpu_tmp[j]/(double)NUM_SERVER;
-
+		
+		utilizzazione_lw2[j] += util_lw2_tmp[j]/(double)NUM_SERVER;
+		qlen_lw2[j] += qLen_lw2_tmp[j]/(double)NUM_SERVER;
+		rtime_lw2[j] += rtime_lw2_tmp[j]/(double)NUM_SERVER;
+		if(variant == LINK_ADD) {
+			utilizzazione_lw3[j] += util_lw3_tmp[j]/(double)NUM_SERVER;
+			qlen_lw3[j] += qLen_lw3_tmp[j]/(double)NUM_SERVER;
+			rtime_lw3[j] += rtime_lw3_tmp[j]/(double)NUM_SERVER;
+		}
 		// calcolo metriche disco
 		for(i=0; i<(NUM_SERVER*NUM_DISK); i++){
 			util_disk_tmp[j] += class_util(diskWS[i], requestClasses[j]);
@@ -134,10 +169,24 @@ void statistics(int iteration, int variant) {
 		fprintf(fd_file, "\nUtilizzazione LAN                       : \t");
 		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", utilizzazione_L2[j]/(NUM_ITERATIONS));
+		fprintf(fd_file, "\nUtilizzazione LS1                       :\t");
+		for(j=0; j<NUM_CLASSES; j++) 
+			fprintf(fd_file, "%.7f\t", utilizzazione_ls1[j]/(NUM_ITERATIONS));	
+		fprintf(fd_file, "\nUtilizzazione LS2                       :\t");
+		for(j=0; j<NUM_CLASSES; j++) 
+			fprintf(fd_file, "%.7f\t", utilizzazione_ls2[j]/(NUM_ITERATIONS));	
+		fprintf(fd_file, "\nUtilizzazione LW2                       :\t");
+		for(j=0; j<NUM_CLASSES; j++) 
+			fprintf(fd_file, "%.7f\t", utilizzazione_lw2[j]/(NUM_ITERATIONS));	
+			
 		if(variant == LINK_ADD) {
 			fprintf(fd_file, "\nUtilizzazione LINK_ADD                       :\t");
 			for(j=0; j<NUM_CLASSES; j++)
 				fprintf(fd_file, "%.7f\t", utilizzazione_link_add[j]/(NUM_ITERATIONS));
+			fprintf(fd_file, "\nUtilizzazione LW3                       :\t");
+		for(j=0; j<NUM_CLASSES; j++) 
+			fprintf(fd_file, "%.7f\t", utilizzazione_lw3[j]/(NUM_ITERATIONS));	
+			
 		}
 		fprintf(fd_file, "\n\nLunghezza coda cpu web server i-esimo : \t");
 		for(j=0; j<NUM_CLASSES; j++)
@@ -157,10 +206,22 @@ void statistics(int iteration, int variant) {
 		fprintf(fd_file, "\nLunghezza coda LAN                        : \t");
 		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", qlen_L2[j]/(NUM_ITERATIONS));
+		fprintf(fd_file, "\nLunghezza coda LS1                        : \t");
+		for(j=0; j<NUM_CLASSES; j++)
+			fprintf(fd_file, "%.7f\t", qlen_ls1[j]/(NUM_ITERATIONS));
+		fprintf(fd_file, "\nLunghezza coda LS2                        : \t");
+		for(j=0; j<NUM_CLASSES; j++)
+			fprintf(fd_file, "%.7f\t", qlen_ls2[j]/(NUM_ITERATIONS));
+		fprintf(fd_file, "\nLunghezza coda LW2                        : \t");
+		for(j=0; j<NUM_CLASSES; j++)
+			fprintf(fd_file, "%.7f\t", qlen_lw2[j]/(NUM_ITERATIONS));			
     if(variant == LINK_ADD) {
 			fprintf(fd_file, "\nLunghezza coda LINK_ADD                       : \t");
 			for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", qlen_link_add[j]/(NUM_ITERATIONS));
+			fprintf(fd_file, "\nLunghezza coda LW3                        : \t");
+		for(j=0; j<NUM_CLASSES; j++)
+			fprintf(fd_file, "%.7f\t", qlen_lw3[j]/(NUM_ITERATIONS));
 		}
 		fprintf(fd_file, "\n\nTempo medio di risposta cpu web server i-esimo: \t");
 		for(j=0; j<NUM_CLASSES; j++)
@@ -181,10 +242,25 @@ void statistics(int iteration, int variant) {
 		fprintf(fd_file, "\nTempo medio di risposta LAN                       : \t");
 		for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", rtime_L2[j]/(NUM_ITERATIONS));
+		fprintf(fd_file, "\nTempo medio di risposta LS1                       : \t");
+		for(j=0; j<NUM_CLASSES; j++)
+			fprintf(fd_file, "%.7f\t", rtime_ls1[j]/(NUM_ITERATIONS));
+    fprintf(fd_file, "\nTempo medio di risposta LS2                       : \t");
+		for(j=0; j<NUM_CLASSES; j++)
+			fprintf(fd_file, "%.7f\t", rtime_ls2[j]/(NUM_ITERATIONS));
+    fprintf(fd_file, "\nTempo medio di risposta LW2                       : \t");
+		for(j=0; j<NUM_CLASSES; j++)
+			fprintf(fd_file, "%.7f\t", rtime_lw2[j]/(NUM_ITERATIONS));
+    
+    
     if(variant == LINK_ADD) {
 			fprintf(fd_file, "\nTempo medio di risposta LINK_ADD                       : \t");
 			for(j=0; j<NUM_CLASSES; j++)
 			fprintf(fd_file, "%.7f\t", rtime_link_add[j]/(NUM_ITERATIONS));
+			fprintf(fd_file, "\nTempo medio di risposta LW3                       : \t");
+		for(j=0; j<NUM_CLASSES; j++)
+			fprintf(fd_file, "%.7f\t", rtime_lw3[j]/(NUM_ITERATIONS));
+    
 		}
 		fprintf(fd_file, "\n\n Tasso medio di arrivi (lambda)                        : %g\n", lambda_tmp/(NUM_ITERATIONS));
 
@@ -197,7 +273,7 @@ void sim(int argc, char **argv) {
 	printf("Starting simulation...\n");
 	int i=0;
 	int client_id;
-	int variante = RANDOM;
+	int variante = PROXY;
 	int reset;
 	char filename[25];
 	FILE *output;
@@ -234,20 +310,20 @@ void sim(int argc, char **argv) {
 		
 		// Inizializzazione delle facility
 		inLink = facility("inLink");
-		if(variante != LINK_ADD) {
-			outLink = facility("outLink");
-		}
-		//LS1 = facility("LS1");
+		outLink = facility("outLink");
+	
+
+		LS1 = facility("LS1");
+		LS2 = facility("LS2");
 		CPU_web_switch = facility("CPU_web_switch");
-		//LS2 = facility("LS2");
 		L2 = facility("L2");
-		//L_add_out = facility("Link-add");
-		//facility_set(LW2, "LW2", NUM_SERVER);
 		facility_set(cpuWS, "cpuWS", NUM_SERVER);
 		facility_set(diskWS, "diskWS", NUM_SERVER*NUM_DISK);
-		//facility_set(LW2_out, "LW2_out", NUM_SERVER);
+		facility_set(LW2, "LW2", NUM_SERVER);
+		
     if(variante == LINK_ADD) {
 		 link_add = facility("link_add");
+		 facility_set(LW3, "LW3", NUM_SERVER);
 		}
 		// Table initialization
 		rtime = table("System Response Time");
@@ -256,7 +332,7 @@ void sim(int argc, char **argv) {
 		className[0] = '\0';
 
 		WebServer = box("Web Server");
-
+		WebSwitch = box("Web Switch");
 		lambda = meter("Arrival Rate");
 
 		int j=0;

@@ -9,11 +9,15 @@
 extern FACILITY cpuWS[NUM_SERVER];
 extern FACILITY diskWS[NUM_DISK*NUM_SERVER];
 extern BOX WebServer;
+extern BOX WebSwitch;
 extern FACILITY L2;
 extern FACILITY CPU_web_switch;
 extern FACILITY inLink;
 extern FACILITY outLink;
 extern FACILITY link_add;
+extern FACILITY LS1;
+extern FACILITY LS2;
+extern FACILITY LW2[NUM_SERVER];
 extern TABLE rtime;
 extern METER lambda;
 extern CLASS requestClasses[K];
@@ -89,15 +93,17 @@ FILE * mov_avg_fd;
 	max_servers(MAX_SERVERS);
   inLink = facility("inLink");
 	outLink = facility("outLink");
+	LS1 = facility("LS1");
+	LS2 = facility("LS2");
 	CPU_web_switch = facility("CPU_web_switch");
 	L2 = facility("L2");
 	facility_set(cpuWS, "cpuWS", NUM_SERVER);
 	facility_set(diskWS, "diskWS", NUM_SERVER*NUM_DISK);
-	
+	facility_set(LW2, "LW2", NUM_SERVER);
 	resptime = table("System Response Time"); // table intialization
 	
 	char className[20];
-	
+	WebSwitch = box("Web Switch");
 	WebServer = box("Web Server");
 	
 	lambda = meter("Arrival Rate");

@@ -61,3 +61,13 @@ double D_WSDisk(double doc_size) {
 double D_linkAdd(double doc_size) {
 	return NetworkTime(doc_size, BANDWIDTH_LINKADD) + 2 * NetworkTime(0.0001, BANDWIDTH_LINKADD); 
 }
+
+double D_LS1in()
+{
+	return NetworkTime(AVG_SIZE_HTTP_REQ, LS1_TRANSFER_RATE) + 3*NetworkTime(0.0001, LS1_TRANSFER_RATE);
+}
+
+double D_LS1out(double doc_size) 
+{
+  return NetworkTime(doc_size, LS1_TRANSFER_RATE) + 2 * NetworkTime(0.0001, LS1_TRANSFER_RATE); 
+}

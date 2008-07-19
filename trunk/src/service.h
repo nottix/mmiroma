@@ -27,6 +27,7 @@
 #define AVG_SIZE_HTTP_REQ 290 
 #define INLINK_BANDWIDTH 45 //prova
 #define OUTLINK_BANDWIDTH 1000 //come sopra
+#define LS1_TRANSFER_RATE 1000 
 
 //Divide il numero di Byte m in ingresso in datagrammi
 int NDatagrams(double m);
@@ -55,5 +56,10 @@ double D_Cpu(double speed);
 double D_WSDisk(double doc_size);
 
 double D_linkAdd(double doc_size);
+
+double D_LS1in();
+
+
+double D_LS1out(double doc_size);
 
 #endif

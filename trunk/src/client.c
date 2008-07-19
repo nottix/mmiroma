@@ -13,10 +13,16 @@ double sigma_emb = 1.46;
 extern FACILITY cpuWS[NUM_SERVER];
 extern FACILITY diskWS[NUM_DISK*NUM_SERVER];
 extern BOX WebServer;
+extern BOX WebSwitch;
 extern FACILITY L2;
 extern FACILITY CPU_web_switch;
 extern FACILITY inLink;
 extern FACILITY outLink;
+extern FACILITY link_add;
+extern FACILITY LS1;
+extern FACILITY LS2;
+extern FACILITY LW2[NUM_SERVER];
+extern FACILITY LW3[NUM_SERVER];
 extern TABLE rtime;
 extern METER lambda;
 extern CLASS requestClasses[K];
@@ -43,13 +49,13 @@ int get_least_loaded()
 	for(i=0; i < NUM_DISK; i++) 
 		disk_qlen += qlength(diskWS[i]);
 
-	server_qlen = qlength(cpuWS[0])+disk_qlen;
+	server_qlen = qlength(cpuWS[0])+disk_qlen+qlength(LW2[0]);
 	for(i=1; i<NUM_SERVER; i++) {
 		disk_qlen = 0.0;
 		for(j=0; j < NUM_DISK; j++) {
 			disk_qlen += qlength(diskWS[j+i*NUM_DISK]); //i*NUM_DISK perchè per ogni server ci sono NUM_DISK dischi
 		}
-		qlen_tmp = disk_qlen+qlength(cpuWS[i]);
+		qlen_tmp = disk_qlen+qlength(cpuWS[i])+qlength(LW2[i]);
 		if(server_qlen > qlen_tmp) {
 			server_qlen = qlen_tmp;
 			index = i;
@@ -63,16 +69,21 @@ int web_client(double doc_size, int variant, int bool_transient, int iter)
 {
 	double startTime;
 	double server_start_time = 0.0;
+	double switch_start_time = 0.0;
 	int tmp_server;
 	startTime = simtime();
 	int tmp_disk = 0;
 	//vedi pag. 131 user guide
 	note_passage(lambda);
 	use(inLink, D_InLink());
-
+	
+	switch_start_time = enter_box(WebSwitch);
+	use(LS1, D_LS1in()); //utilizzato la domanda di inlink perchè la banda è la stessa
 	use(CPU_web_switch, D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE)); //cpu_web_switch_speed è ancora da modellare
-
-	use(L2, D_LAN(doc_size));
+  use(LS2, D_LAN(0)); //stessa banda della LAN, in richiesta il doc_size è 0
+  exit_box(WebSwitch, switch_start_time);
+  
+	use(L2, D_LAN(0 /*doc_size*/));
 
 	// implementare qui random, round robin e least_loaded
 	/* random */
@@ -89,23 +100,32 @@ int web_client(double doc_size, int variant, int bool_transient, int iter)
 	}
 
 	server_start_time = enter_box(WebServer);
+	use(LW2[tmp_server], D_LAN(0));
 	use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE));
-
+	
 
 	//implementare qui quale disco selezionare per ora round robin
 	tmp_disk = currentDisk[tmp_server];
 	currentDisk[tmp_server] = (tmp_disk+1)%NUM_DISK;
 	use(diskWS[tmp_server*NUM_DISK + tmp_disk], D_WSDisk(doc_size));
 	use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE));
-	exit_box(WebServer, server_start_time);
 	if(variant != LINK_ADD) {
+		use(LW2[tmp_server], D_LAN(doc_size));
+	}
+	else {
+		use(LW3[tmp_server], D_linkAdd(doc_size));
+	}		
+	exit_box(WebServer, server_start_time);
+	if(variant == LINK_ADD) {
+		use(link_add, D_linkAdd(doc_size));
+	}		  
+	else {
 		use(L2, D_LAN(doc_size)); 
 		use(CPU_web_switch, D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE));
+		use(LS1, D_LS1out(doc_size));
 		use(outLink, D_OutLink(doc_size));
 	}	
-	else {
-	  use(link_add, D_linkAdd(doc_size));
-	}		
+	
 	client_response_time = simtime()-startTime;
 	
 	tabulate(rtime, simtime()-startTime);
