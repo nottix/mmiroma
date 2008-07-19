@@ -44,6 +44,7 @@ int	WELCH_N = 0,
 
 char * output_file_name;
 
+//Parsa i parametri passati da linea di comando
 void parse_command_line(int argc, char *argv[]){
 
 	if(argc != 5){
@@ -67,6 +68,7 @@ void parse_command_line(int argc, char *argv[]){
 	
 }
 
+//Simulazione del transiente
 void sim(int argc, char *argv[]){
 
 int clientID=0,
@@ -78,7 +80,6 @@ int clientID=0,
 	 parse_command_line(argc, argv);
 	 
 double intT,
-		// **sample_matrix,
 		 *averaged_process,
 		 sum=0.0,
 		 *moving_average;
@@ -142,7 +143,7 @@ FILE * mov_avg_fd;
 	for(i=0; i<WELCH_N; i++){
 		observations[i] = (double*)malloc(WELCH_M * sizeof(double));
 	}
-	//fin qui OK
+
 	
 	//PASSO 1: vengono effettuate WELCH_N repliche di lunghezza WELCH_M ognuna. I risultati
 	//			  sono inseriti nella matrice sample_matrix.
@@ -155,8 +156,7 @@ FILE * mov_avg_fd;
 	printf("n_repl =%d, m_repl =%d\n", n_repl, m_repl);
 	while(n_repl < WELCH_N){
 	observed_sample = 1;
-	//m_repl=0;
-		while(/*m_repl*/ observed_sample < WELCH_M){
+		while(observed_sample < WELCH_M){
 
 			intT=exponential(1/(double)(ARRIVAL));
 			hold(intT);		//think time
