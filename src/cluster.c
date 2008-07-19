@@ -27,6 +27,7 @@ extern STREAM html_1;
 extern STREAM html_2;
 extern STREAM obj_size;
 
+//Algoritmo di clustering K-Means
 void cluster(double *array, int array_length, int k)
 {
 	int i= 0;
@@ -54,7 +55,7 @@ void cluster(double *array, int array_length, int k)
 	printf("centroide min %lf\n", centroids[0]);
 	centroids[k-1] = max;
 	printf("centroide max %lf\n", centroids[2]);
-	//calcolo degli altri centroidi in caso k>2 (forse da rivedere la formula)
+	//calcolo degli altri centroidi in caso k>2
 	if(k>2) {
 		for(i=1; i < k-1; i++) {
 			centroids[i] = (max-min)/(k-1) * i;
@@ -92,10 +93,11 @@ void cluster(double *array, int array_length, int k)
 
 			centroids[i] = total_data_per_cluster[i] / ((double)num_data_per_cluster[i]); 
 			printf("centroide: %lf - tot_dati: %d\t", centroids[i], num_data_per_cluster[i]);
-			if( fabs(centroids[i]-old_centroids[i]) < pow(10,-10) ) {  //valore epsilon = 10^-15
+			if( fabs(centroids[i]-old_centroids[i]) < pow(10,-10) ) {  //valore epsilon = 10^-10
 				converged++;
 			}
 		}
+		//controllo se l'algoritmo converge
 		if(converged == k) {
 			iter = 1;
 		}
@@ -106,9 +108,10 @@ void cluster(double *array, int array_length, int k)
 }
 
 
-
+//Simulazione per la generazione dei cluster di documenti. 
 void sim(int argc, char **argv)
 {
+	//creazione e reseeding degli stream
 	sess_req_1 = create_stream();
 	reseed(sess_req_1, SEED);
 	sess_req_2 = create_stream();
@@ -132,6 +135,7 @@ void sim(int argc, char **argv)
 	int i=0;
 	int j=0;
 	int k=0;
+	//generazione delle sessioni e delle relative richieste
 	while(i<array_length) {
 		session = session_request(mu_session, lambda_session);
 		for(j=0; j < session; j++) {
@@ -147,6 +151,7 @@ void sim(int argc, char **argv)
 			}
 		}
 	}
+	//clustering dei documenti
 	cluster(array,array_length,3);
 
 	int m=0;

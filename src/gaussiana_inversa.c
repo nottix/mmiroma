@@ -1,5 +1,6 @@
 #include "gaussiana_inversa.h"
 
+//dichiarazione degli stream
 STREAM sess_req_1;
 STREAM sess_req_2;
 STREAM user_tt;
@@ -9,18 +10,21 @@ STREAM html_2;
 STREAM obj_size;
 STREAM p_hit_proxy;
 
+//calcolo della media per una distribuzione lognormale
 double calc_mean_lognormal(double mu, double sigma) 
 {
 	double sum = mu+(pow(sigma,2)/2);
 	return exp(sum);
 }
 
+//calcolo della deviazione standard per una distribuzione lognormale
 double calc_stddev_lognormal(double mu, double sigma)
 {
 	double sum = (exp(pow(sigma,2))-1)*exp(2*mu+pow(sigma,2));
 	return sqrt(sum);
 }
 
+//algoritmo di Michael/Schucany/Haas per la generazione di valori tramite la gaussiana inversa
 int session_request(double mu, double lambda)   //dimensionare come un intero???
 {
 	int x; 
@@ -39,6 +43,7 @@ int session_request(double mu, double lambda)   //dimensionare come un intero???
 	return x;
 }
 
+//generazione di valori per il think time dell'utente (Pareto)
 double user_think_time(double alfa)
 {
 	double x = 0.0;
@@ -48,6 +53,7 @@ double user_think_time(double alfa)
 	return x;
 }
 
+//generazione del numero di oggetti per richiesta (Pareto)
 int object_per_request(double alfa)
 {
 	int x = 0;
@@ -57,6 +63,7 @@ int object_per_request(double alfa)
 	return x;
 }
 
+//generazione della dimensione della pagina html (Pareto e Lognormale)
 double html_page_size(double mu, double sigma, double alfa)
 {
 	double x = 0.0;
@@ -73,6 +80,7 @@ double html_page_size(double mu, double sigma, double alfa)
 	return x;
 }
 
+//generazione della dimensione degli embedded object (Lognormale)
 double embedded_object_size(double mu, double sigma) 
 {
 	double x = 0.0;

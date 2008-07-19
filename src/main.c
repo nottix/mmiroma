@@ -48,12 +48,13 @@ qlen_cpu_web_server[NUM_CLASSES], qlen_disk[NUM_CLASSES], qlen_link_add[NUM_CLAS
 double rtime_L2[NUM_CLASSES], rtime_inLink[NUM_CLASSES], rtime_outLink[NUM_CLASSES], rtime_cpu_web_switch[NUM_CLASSES], 
 rtime_cpu_web_server[NUM_CLASSES], rtime_disk[NUM_CLASSES], rtime_link_add[NUM_CLASSES], rtime_ls1[NUM_CLASSES], rtime_ls2[NUM_CLASSES], rtime_lw2[NUM_CLASSES], rtime_lw3[NUM_CLASSES];
 
+//Calcolo delle statistiche per ogni componente: utilizzazione, lunghezza delle code e tempo di risposta
 void statistics(int iteration, int variant) {
 	lambda_tmp += meter_rate(lambda);
 	int i = 0;
 	int j = 0;
 
-	// per ogni classe colleziono le statistiche della LAN, dell'inlink, dell'outlink e della cpu del web switch
+
 	for(; i<NUM_CLASSES; i++) { 		
 		utilizzazione_L2[i] += class_util(L2, requestClasses[i]);
 		qlen_L2[i] += class_qlen(L2, requestClasses[i]);
@@ -149,6 +150,7 @@ void statistics(int iteration, int variant) {
 	FILE *fd_file;
 	char *pathname = "util_qlen_rtime";
 	
+	//Stampa dei risultati su file
 	if(iteration==NUM_ITERATIONS-1) {
 		fd_file = fopen(pathname, "w");
 		fprintf(fd_file, "\n\nUtilizzazione cpu web server i-esimo: \t");
@@ -269,6 +271,7 @@ void statistics(int iteration, int variant) {
 }
 
 //trovare un modo elegante di passare la variante, per ora passo RANDOM
+//Simulazione dell'intero modello.
 void sim(int argc, char **argv) {
 	printf("Starting simulation...\n");
 	int i=0;

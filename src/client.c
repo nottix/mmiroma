@@ -37,7 +37,8 @@ int observed_sample;
 int maxObservation;
 
 double client_response_time;
-//! Ritorna l'indice del server meno utilizzato (serve per la least loaded)
+
+// Ritorna l'indice del server meno utilizzato (serve per la least loaded)
 int get_least_loaded() 
 {
 	int i=0;
@@ -65,6 +66,7 @@ int get_least_loaded()
 	return index;
 }
 
+//Gestisce l'intero flusso richiesta-risposta
 int web_client(double doc_size, int variant, int bool_transient, int iter)
 {
 	double startTime;
@@ -85,7 +87,7 @@ int web_client(double doc_size, int variant, int bool_transient, int iter)
   
 	use(L2, D_LAN(0 /*doc_size*/));
 
-	// implementare qui random, round robin e least_loaded
+
 	/* random */
 	if(variant == RANDOM || variant == LINK_ADD || variant == PROXY) {
 		tmp_server = current_server;
@@ -95,6 +97,7 @@ int web_client(double doc_size, int variant, int bool_transient, int iter)
 		tmp_server = current_server;
 		current_server = (tmp_server+1)%NUM_SERVER;
 	}
+	// least loaded
 	else if (variant == LEAST_LOADED) {
 		tmp_server = get_least_loaded();
 	}
@@ -104,7 +107,7 @@ int web_client(double doc_size, int variant, int bool_transient, int iter)
 	use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE));
 	
 
-	//implementare qui quale disco selezionare per ora round robin
+	//selezione del disco round robin
 	tmp_disk = currentDisk[tmp_server];
 	currentDisk[tmp_server] = (tmp_disk+1)%NUM_DISK;
 	use(diskWS[tmp_server*NUM_DISK + tmp_disk], D_WSDisk(doc_size));
@@ -131,7 +134,7 @@ int web_client(double doc_size, int variant, int bool_transient, int iter)
 	tabulate(rtime, simtime()-startTime);
 	num_osservazioni++;
 
-
+	//utilizzato per il transiente per tener conto del numero di osservazioni
 	if(bool_transient == 1 && observed_sample<=maxObservation){
 		observations[iter][observed_sample] = simtime()-startTime;
 		observed_sample++;
@@ -140,9 +143,10 @@ int web_client(double doc_size, int variant, int bool_transient, int iter)
 	return 0;
 }
 
+//Generazione di una sessione e delle relative richieste 
 void web_session(int cli_id, int variant, int bool_transient, int iter)
 {
-	char *prova = (char*)malloc(64); //il nome del processo, dovrebbe essere univoco sulla base dell'id
+	char *prova = (char*)malloc(64); //il nome del processo
 	sprintf(prova,"%d",cli_id);
 	create(prova);
 	double html_page, emb_obj_size;
@@ -178,6 +182,7 @@ void web_session(int cli_id, int variant, int bool_transient, int iter)
 	csim_terminate();
 }
 
+//assegna una classe ad un documento, sulla base delle distanze da i centroidi
 int get_doc_class(double doc_size)
 {
 	double distance[K];
