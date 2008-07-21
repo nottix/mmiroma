@@ -225,7 +225,7 @@ FILE * mov_avg_fd;
 	
 	for(i = 1; i <= (WELCH_M - WELCH_W); i++)
 		
-		fprintf(mov_avg_fd, "%g\n", moving_average[i]);
+		fprintf(mov_avg_fd, "%g %d\n", moving_average[i], i);
 	
 	
 	fclose(mov_avg_fd);	

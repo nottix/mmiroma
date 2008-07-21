@@ -49,7 +49,12 @@ double D_OutLink(double docSize) {
 .* Il fattore moltiplicativo 1024 è commentato perchè le richieste sono già espressi in byte
  */
 double D_LAN(double docSize) {
-	return NetworkTime(AVG_SIZE_HTTP_REQ, BANDWIDTH_L2) + NetworkTime(/*1024 **/ docSize, BANDWIDTH_L2);
+	if(docSize == 0) {
+		return NetworkTime(AVG_SIZE_HTTP_REQ, BANDWIDTH_L2);
+	}
+
+	return NetworkTime(/*1024 **/ docSize, BANDWIDTH_L2);
+	
 }
 
 // Calcola la domanda di servizio sottomessa ad una CPU (sia Web Switch che web server) (sec), 
