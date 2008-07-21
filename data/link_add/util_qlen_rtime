@@ -1,0 +1,39 @@
+
+
+Utilizzazione cpu web server i-esimo: 	0.6675424	0.0000002	0.0000002	
+Utilizzazione disco i-esimo              : 	0.2889666	0.0000000	0.0000000	
+Utilizzazione inLink     : 	0.3071744	0.0000001	0.0000002	
+Utilizzazione outLink     : 	0.0000000	0.0000000	0.0000000	
+Utilizzazione cpu web switch            : 	0.3484280	0.0000002	0.0000002	
+Utilizzazione LAN                       : 	0.0089992	0.0000000	0.0000000	
+Utilizzazione LS1                       :	0.0138228	0.0000000	0.0000000	
+Utilizzazione LS2                       :	0.0089992	0.0000000	0.0000000	
+Utilizzazione LW2                       :	0.0001364	0.0000000	0.0000000	
+Utilizzazione LINK_ADD                       :	0.4449257	0.0000000	0.0000000	
+Utilizzazione LW3                       :	0.0067413	0.0000000	0.0000000	
+
+Lunghezza coda cpu web server i-esimo : 	1.5040370	0.0000005	0.0000007	
+Lunghezza coda disco i-esimo              : 	1.6973230	0.0000060	0.0000000	
+Lunghezza coda inLink      : 	0.4664123	0.0000002	0.0000002	
+Lunghezza coda outLink       : 	0.0000000	0.0000000	0.0000000	
+Lunghezza coda cpu web switch             : 	0.4110552	0.0000002	0.0000002	
+Lunghezza coda LAN                        : 	0.0089992	0.0000000	0.0000000	
+Lunghezza coda LS1                        : 	0.0138228	0.0000000	0.0000000	
+Lunghezza coda LS2                        : 	0.0089992	0.0000000	0.0000000	
+Lunghezza coda LW2                        : 	0.0001364	0.0000000	0.0000000	
+Lunghezza coda LINK_ADD                       : 	3.2110055	0.0000000	0.0000000	
+Lunghezza coda LW3                        : 	0.0070295	0.0000000	0.0000000	
+
+Tempo medio di risposta cpu web server i-esimo: 	0.0149968	0.0000659	0.0000813	
+Tempo medio di risposta disco i-esimo             : 	3.4561668	0.0000000	0.0000000	
+Tempo medio di risposta inLink     : 	0.0001409	0.0000198	0.0000186	
+Tempo medio di risposta link internet uscita      : 	0.0000000	0.0000000	0.0000000	
+Tempo medio di risposta cpu web switch            : 	0.0001242	0.0000252	0.0000211	
+Tempo medio di risposta LAN                       : 	0.0000027	0.0000005	0.0000005	
+Tempo medio di risposta LS1                       : 	0.0000042	0.0000008	0.0000008	
+Tempo medio di risposta LS2                       : 	0.0000027	0.0000005	0.0000005	
+Tempo medio di risposta LW2                       : 	0.0000027	0.0000000	0.0000000	
+Tempo medio di risposta LINK_ADD                       : 	0.0009744	0.0000000	0.0000000	
+Tempo medio di risposta LW3                       : 	0.0001407	0.0000000	0.0000000	
+
+ Tasso medio di arrivi (lambda)                        : 3310.08
