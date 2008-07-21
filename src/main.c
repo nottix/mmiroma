@@ -276,7 +276,7 @@ void sim(int argc, char **argv) {
 	printf("Starting simulation...\n");
 	int i=0;
 	int client_id;
-	int variante = PROXY;
+	int variante = LINK_ADD;
 	int reset;
 	char filename[25];
 	FILE *output;
