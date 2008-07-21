@@ -1,311 +1,311 @@
 calcolo indici locali variante standard
 
 utilizzazioni classe 0
-L2: 0.283065486
-inLink: 0.303107095
-outLink: 0.283796924
-cpu web switch: 0.687629130
-cpu web server: 0.659846135
-disco web server: 0.318882522
-LS1: 0.297436744
-LS2: 0.283065486
-LW2: 0.004288871
+L2: 0.278014984
+inLink: 0.307340631
+outLink: 0.287760753
+cpu web switch: 0.697233336
+cpu web server: 0.669062292
+disco web server: 0.323336396
+LS1: 0.301591081
+LS2: 0.278014984
+LW2: 0.004212348
 
 utilizzazioni classe 1
-L2: 0.002966339
-inLink: 0.000000121
-outLink: 0.003037528
-cpu web switch: 0.000000275
-cpu web server: 0.000000264
-disco web server: 0.002901450
-LS1: 0.003037534
-LS2: 0.002966339
-LW2: 0.000044945
+L2: 0.003007766
+inLink: 0.000000123
+outLink: 0.003079954
+cpu web switch: 0.000000279
+cpu web server: 0.000000268
+disco web server: 0.002941975
+LS1: 0.003079959
+LS2: 0.003007766
+LW2: 0.000045572
 
 utilizzazioni classe 2
-L2: 0.001899179
-inLink: 0.000000030
-outLink: 0.001944759
-cpu web switch: 0.000000069
-cpu web server: 0.000000066
-disco web server: 0.001857630
-LS1: 0.001944760
-LS2: 0.001899179
-LW2: 0.000028775
+L2: 0.001925704
+inLink: 0.000000031
+outLink: 0.001971921
+cpu web switch: 0.000000070
+cpu web server: 0.000000067
+disco web server: 0.001883576
+LS1: 0.001971923
+LS2: 0.001925704
+LW2: 0.000029177
 
 lunghezze code classe 0
-L2: 0.394827534
-inLink: 0.434940709
-outLink: 0.396252033
-cpu web switch: 2.201322836
-cpu web server: 1.939846058
-disco web server: 0.468175509
-LS1: 0.423359379
-LS2: 0.394827534
-LW2: 0.004307345
+L2: 0.385070296
+inLink: 0.443711072
+outLink: 0.404022601
+cpu web switch: 2.302873525
+cpu web server: 2.021716701
+disco web server: 0.477839200
+LS1: 0.431825931
+LS2: 0.385070296
+LW2: 0.004230167
 
 lunghezze code classe 1
-L2: 0.002975164
-inLink: 0.000000121
-outLink: 0.003046783
-cpu web switch: 0.000000275
-cpu web server: 0.000000264
-disco web server: 0.002909893
-LS1: 0.003046789
-LS2: 0.002975164
-LW2: 0.000044947
+L2: 0.003016840
+inLink: 0.000000123
+outLink: 0.003089469
+cpu web switch: 0.000000279
+cpu web server: 0.000000268
+disco web server: 0.002950655
+LS1: 0.003089475
+LS2: 0.003016840
+LW2: 0.000045574
 
 lunghezze code classe 2
-L2: 0.001902793
-inLink: 0.000000030
-outLink: 0.001948548
-cpu web switch: 0.000000069
-cpu web server: 0.000000066
-disco web server: 0.001861087
-LS1: 0.001948549
-LS2: 0.001902793
-LW2: 0.000028776
+L2: 0.001929420
+inLink: 0.000000031
+outLink: 0.001975817
+cpu web switch: 0.000000070
+cpu web server: 0.000000067
+disco web server: 0.001887130
+LS1: 0.001975819
+LS2: 0.001929420
+LW2: 0.000029178
 
 tempi di residenza 0
-L2: 0.000120881
-inLink: 0.000133163
-outLink: 0.000121318
-cpu web switch: 0.000673963
-cpu web server: 0.039197947
-disco web server: 0.113523559
-LS1: 0.000129617
-LS2: 0.000120881
-LS2: 0.000087037
+L2: 0.000116270
+inLink: 0.000133976
+outLink: 0.000121993
+cpu web switch: 0.000695342
+cpu web server: 0.040289556
+disco web server: 0.114270783
+LS1: 0.000130388
+LS2: 0.000116270
+LS2: 0.000084300
 
 tempi di residenza 1
-L2: 2.277208691
+L2: 2.277300588
 inLink: 0.000092800
-outLink: 2.332026348
+outLink: 2.332125591
 cpu web switch: 0.000210526
 cpu web server: 0.013333337
-disco web server: 1763.981655476
-LS1: 2.332030550
-LS2: 2.277208691
-LS2: 2.270555768
+disco web server: 1764.053351632
+LS1: 2.332129793
+LS2: 2.277300588
+LS2: 2.270554474
 
 tempi di residenza 2
-L2: 5.825636442
+L2: 5.825788542
 inLink: 0.000092800
-outLink: 5.965722290
+outLink: 5.965884655
 cpu web switch: 0.000210526
 cpu web server: 0.013333334
-disco web server: 4512.775892797
-LS1: 5.965726482
-LS2: 5.825636442
-LS2: 5.814739837
+disco web server: 4512.893201146
+LS1: 5.965888848
+LS2: 5.825788542
+LS2: 5.814739455
 
 calcolo indici locali con link addizionale
 
 utilizzazioni classe 0
-L2: 0.008880086
-inLink: 0.303107095
-cpu web switch: 0.343814565
-cpu web server: 0.659846135
-disco web server: 0.318882522
-linkAdd: 0.456265152
-LS1: 0.013639819
-LS2: 0.008880086
-LW2: 0.000134547
-LW3: 0.006913108
+L2: 0.009004115
+inLink: 0.307340631
+cpu web switch: 0.348616668
+cpu web server: 0.669062292
+disco web server: 0.323336396
+linkAdd: 0.462637867
+LS1: 0.013830328
+LS2: 0.009004115
+LW2: 0.000136426
+LW3: 0.007009665
 
 utilizzazioni classe 1
 L2: 0.000000004
-inLink: 0.000000121
-cpu web switch: 0.000000138
-cpu web server: 0.000000264
-disco web server: 0.002901450
-linkAdd: 0.004883486
-LS1: 0.000000005
+inLink: 0.000000123
+cpu web switch: 0.000000139
+cpu web server: 0.000000268
+disco web server: 0.002941975
+linkAdd: 0.004951694
+LS1: 0.000000006
 LS2: 0.000000004
 LW2: 0.000000000
-LW3: 0.000073992
+LW3: 0.000075026
 
 utilizzazioni classe 2
 L2: 0.000000001
-inLink: 0.000000030
-cpu web switch: 0.000000034
-cpu web server: 0.000000066
-disco web server: 0.001857630
-linkAdd: 0.003126622
+inLink: 0.000000031
+cpu web switch: 0.000000035
+cpu web server: 0.000000067
+disco web server: 0.001883576
+linkAdd: 0.003170292
 LS1: 0.000000001
 LS2: 0.000000001
 LW2: 0.000000000
-LW3: 0.000047373
+LW3: 0.000048035
 
 lunghezze code classe 0
-L2: 0.008959648
-inLink: 0.434940709
-cpu web switch: 0.523959458
-cpu web server: 1.939846058
-disco web server: 0.468175509
-linkAdd: 0.839131708
-LS1: 0.013828437
-LS2: 0.008959648
-LW2: 0.000134565
-LW3: 0.006961232
+L2: 0.009085926
+inLink: 0.443711072
+cpu web switch: 0.535194333
+cpu web server: 2.021716701
+disco web server: 0.477839200
+linkAdd: 0.860942441
+LS1: 0.014024289
+LS2: 0.009085926
+LW2: 0.000136445
+LW3: 0.007059147
 
 lunghezze code classe 1
 L2: 0.000000004
-inLink: 0.000000121
-cpu web switch: 0.000000138
-cpu web server: 0.000000264
-disco web server: 0.002909893
-linkAdd: 0.004907452
-LS1: 0.000000005
+inLink: 0.000000123
+cpu web switch: 0.000000139
+cpu web server: 0.000000268
+disco web server: 0.002950655
+linkAdd: 0.004976336
+LS1: 0.000000006
 LS2: 0.000000004
 LW2: 0.000000000
-LW3: 0.000073998
+LW3: 0.000075031
 
 lunghezze code classe 2
 L2: 0.000000001
-inLink: 0.000000030
-cpu web switch: 0.000000034
-cpu web server: 0.000000066
-disco web server: 0.001861087
-linkAdd: 0.003136428
+inLink: 0.000000031
+cpu web switch: 0.000000035
+cpu web server: 0.000000067
+disco web server: 0.001887130
+linkAdd: 0.003180374
 LS1: 0.000000001
 LS2: 0.000000001
 LW2: 0.000000000
-LW3: 0.000047375
+LW3: 0.000048037
 
 tempi di residenza 0
 L2: 0.000002743
-inLink: 0.000133163
-cpu web switch: 0.000320834
-cpu web server: 0.039197947
-disco web server: 0.113523559
-linkAdd: 0.000256911
-LS1: 0.000004234
+inLink: 0.000133976
+cpu web switch: 0.000323199
+cpu web server: 0.040289556
+disco web server: 0.114270783
+linkAdd: 0.000259958
+LS1: 0.000004235
 LS2: 0.000002743
 LW2: 0.000002719
-LW3: 0.000140664
+LW3: 0.000140677
 
 tempi di residenza 1
 L2: 0.000002719
 inLink: 0.000092800
 cpu web switch: 0.000210526
 cpu web server: 0.013333337
-disco web server: 1763.981655476
-linkAdd: 3.756193402
+disco web server: 1764.053351632
+linkAdd: 3.756450881
 LS1: 0.000004176
 LS2: 0.000002719
 LW2: 0.000002719
-LW3: 3.738126676
+LW3: 3.738130539
 
 tempi di residenza 2
 L2: 0.000002719
 inLink: 0.000092800
 cpu web switch: 0.000210526
 cpu web server: 0.013333334
-disco web server: 4512.775892797
-linkAdd: 9.602564421
+disco web server: 4512.893201146
+linkAdd: 9.602985098
 LS1: 0.000004176
 LS2: 0.000002719
 LW2: 0.000002719
-LW3: 9.572994338
+LW3: 9.573000672
 
 calcolo indici locali con proxy
 
 utilizzazioni classe 0
-L2: 0.169839292
-inLink: 0.181864257
-outLink: 0.170278155
-cpu web switch: 0.412577478
-cpu web server: 0.395907681
-disco web server: 0.191329513
-LS1: 0.178462046
-LS2: 0.169839292
-LW2: 0.002573323
+L2: 0.166808990
+inLink: 0.184404379
+outLink: 0.172656452
+cpu web switch: 0.418340001
+cpu web server: 0.401437375
+disco web server: 0.194001837
+LS1: 0.180954649
+LS2: 0.166808990
+LW2: 0.002527409
 
 utilizzazioni classe 1
-L2: 0.001779803
-inLink: 0.000000073
-outLink: 0.001822517
-cpu web switch: 0.000000165
-cpu web server: 0.000000158
-disco web server: 0.001740870
-LS1: 0.001822520
-LS2: 0.001779803
-LW2: 0.000026967
+L2: 0.001804660
+inLink: 0.000000074
+outLink: 0.001847972
+cpu web switch: 0.000000167
+cpu web server: 0.000000161
+disco web server: 0.001765185
+LS1: 0.001847976
+LS2: 0.001804660
+LW2: 0.000027343
 
 utilizzazioni classe 2
-L2: 0.001139507
+L2: 0.001155422
 inLink: 0.000000018
-outLink: 0.001166855
-cpu web switch: 0.000000041
+outLink: 0.001183153
+cpu web switch: 0.000000042
 cpu web server: 0.000000040
-disco web server: 0.001114578
-LS1: 0.001166856
-LS2: 0.001139507
-LW2: 0.000017265
+disco web server: 0.001130145
+LS1: 0.001183154
+LS2: 0.001155422
+LW2: 0.000017506
 
 lunghezze code classe 0
-L2: 0.204586040
-inLink: 0.222291054
-outLink: 0.205223179
-cpu web switch: 0.702352161
-cpu web server: 0.655376121
-disco web server: 0.236597621
-LS1: 0.217229217
-LS2: 0.204586040
-LW2: 0.002579962
+L2: 0.200204981
+inLink: 0.226097804
+outLink: 0.208687736
+cpu web switch: 0.719217416
+cpu web server: 0.670668963
+disco web server: 0.240697617
+LS1: 0.220933613
+LS2: 0.200204981
+LW2: 0.002533813
 
 lunghezze code classe 1
-L2: 0.001782977
-inLink: 0.000000073
-outLink: 0.001825845
-cpu web switch: 0.000000165
-cpu web server: 0.000000158
-disco web server: 0.001743906
-LS1: 0.001825848
-LS2: 0.001782977
-LW2: 0.000026967
+L2: 0.001807922
+inLink: 0.000000074
+outLink: 0.001851394
+cpu web switch: 0.000000167
+cpu web server: 0.000000161
+disco web server: 0.001768306
+LS1: 0.001851397
+LS2: 0.001807922
+LW2: 0.000027344
 
 lunghezze code classe 2
-L2: 0.001140807
+L2: 0.001156759
 inLink: 0.000000018
-outLink: 0.001168218
-cpu web switch: 0.000000041
+outLink: 0.001184554
+cpu web switch: 0.000000042
 cpu web server: 0.000000040
-disco web server: 0.001115822
-LS1: 0.001168219
-LS2: 0.001140807
-LW2: 0.000017266
+disco web server: 0.001131424
+LS1: 0.001184555
+LS2: 0.001156759
+LW2: 0.000017507
 
 tempi di residenza 0
-L2: 0.000104394
-inLink: 0.000113429
-outLink: 0.000104719
-cpu web switch: 0.000358390
-cpu web server: 0.022071682
-disco web server: 0.095617289
-LS1: 0.000110846
-LS2: 0.000104394
-LS2: 0.000086888
+L2: 0.000100752
+inLink: 0.000113782
+outLink: 0.000105020
+cpu web switch: 0.000361941
+cpu web server: 0.022275586
+disco web server: 0.095934313
+LS1: 0.000111183
+LS2: 0.000100752
+LS2: 0.000084158
 
 tempi di residenza 1
-L2: 2.274501885
+L2: 2.274555799
 inLink: 0.000092800
-outLink: 2.329187736
+outLink: 2.329247136
 cpu web switch: 0.000210526
 cpu web server: 0.013333335
-disco web server: 1761.930843633
-LS1: 2.329191928
-LS2: 2.274501885
-LS2: 2.270514947
+disco web server: 1761.973760661
+LS1: 2.329251328
+LS2: 2.274555799
+LS2: 2.270513083
 
 tempi di residenza 2
-L2: 5.821205823
+L2: 5.821295853
 inLink: 0.000092800
-outLink: 5.961076112
+outLink: 5.961173379
 cpu web switch: 0.000210526
 cpu web server: 0.013333334
-disco web server: 4509.418924401
-LS1: 5.961080298
-LS2: 5.821205823
-LS2: 5.814672907
+disco web server: 4509.489204001
+LS1: 5.961177565
+LS2: 5.821295853
+LS2: 5.814671591

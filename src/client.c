@@ -85,7 +85,7 @@ int web_client(double doc_size, int variant, int bool_transient, int iter)
   use(LS2, D_LAN(0)); //stessa banda della LAN, in richiesta il doc_size è 0
   exit_box(WebSwitch, switch_start_time);
   
-	use(L2, D_LAN(0 /*doc_size*/));
+	use(L2, D_LAN(0));
 
 
 	/* random */

@@ -7,7 +7,7 @@
 #include <stdarg.h>
 #include "common.h"
 #include "service.h"
-#define LAMBDA_SIM 3266.24 //prova
+#define LAMBDA_SIM 3311.86 //prova
 #define NUM_OBS 10000000
 
 //Calcola la lunghezza della coda
