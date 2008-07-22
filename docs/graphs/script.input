@@ -1,4 +1,4 @@
-set terminal post eps enhanced color solid "Times-Roman" 35
+set terminal post eps enhanced color solid "Times-Roman" 20
 set border 4095 lw 3
 set contour base
 load "aux.gnu"
