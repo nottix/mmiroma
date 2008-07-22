@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 	//calcolo utilizzazioni
 	for(i=0; i < NUM_CLASSES; i++) {
 		fprintf(fd_file, "\nutilizzazioni classe %d\n",i);
-		utilizzazione_L2[i] = lambda[i]*D_LAN(doc_size[i]);
+		utilizzazione_L2[i] = lambda[i]*(D_LAN(doc_size[i])+D_LAN(0));
 		fprintf(fd_file, "L2: %9.9f\n", utilizzazione_L2[i]);
 
 		utilizzazione_inLink[i] = lambda[i]*D_InLink();
@@ -76,9 +76,9 @@ int main(int argc, char **argv)
 		
 		utilizzazione_ls1[i] = lambda[i]*(D_LS1in()+D_LS1out(doc_size[i]));
 		fprintf(fd_file, "LS1: %9.9f\n", utilizzazione_ls1[i]);
-		utilizzazione_ls2[i] = lambda[i]*D_LAN(doc_size[i]);
+		utilizzazione_ls2[i] = lambda[i]*(D_LAN(doc_size[i])+D_LAN(0));
 		fprintf(fd_file, "LS2: %9.9f\n", utilizzazione_ls2[i]);
-		utilizzazione_lw2[i] = (lambda[i]*D_LAN(doc_size[i]))/((double)NUM_SERVER);
+		utilizzazione_lw2[i] = (lambda[i]*(D_LAN(doc_size[i])+D_LAN(0)))/((double)NUM_SERVER);
 		fprintf(fd_file, "LW2: %9.9f\n", utilizzazione_lw2[i]);
 	}	      
 
@@ -254,7 +254,7 @@ int main(int argc, char **argv)
 
 	for(i=0; i < NUM_CLASSES; i++) {
 		fprintf(fd_file, "\nutilizzazioni classe %d\n",i);
-		utilizzazione_L2[i] = miss*lambda[i]*D_LAN(doc_size[i]);
+		utilizzazione_L2[i] = miss*lambda[i]*(D_LAN(doc_size[i])+D_LAN(0));
 		fprintf(fd_file, "L2: %9.9f\n", utilizzazione_L2[i]);
 
 		utilizzazione_inLink[i] = miss*lambda[i]*D_InLink();
@@ -274,9 +274,9 @@ int main(int argc, char **argv)
 		
 		utilizzazione_ls1[i] = miss*lambda[i]*(D_LS1in()+D_LS1out(doc_size[i]));
 		fprintf(fd_file, "LS1: %9.9f\n", utilizzazione_ls1[i]);
-		utilizzazione_ls2[i] = miss*lambda[i]*D_LAN(doc_size[i]);
+		utilizzazione_ls2[i] = miss*lambda[i]*(D_LAN(doc_size[i])+D_LAN(0));
 		fprintf(fd_file, "LS2: %9.9f\n", utilizzazione_ls2[i]);
-		utilizzazione_lw2[i] = miss*(lambda[i]*D_LAN(doc_size[i]))/((double)NUM_SERVER);
+		utilizzazione_lw2[i] = miss*(lambda[i]*(D_LAN(doc_size[i])+D_LAN(0)))/((double)NUM_SERVER);
 		fprintf(fd_file, "LW2: %9.9f\n", utilizzazione_lw2[i]);
 	}	      
 	//calcolo lunghezza code
