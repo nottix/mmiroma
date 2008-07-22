@@ -74,6 +74,7 @@ void cluster(double *array, int array_length, int k)
 				if(distance > distance_temp) {
 					distance = distance_temp;
 					counter = j;
+					printf("counter: %d\n", counter);
 				}
 			}
 
@@ -90,10 +91,10 @@ void cluster(double *array, int array_length, int k)
 		printf("\n");
 		//aggiornamento dei centroidi in seguito al primo step e confronto con la precedente iterazione
 		for(i=0; i < k; i++) {
-
 			centroids[i] = total_data_per_cluster[i] / ((double)num_data_per_cluster[i]); 
-			printf("centroide: %lf - tot_dati: %d\t", centroids[i], num_data_per_cluster[i]);
+			printf("i: %d, num: %lf, den: %lf, centroide: %lf - tot_dati: %d\t", i, total_data_per_cluster[i], ((double)num_data_per_cluster[i]), centroids[i], num_data_per_cluster[i]);
 			if( fabs(centroids[i]-old_centroids[i]) < pow(10,-10) ) {  //valore epsilon = 10^-10
+				printf("converged: %d\n", converged);
 				converged++;
 			}
 		}
@@ -128,7 +129,7 @@ void sim(int argc, char **argv)
 	reseed(obj_size, SEED);
 
 	create("prova");
-	int array_length= 10000000;
+	int array_length= 1000000;
 	double *array = (double*)malloc(sizeof(double)*array_length);
 	double session;
 	int objects;
