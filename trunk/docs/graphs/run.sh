@@ -1,8 +1,8 @@
 #!/bin/bash
 #gnuplot script
 
-XLB="Intervallo"
-YLB="Cambia"
+XLB="Osservazioni"
+YLB="Tempo di risposta (sec)"
 
 if [ "$1" = "" ]; then
 	echo "Usage: run.sh <source_data>"
