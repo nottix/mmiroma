@@ -50,10 +50,10 @@ Utilizzazione:
 $$U_{i,r} = \lambda_{r} * D_{i,r}$$
 $$U_{i} (vettore)  = \sum_{1}^{NUM\_CLASSES} U_{i,r}$$
 Lunghezza coda:
-$$n_{i,r} = \frac{U_{i,r}}{1 – U_{i,r}}$$
+$$n_{i,r} = \frac{U_{i,r}}{1 - U_{i,r}}$$
 $$n_{i} (vettore) = \sum_{1}^{NUM\_CLASSES} n_{i,r}$$
 Tempo di residenza:
-$$R_{i,r} = \frac{D_{i,r}}{1- U_{i,r}}$$
+$$R_{i,r} = \frac{D_{i,r}}{1 - U_{i,r}}$$
 Per $D_{i,r}$ si intende la domanda di servizio della risorsa i-esima per richieste di classe r-esima. Per quanto concerne le domande di servizio, queste sono le stesse presentate nel modello simulativo, con la differenza che in questo caso, quando è necessario fornire la dimensione del documento, per la classe r bisogna usare il centroide r-esimo. I risultati ottenuti per le componenti del web server dovranno poi essere opportunamente mediati per il numero di server (nel caso delle schede di rete e delle CPU) e per il numero di server moltiplicato per il numero di dischi (nel caso dei dischi dei web server). Questa assunzione è valida nel caso il carico sia equamente ripartito tra i server e i dischi.
 \section{Presentazione dei risultati}
 Si presentano di seguito i risultati ottenuti applicando il modello analitico, sia alla rete in configurazione standard che nelle sue varianti.
