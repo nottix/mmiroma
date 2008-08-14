@@ -1,0 +1,88 @@
+%author: Simone Notargiacomo, Lorenzo Tavernese, Ibrahim Khalili
+%date: 22 Luglio 2008
+\documentclass[a4paper,italian,12pt]{report}
+\usepackage[hyperindex]{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[italian,english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{subfigure}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{natbib}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{float}
+\usepackage{listings}
+\usepackage[usenames,dvips]{color}
+\usepackage{multicol}
+\usepackage{framed}
+
+\linespread{1.3}
+\makeindex
+\lstset{language=Java}
+\lstset{frameround=fttt}
+\lstset{basicstyle=\scriptsize}
+\lstset{stringstyle=\ttfamily}
+\lstset{showstringspaces=false}
+\lstset{morecomment=[s]{/*}{*/}}
+\lstset{morecomment=[n]{/*}{*/}}
+\lstset{morekeywords={}}
+\lstset{aboveskip=\bigskipamount}
+\lstset{belowskip=\bigskipamount}
+\lstset{showlines=false}
+\lstset{breaklines=true}
+\definecolor{light-gray}{gray}{0.95}
+\lstset{backgroundcolor=\color{light-gray}}
+\lstset{frame=trBL}
+
+\newcommand{\code}[1]{%
+	\texttt{#1}\index{#1}
+}%
+\newcommand{\var}[1]{%
+	\emph{#1}\index{#1}%
+}%
+
+\definecolor{lightgray}{gray}{0.95}
+\newcommand{\sfondo}
+{
+	\AddToShipoutPicture{
+		\AtTextCenter{
+			\put(0,-5){
+				\makebox(0,0)[c]{
+					\resizebox{2.2\textwidth}{!}{
+						\rotatebox{60}{
+							\textsf{\textbf{\textcolor{lightgray}{TaskSpider}}}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+\begin{document}
+\include{title}
+\pagebreak
+\pagestyle{fancy}
+\include{layout}
+\setcounter{page}{1}
+\tableofcontents
+
+\include{cap/introduzione}
+\include{cap/workload}
+\include{cap/simulazione}
+\include{cap/analitico}
+\include{cap/conclusioni}
+\include{cap/appendice}
+
+\lstlistoflistings
+\listoftables
+\listoffigures
+\printindex
+\bibliographystyle{oxford_en}
+\bibliography{cap/bibliografia}
+
+\end{document}
