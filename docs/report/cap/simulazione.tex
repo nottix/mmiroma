@@ -10,7 +10,7 @@ Il modello simulativo è stato di fondamentale importanza in quanto ha permesso 
 \end{itemize}
 
 \section{CSIM}
-Un simulation engine consiste di un insieme di oggetti e metodi usati per costruire un modello di simulazione. CSIM è un package process-oriented integrabile in programmi C/C++, che realizza un modello di simulazione discreto, next event time advance (event-driven). CSIM consente di modellare il sistema mediante l’utilizzo di speciali processi che interagiscono tra loro utilizzando delle apposite strutture dati. Il programma mantiene un tempo simulato, in modo da consentire lo studio del comportamento del sistema al variare del tempo. CSIM fornisce al programmatore una serie di oggetti, che definiscono le astrazioni di supporto alla costruzione ed all’esecuzione del modello simulativo. Gli oggetti principali sono:
+Un \var{simulation engine} consiste di un insieme di oggetti e metodi usati per costruire un modello di simulazione. CSIM è un package \var{process-oriented} integrabile in programmi C/C++, che realizza un modello di simulazione discreto: \var{next event time advance} (event-driven). CSIM consente di modellare il sistema mediante l’utilizzo di speciali processi che interagiscono tra loro utilizzando delle apposite strutture dati. Il programma mantiene un tempo simulato in modo da consentire lo studio del comportamento del sistema al variare del tempo. CSIM fornisce al programmatore una serie di oggetti, che definiscono le astrazioni di supporto alla costruzione e all’esecuzione del modello simulativo. Gli oggetti principali sono:
 \begin{description}
 	\item[Processes:] sono le entità attive che sfruttano le risorse disponibili, attendono gli eventi o collezionano statistiche.
 	\item[Facilities:] rappresentano quelle risorse (ad esempio serventi) che vengono utilizzate dai processi attivi. 
@@ -20,9 +20,9 @@ Un simulation engine consiste di un insieme di oggetti e metodi usati per costru
 	\item[Process classes:] classi definite per caratterizzare i processi nell uso di risorse, nella gestione degli eventi e nella raccolta statistiche. 
 	\item[Stream:] flussi di numeri casuali. 
 \end{description}
-A titolo di esempio, si potrebbe dunque rappresentare un sistema Client/Server come una facility (il server) ed un processo CSIM (il client) che usa la facility. Data la natura del CSIM, brevemente riassunta finora, è evidente come questo offra ottime possibilità di tradurre un modello a reti di code (QN) in un modello simulativo.
+A titolo di esempio, si potrebbe dunque rappresentare un sistema di tipo Client/Server come una facility (il server) ed un processo CSIM (il client) che usa la facility. Data la natura del CSIM, brevemente riassunta finora, è evidente come questo offra ottime possibilità di tradurre un modello a reti di code (QN) in un modello simulativo.
 \section{Rappresentazione del workload}
-La rappresentazione del carico mediante le distribuzioni è stata facilitata in quanto CSIM offre delle funzioni per generare i valori sia secondo la distribuzione Lognormale  che secondo la distribuzione Pareto. Per quanto concerne il numero di richieste per sessione, che seguono la distribuzione gaussiana inversa, si è utilizzato l'algoritmo di Michael/Shucany/Haas (Aggiustare le formule con l'editor):
+La rappresentazione del carico mediante le distribuzioni è stata facilitata in quanto CSIM offre delle funzioni per generare i valori sia secondo la distribuzione Lognormale che secondo la distribuzione Pareto. Per quanto concerne il numero di richieste per sessione, che seguono la distribuzione gaussiana inversa, si è utilizzato l'\var{algoritmo di Michael/Shucany/Haas}:
 \begin{enumerate}
 	\item Si generi V da $N(0,1)$ (distribuzione normale) e si ponga y = $v^{2}$;
 	\item Si ponga $x_{1} =  \mu + \mu^{2}*\frac{y}{2*\lambda} – \frac{\mu}{2*\lambda} * \sqrt{4*\mu*\lambda*y+\mu^{2}*y^{2}}$;
@@ -32,7 +32,7 @@ La rappresentazione del carico mediante le distribuzioni è stata facilitata in 
 Il workload cui è sottoposto il sistema per ogni utente è il seguente:
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.5]{etc/carico.png}
+\includegraphics[scale=0.7]{etc/carico.png}
 \caption{Carico}
 \label{carico}
 \end{center}
@@ -67,7 +67,7 @@ while(i<array_length) {
 \end{lstlisting}
 
 \section{Rappresentazione delle risorse}
-Come brevemente introdotto in precedenza, una facility modella in ambiente CSIM una risorsa del sistema, con la rispettiva coda. La libreria mette a disposizione diversi tipologie di facility tra cui scegliere le più adatte al modello: 
+Come brevemente introdotto in precedenza, una facility modella in ambiente CSIM una risorsa del sistema, con la rispettiva coda. La libreria mette a disposizione diversi tipologie di facility, scegliendo le più adatte al modello: 
 \begin{itemize}
 	\item facility risorsa con una sola coda ed un solo servente, occupabile da un solo processo alla volta; 
 	\item facility set array di facility di primo tipo e quindi una risorsa con più code e più serventi (una coda per ogni servente) indipendenti tra loro. 
@@ -92,15 +92,15 @@ Prima di presentare le domande di servizio per ogni FACILITY, si definiscono dei
 \begin{center}
 \begin{tabular}{||c|c||}
 \hline
-\code{TCPOV} (overhead in byte introdotto dal protocollo TCP)				&20\\
+\code{TCPOV} (overhead in byte introdotto dal TCP)						&20\\
 \hline
-\code{IPOV} (overhead in byte introdotto da protocollo IP)					&20\\
+\code{IPOV} (overhead in byte introdotto da IP)							&20\\
 \hline
-\code{FRAMEOV} (overhead in byte introdotto dal tipo di rete fisica utilizzata)		&18\\
+\code{FRAMEOV} (overhead in byte introdotto dal tipo di rete fisica)	&18\\
 \hline
-\code{MSS} (massima dimensione in byte di un pacchetto TCP)			&1460\\
+\code{MSS} (massima dimensione in byte di un pacchetto TCP)				&1460\\
 \hline
-\code{AVG\_SIZE\_HTTP\_REQ} (dimensione media di una richiesta HTTP)		&290\\
+\code{AVG\_SIZE\_HTTP\_REQ} (dimensione media di una richiesta HTTP)	&290\\
 \hline
 \end{tabular}
 \end{center}
@@ -148,7 +148,7 @@ double D_LAN(double docSize) {
     return NetworkTime( docSize, BANDWIDTH_L2); 
 } 
 \end{lstlisting}
-Per quanto concerne la domanda di servizio della LAN si è operata una distinzione tra fase di richieste (in cui docSize = 0) e fase di risposta
+Per quanto concerne la domanda di servizio della LAN si è operata una distinzione tra fase di richieste (in cui \code{docSize = 0}) e fase di risposta
 \begin{lstlisting}
 double D_Cpu(double service_rate) { 
    return 1 / service_rate; 
@@ -207,21 +207,21 @@ E' doveroso sottolineare che tutte le schede di rete sono state dimensionate ten
 \begin{center}
 \begin{tabular}{||c|c||}
 \hline
-Risorsa		&Valore\\
+Risorsa							&Valore\\
 \hline
-Banda incoming Link	&45 Mbps (T3)\\
-\hline
-Banda Outgoing Link	&1000 Mbps\\
+Banda incoming Link				&45 Mbps (T3)\\
+\hline	
+Banda Outgoing Link				&1000 Mbps\\
 \hline
 CPU Web Switch Service Rate		&9500 richieste/secondo\\
 \hline
-Numero di Web Server		&66\\
+Numero di Web Server			&66\\
 \hline
 Numero di dischi per Web Server	&12\\
 \hline
-Transfer Rate LS1		&1000 Mbps\\
+Transfer Rate LS1				&1000 Mbps\\
 \hline
-Transfer Rate LS2		&1000 Mbps\\
+Transfer Rate LS2				&1000 Mbps\\
 \hline
 Transfer Rate lw2		&1000 Mbps\\
 \hline
@@ -244,7 +244,7 @@ L’algoritmo proposto da Welch fa uso di una procedura grafica per determinare 
 	\item Calcolare $Y_{i}$ come media delle $Y_{ij}$ di ogni replica
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.5]{etc/ipsilon.png}
+\includegraphics[scale=0.65]{etc/ipsilon.png}
 \caption{Carico}
 \label{carico}
 \end{center}
@@ -321,14 +321,14 @@ for(i=0; i < session; i++) {
 Per ogni richiesta della sessione viene invocata la funzione web\_client specifica quali risorse vengono utilizzate e in che misura. 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.5]{etc/webclient.png}
+\includegraphics[scale=0.62]{etc/webclient.png}
 \caption{webclient}
 \label{webclient}
 \end{center}
 \end{figure}
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.5]{etc/webclient2.png}
+\includegraphics[scale=0.62]{etc/webclient2.png}
 \caption{webclient2}
 \label{webclient2}
 \end{center}
@@ -418,7 +418,7 @@ rerun();
 ...
 }
 \end{lstlisting}
-Dal frammento di codice sopra riportato si può notare il ciclo for e la funzione rerun() che consentono di eseguire più simulazioni e quindi di ottenere risultati più accurati; inoltre si può notare come siano stati scartati i valori relativi al transiente. E' opportuno sottolineare come alla condizione di convergenza sia stata aggiunta un'ulteriore condizione basata sul numero di osservazioni, poiché come visto nello studio del transiente, la convergenza potrebbe non verificarsi per tutte le iterazioni.
+Dal frammento di codice sopra riportato si può notare il ciclo \code{for} e la funzione \code{rerun()} che consentono di eseguire più simulazioni e quindi di ottenere risultati più accurati; inoltre si può notare come siano stati scartati i valori relativi al transiente. E' opportuno sottolineare come alla condizione di convergenza sia stata aggiunta un'ulteriore condizione basata sul numero di osservazioni, poiché come visto nello studio del transiente, la convergenza potrebbe non verificarsi per tutte le iterazioni.
 
 \section{Presentazione dei risultati}
 Si presentano di seguito i risultati mediati su 5 iterazioni, per ogni componente del sistema preso in esame e per tutte le varianti analizzate. Le statistiche riportate sono l'utilizzazione, la lunghezza media delle coda e il tempo di risposta per ogni classe di richiesta.

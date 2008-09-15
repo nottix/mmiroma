@@ -1,18 +1,18 @@
 \chapter{Introduzione}
-Il lavoro svolto per l'esame di Metriche e Modelli di Internet è consistito nello studio del comportamento di un sistema web al variare di alcune sue componenti. Nello specifico, era richiesto di condurre un'analisi sia da un punto di vista simulativo che da un punto di vista analitico. Entrambe fanno riferimento ad una 
-rappresentazione matematica del sistema reale (modello) denominata rete di code (QN, Queueing Network). Una QN tiene conto della contesa per le risorse del sistema e delle code che si generano in attesa del servizio. 
+Il lavoro svolto per l'esame di Metriche e Modelli di Internet ha posto l'interesse nell' analisi del comportamento di un sistema web al variare di alcune sue componenti. Nello specifico sono state condotte due tipi di analisi, la prima da un punto di vista \var{simulativo} mentre la seconda da un punto di vista \var{analitico}. Entrambe fanno riferimento ad una 
+rappresentazione matematica del sistema reale(modello) denominata \var{rete di code}(QN, Queueing Network). Una QN tiene conto della contesa per le risorse del sistema e delle code che si generano in attesa del servizio. 
 La soluzione analitica consente di risolvere mediante l’uso di formule e algoritmi una rete di code, ottenendo in questo modo i valori prestazionali desiderati. Tali valori possono altresì essere ottenuti emulando il comportamento del sistema attraverso una simulazione. 
 La simulazione è realizzata mediante un programma in grado di mimare il funzionamento del sistema attraverso flussi di transazioni tra le varie risorse. I valori di performance sono ricavati dalle statistiche collezionate dal programma per ogni coda relativa a tali risorse. 
 Per poter generare un modello di performance è necessario innanzitutto stilare un modello che rappresenti il workload, che nel caso specifico, è stato generato a partire da diverse distribuzioni rappresentanti più valori, come ad esempio il numero di richieste per sessione o la dimensione della pagina html richiesta. 
 Per rendere più chiara l'idea al lettore, si presentano di seguito i requisiti del progetto.
 \section{Requisiti del Progetto}
-Si consideri il cluster di Server Web in figura 1. Il sistema è composto da un Web Switch che riceve le richieste dagli utenti e le distribuisce ad un set di N Server Web. Il Web Switch è connesso alla rete internet mediante il link L1. I Web Server e il Web Switch sono tra di loro connessi mediante la LAN L2. 
+Si consideri il cluster di Server Web in figura \ref{schema1}. Il sistema è composto da un Web Switch che riceve le richieste dagli utenti e le distribuisce ad un set di N Server Web. Il Web Switch è connesso alla rete internet mediante il link L1. I Web Server e il Web Switch sono tra di loro connessi mediante la LAN L2. 
 Ogni server è caratterizzato da una CPU, da uno o più dischi ed una scheda di rete (Iw2). La CPU dei server ha un tasso di servizio pari a 150 richieste al secondo (indipendentemente dal tipo di richieste). Il disco ha le seguenti caratteristiche: Seek Time 8.5ms, Controller Time 0.2ms, Rotational Speed 7200 RPM, transfer rate 100MB/sec, block size 2048 byte. 
 Il Web Switch è caratterizzato da una CPU e da due scheda di rete (Is1 e Is2), una che lo connette alla rete L1 ed una che lo connette alla rete L2. 
 La rete L2 è una rete Ethernet 1000Mbit/sec e sia i Web Server che il Web Switch sono ad essa connessi mediante delle schede di rete con un transfer rate di 1000Mbit/sec. 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.5]{etc/schema1.png}
+\includegraphics[scale=1.2]{etc/schema1.png}
 \caption{Schema}
 \label{schema1}
 \end{center}
@@ -22,16 +22,19 @@ Si suppone che il carico del sistema è caratterizzato come segue:
 \begin{center}
 \begin{tabular}{||c|c|c||}
 \hline
-Richieste per Sessione	&Gaussiana Inversa	&$X > 0; \mu = 3.86; \lambda = 9.46$	\\
+Richieste 	&Gaussiana Inversa			&$X > 0; \mu = 3.86;$\\
+per Sessione & 							&$\lambda = 9.46$\\
 \hline
 \hline
-User Think Time				&Pareto						&$X \geq k; \alpha=1.4; k = 1$	\\
+User Think Time				&Pareto		&$X \geq k; \alpha=1.4; k = 1$\\
 \hline
-Numero di Oggetti per Richiesta	&Pareto			&$X \geq k; \alpha=1.33; k = 2$	\\
+Num. Oggetti 	&Pareto		&$X \geq k; \alpha=1.33; k = 2$\\
+per Richiesta	&			&\\							
 \hline
-Dimensione Pagina HTML	&LogNormale-Pareto	&$\mu = 7.63; \sigma = 1.001 X \geq k; \alpha=1; k = 10240 (byte)$	\\
+Dim. Pag. HTML	&LogNormale-Pareto	&$\mu = 7.63; \sigma = 1.001$ \\
+					&					&$X \geq k; \alpha=1; k = 10240 (byte)$\\
 \hline
-Embedded Objects				&LogNormale			&$X > 0; \mu = 8.215; \sigma = 1.46$	\\
+Embedded Objects	&LogNormale			&$X > 0; \mu = 8.215; \sigma = 1.46$\\
 \hline
 \end{tabular}
 \end{center}
@@ -51,7 +54,7 @@ Si chiede agli studenti di studiare il comportamento del sistema utilizzando un 
 \end{itemize}
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.5]{etc/schema2.png}
+\includegraphics[scale=1.2]{etc/schema2.png}
 \caption{Schema}
 \label{schema2}
 \end{center}
