@@ -48,7 +48,15 @@ qlen_cpu_web_server[NUM_CLASSES], qlen_disk[NUM_CLASSES], qlen_link_add[NUM_CLAS
 double rtime_L2[NUM_CLASSES], rtime_inLink[NUM_CLASSES], rtime_outLink[NUM_CLASSES], rtime_cpu_web_switch[NUM_CLASSES], 
 rtime_cpu_web_server[NUM_CLASSES], rtime_disk[NUM_CLASSES], rtime_link_add[NUM_CLASSES], rtime_ls1[NUM_CLASSES], rtime_ls2[NUM_CLASSES], rtime_lw2[NUM_CLASSES], rtime_lw3[NUM_CLASSES];
 
+double tot_temp;
 //Calcolo delle statistiche per ogni componente: utilizzazione, lunghezza delle code e tempo di risposta
+
+void print_tot(FILE *fd)
+{
+	fprintf(fd, "&%.7f\\\\\n\\hline", tot_temp);
+	tot_temp = 0;
+}
+
 void statistics(int iteration, int variant) {
 	lambda_tmp += meter_rate(lambda);
 	int i = 0;
@@ -153,116 +161,281 @@ void statistics(int iteration, int variant) {
 	//Stampa dei risultati su file
 	if(iteration==NUM_ITERATIONS-1) {
 		fd_file = fopen(pathname, "w");
-		fprintf(fd_file, "\n\nUtilizzazione cpu web server i-esimo: \t");
+		fprintf(fd_file, "\\hline\nUtilizzazioni\n\\hline\n");
+		fprintf(fd_file, "Centro &Classe1 &Classe2 &Classe3 &Totale\\\\\n\\hline\n\\hline");
+		fprintf(fd_file, "\n cpu web server i-esimo: \t");
 		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", utilizzazione_cpu_web_server[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nUtilizzazione disco i-esimo              : \t");
+		{	
+			fprintf(fd_file, "&%.7f\t", utilizzazione_cpu_web_server[j]/(NUM_ITERATIONS));
+			tot_temp += utilizzazione_cpu_web_server[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n disco i-esimo: \t");
 		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", utilizzazione_disk[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nUtilizzazione inLink     : \t");
+		{	
+			fprintf(fd_file, "&%.7f\t", utilizzazione_disk[j]/(NUM_ITERATIONS));
+			tot_temp += utilizzazione_disk[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n inLink: \t");
 		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", utilizzazione_inLink[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nUtilizzazione outLink     : \t");
+		{
+			fprintf(fd_file, "&%.7f\t", utilizzazione_inLink[j]/(NUM_ITERATIONS));
+			tot_temp += utilizzazione_inLink[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n outLink: \t");
 		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", utilizzazione_outLink[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nUtilizzazione cpu web switch            : \t");
+		{	
+			fprintf(fd_file, "&%.7f\t", utilizzazione_outLink[j]/(NUM_ITERATIONS));
+			tot_temp += utilizzazione_outLink[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n cpu web switch: \t");
 		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", utilizzazione_cpu_web_switch[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nUtilizzazione LAN                       : \t");
+		{
+			fprintf(fd_file, "&%.7f\t", utilizzazione_cpu_web_switch[j]/(NUM_ITERATIONS));
+			tot_temp += utilizzazione_cpu_web_switch[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n LAN: \t");
 		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", utilizzazione_L2[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nUtilizzazione LS1                       :\t");
+		{	
+			fprintf(fd_file, "&%.7f\t", utilizzazione_L2[j]/(NUM_ITERATIONS));
+			tot_temp +=  utilizzazione_L2[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n LS1: \t");
 		for(j=0; j<NUM_CLASSES; j++) 
-			fprintf(fd_file, "%.7f\t", utilizzazione_ls1[j]/(NUM_ITERATIONS));	
-		fprintf(fd_file, "\nUtilizzazione LS2                       :\t");
+		{
+			fprintf(fd_file, "&%.7f\t", utilizzazione_ls1[j]/(NUM_ITERATIONS));	
+			tot_temp += utilizzazione_ls1[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n LS2:\t");
 		for(j=0; j<NUM_CLASSES; j++) 
-			fprintf(fd_file, "%.7f\t", utilizzazione_ls2[j]/(NUM_ITERATIONS));	
-		fprintf(fd_file, "\nUtilizzazione LW2                       :\t");
+		{	
+			fprintf(fd_file, "&%.7f\t", utilizzazione_ls2[j]/(NUM_ITERATIONS));	
+			tot_temp += utilizzazione_ls2[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n LW2: \t");
 		for(j=0; j<NUM_CLASSES; j++) 
+		{
 			fprintf(fd_file, "%.7f\t", utilizzazione_lw2[j]/(NUM_ITERATIONS));	
-			
+			tot_temp += utilizzazione_lw2[j]/(NUM_ITERATIONS);
+		}	
+		print_tot(fd_file);
+		
 		if(variant == LINK_ADD) {
-			fprintf(fd_file, "\nUtilizzazione LINK_ADD                       :\t");
+			fprintf(fd_file, "\n LINK_ADD: \t");
 			for(j=0; j<NUM_CLASSES; j++)
-				fprintf(fd_file, "%.7f\t", utilizzazione_link_add[j]/(NUM_ITERATIONS));
-			fprintf(fd_file, "\nUtilizzazione LW3                       :\t");
-		for(j=0; j<NUM_CLASSES; j++) 
-			fprintf(fd_file, "%.7f\t", utilizzazione_lw3[j]/(NUM_ITERATIONS));	
+			{	
+				fprintf(fd_file, "&%.7f\t", utilizzazione_link_add[j]/(NUM_ITERATIONS));
+				tot_temp += utilizzazione_link_add[j]/(NUM_ITERATIONS);
+			}
+		  print_tot(fd_file);
+		  
+			fprintf(fd_file, "\n LW3: \t");
+		  for(j=0; j<NUM_CLASSES; j++)
+		  { 
+				fprintf(fd_file, "&%.7f\t", utilizzazione_lw3[j]/(NUM_ITERATIONS));	
+				tot_temp += utilizzazione_lw3[j]/(NUM_ITERATIONS);
+			}
+			print_tot(fd_file);
+						
+		}
+		
+		fprintf(fd_file, "\n\n\\hline\nLunghezza media delle code\n\\hline\n");
+		fprintf(fd_file, "Centro &Classe1 &Classe2 &Classe3 &Totale\\\\\n\\hline\n\\hline");
+		fprintf(fd_file, "\n cpu web server i-esimo: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{
+			fprintf(fd_file, "&%.7f\t", qlen_cpu_web_server[j]/(NUM_ITERATIONS));
+			tot_temp += qlen_cpu_web_server[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n disco i-esimo: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{	
+			fprintf(fd_file, "&%.7f\t", qlen_disk[j]/(NUM_ITERATIONS));
+			tot_temp += qlen_disk[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n inLink: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{
+			fprintf(fd_file, "&%.7f\t", qlen_inLink[j]/(NUM_ITERATIONS));
+			tot_temp += qlen_inLink[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n outLink: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{
+			fprintf(fd_file, "&%.7f\t", qlen_outLink[j]/(NUM_ITERATIONS));
+			tot_temp += qlen_outLink[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n cpu web switch: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{	
+			fprintf(fd_file, "&%.7f\t", qlen_cpu_web_switch[j]/(NUM_ITERATIONS));
+			tot_temp += qlen_cpu_web_switch[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n LAN: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{	
+			fprintf(fd_file, "&%.7f\t", qlen_L2[j]/(NUM_ITERATIONS));
+			tot_temp += qlen_L2[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n LS1: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{
+			fprintf(fd_file, "&%.7f\t", qlen_ls1[j]/(NUM_ITERATIONS));
+			tot_temp += qlen_ls1[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n LS2: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{
+			fprintf(fd_file, "&%.7f\t", qlen_ls2[j]/(NUM_ITERATIONS));
+			tot_temp += qlen_ls2[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n LW2: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{
+			fprintf(fd_file, "&%.7f\t", qlen_lw2[j]/(NUM_ITERATIONS));			
+    	tot_temp += qlen_lw2[j]/(NUM_ITERATIONS);
+    }
+    print_tot(fd_file);
+    
+    if(variant == LINK_ADD) {
+			fprintf(fd_file, "\n LINK_ADD: \t");
+			for(j=0; j<NUM_CLASSES; j++)
+			{
+				fprintf(fd_file, "&%.7f\t", qlen_link_add[j]/(NUM_ITERATIONS));
+				tot_temp += qlen_link_add[j]/(NUM_ITERATIONS);
+			}
+			print_tot(fd_file);
 			
+			fprintf(fd_file, "\n LW3: \t");
+	  	for(j=0; j<NUM_CLASSES; j++)
+			{
+				fprintf(fd_file, "&%.7f\t", qlen_lw3[j]/(NUM_ITERATIONS));
+				tot_temp += qlen_lw3[j]/(NUM_ITERATIONS);
+			}	
+			print_tot(fd_file);
 		}
-		fprintf(fd_file, "\n\nLunghezza coda cpu web server i-esimo : \t");
+		
+		fprintf(fd_file, "\n\n\\hline\nTempo Medio di Risposta\n\\hline\n");
+		fprintf(fd_file, "Centro &Classe1 &Classe2 &Classe3 &Totale\\\\\n\\hline\n\\hline");
+		fprintf(fd_file, "\n cpu web server i-esimo: \t");
 		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", qlen_cpu_web_server[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nLunghezza coda disco i-esimo              : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", qlen_disk[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nLunghezza coda inLink      : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", qlen_inLink[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nLunghezza coda outLink       : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", qlen_outLink[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nLunghezza coda cpu web switch             : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", qlen_cpu_web_switch[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nLunghezza coda LAN                        : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", qlen_L2[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nLunghezza coda LS1                        : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", qlen_ls1[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nLunghezza coda LS2                        : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", qlen_ls2[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nLunghezza coda LW2                        : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", qlen_lw2[j]/(NUM_ITERATIONS));			
-    if(variant == LINK_ADD) {
-			fprintf(fd_file, "\nLunghezza coda LINK_ADD                       : \t");
-			for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", qlen_link_add[j]/(NUM_ITERATIONS));
-			fprintf(fd_file, "\nLunghezza coda LW3                        : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", qlen_lw3[j]/(NUM_ITERATIONS));
+		{
+			fprintf(fd_file, "&%.7f\t", rtime_cpu_web_server[j]/(NUM_ITERATIONS));
+			tot_temp += rtime_cpu_web_server[j]/(NUM_ITERATIONS);
 		}
-		fprintf(fd_file, "\n\nTempo medio di risposta cpu web server i-esimo: \t");
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n disco i-esimo: \t");
 		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", rtime_cpu_web_server[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nTempo medio di risposta disco i-esimo             : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", rtime_disk[j]/(NUM_ITERATIONS));
-
-		fprintf(fd_file, "\nTempo medio di risposta inLink     : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", rtime_inLink[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nTempo medio di risposta link internet uscita      : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", rtime_outLink[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nTempo medio di risposta cpu web switch            : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", rtime_cpu_web_switch[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nTempo medio di risposta LAN                       : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", rtime_L2[j]/(NUM_ITERATIONS));
-		fprintf(fd_file, "\nTempo medio di risposta LS1                       : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", rtime_ls1[j]/(NUM_ITERATIONS));
-    fprintf(fd_file, "\nTempo medio di risposta LS2                       : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", rtime_ls2[j]/(NUM_ITERATIONS));
-    fprintf(fd_file, "\nTempo medio di risposta LW2                       : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", rtime_lw2[j]/(NUM_ITERATIONS));
+		{	
+			fprintf(fd_file, "&%.7f\t", rtime_disk[j]/(NUM_ITERATIONS));
+    	tot_temp += rtime_disk[j]/(NUM_ITERATIONS);
+    }
+    print_tot(fd_file);
     
+		fprintf(fd_file, "\n inLink: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{
+			fprintf(fd_file, "&%.7f\t", rtime_inLink[j]/(NUM_ITERATIONS));
+			tot_temp += rtime_inLink[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n outlink: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{	
+			fprintf(fd_file, "&%.7f\t", rtime_outLink[j]/(NUM_ITERATIONS));
+			tot_temp += rtime_outLink[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n cpu web switch: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{	
+			fprintf(fd_file, "&%.7f\t", rtime_cpu_web_switch[j]/(NUM_ITERATIONS));
+			tot_temp += rtime_cpu_web_switch[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n LAN: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{	
+			fprintf(fd_file, "&%.7f\t", rtime_L2[j]/(NUM_ITERATIONS));
+			tot_temp += rtime_L2[j]/(NUM_ITERATIONS);
+		}
+		print_tot(fd_file);
+		
+		fprintf(fd_file, "\n LS1: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{	
+			fprintf(fd_file, "&%.7f\t", rtime_ls1[j]/(NUM_ITERATIONS));
+    	tot_temp += rtime_ls1[j]/(NUM_ITERATIONS);
+    }
+    print_tot(fd_file);
     
+    fprintf(fd_file, "\n LS2: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{
+			fprintf(fd_file, "&%.7f\t", rtime_ls2[j]/(NUM_ITERATIONS));
+    	tot_temp += rtime_ls2[j]/(NUM_ITERATIONS);
+    }
+    print_tot(fd_file);
+    
+    fprintf(fd_file, "\n LW2: \t");
+		for(j=0; j<NUM_CLASSES; j++)
+		{	
+			fprintf(fd_file, "&%.7f\t", rtime_lw2[j]/(NUM_ITERATIONS));
+			tot_temp += rtime_lw2[j]/(NUM_ITERATIONS);
+    }
+		print_tot(fd_file);
+		    
     if(variant == LINK_ADD) {
-			fprintf(fd_file, "\nTempo medio di risposta LINK_ADD                       : \t");
+			fprintf(fd_file, "\n LINK_ADD: \t");
 			for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", rtime_link_add[j]/(NUM_ITERATIONS));
-			fprintf(fd_file, "\nTempo medio di risposta LW3                       : \t");
-		for(j=0; j<NUM_CLASSES; j++)
-			fprintf(fd_file, "%.7f\t", rtime_lw3[j]/(NUM_ITERATIONS));
-    
+			{
+				fprintf(fd_file, "&%.7f\t", rtime_link_add[j]/(NUM_ITERATIONS));
+				tot_temp += rtime_link_add[j]/(NUM_ITERATIONS);
+			}
+			print_tot(fd_file);
+			
+			fprintf(fd_file, "\n LW3: \t");
+			for(j=0; j<NUM_CLASSES; j++)
+			{
+				fprintf(fd_file, "&%.7f\t", rtime_lw3[j]/(NUM_ITERATIONS));
+      	tot_temp += rtime_lw3[j]/(NUM_ITERATIONS);
+      }
+      print_tot(fd_file);
 		}
 		fprintf(fd_file, "\n\n Tasso medio di arrivi (lambda)                        : %g\n", lambda_tmp/(NUM_ITERATIONS));
 
@@ -276,7 +449,7 @@ void sim(int argc, char **argv) {
 	printf("Starting simulation...\n");
 	int i=0;
 	int client_id;
-	int variante = LINK_ADD;
+	int variante = LEAST_LOADED;
 	int reset;
 	char filename[25];
 	FILE *output;
@@ -295,21 +468,21 @@ void sim(int argc, char **argv) {
 
 		// Inizializzazione degli stream (reseed simtime*i+num)
 		sess_req_1 = create_stream();
-		reseed(sess_req_1, (int)simtime()+i);
+		reseed(sess_req_1, (int)simtime()+i+1);
 		sess_req_2 = create_stream();
-		reseed(sess_req_2, (int)simtime()*2+i);
+		reseed(sess_req_2, (int)simtime()*2+i+1);
 		user_tt = create_stream();
-		reseed(user_tt, (int)simtime()*3+i);
+		reseed(user_tt, (int)simtime()*3+i+1);
 		object_req = create_stream();
-		reseed(object_req, (int)simtime()*4+i);
+		reseed(object_req, (int)simtime()*4+i+1);
 		html_1 = create_stream();
-		reseed(html_1, (int)simtime()*5+i);
+		reseed(html_1, (int)simtime()*5+i+1);
 		html_2 = create_stream();
-		reseed(html_2, (int)simtime()*6+i);
+		reseed(html_2, (int)simtime()*6+i+1);
 		obj_size = create_stream();
-		reseed(obj_size, (int)simtime()*7+i);
+		reseed(obj_size, (int)simtime()*7+i+1);
 		p_hit_proxy = create_stream();
-		reseed(p_hit_proxy, (int)simtime()*8+i);
+		reseed(p_hit_proxy, (int)simtime()*8+i+1);
 		
 		// Inizializzazione delle facility
 		inLink = facility("inLink");
@@ -347,14 +520,14 @@ void sim(int argc, char **argv) {
 
 		collect_class_facility_all();
 
-		reseed(sess_req_1, (int)simtime()+i);
-		reseed(sess_req_2, (int)simtime()*2+i);
-		reseed(user_tt, (int)simtime()*3+i);
-		reseed(object_req, (int)simtime()*4+i);
-		reseed(html_1, (int)simtime()*5+i);
-		reseed(html_2, (int)simtime()*6+i);
-		reseed(obj_size, (int)simtime()*7+i);
-		reseed(p_hit_proxy, (int)simtime()*8+i);
+		reseed(sess_req_1, (int)simtime()+i+1);
+		reseed(sess_req_2, (int)simtime()*2+i+1);
+		reseed(user_tt, (int)simtime()*3+i+1);
+		reseed(object_req, (int)simtime()*4+i+1);
+		reseed(html_1, (int)simtime()*5+i+1);
+		reseed(html_2, (int)simtime()*6+i+1);
+		reseed(obj_size, (int)simtime()*7+i+1);
+		reseed(p_hit_proxy, (int)simtime()*8+i+1);
 		
 		while(state(converged)==NOT_OCC && num_osservazioni<500000) {
 			hold(exponential(1/(double)ARRIVAL));
@@ -366,7 +539,7 @@ void sim(int argc, char **argv) {
 				reset();
 				reset=1;
 				table_confidence(rtime);
-				table_run_length(rtime, 0.005, 0.98, 5000.0);
+				table_run_length(rtime, 0.005, 0.98, 10000.0);
 			}
 		}
 		printf("Fine generazione a %g - iterazione %d\n", simtime(), i);

@@ -117,21 +117,21 @@ FILE * mov_avg_fd;
 	}
 	// Inizializzazione degli stream (reseed simtime*i+num)
 		sess_req_1 = create_stream();
-		reseed(sess_req_1, (int)simtime()+i);
+		reseed(sess_req_1, (int)simtime()+i+1);
 		sess_req_2 = create_stream();
-		reseed(sess_req_2, (int)simtime()*2+i);
+		reseed(sess_req_2, (int)simtime()*2+i+1);
 		user_tt = create_stream();
-		reseed(user_tt, (int)simtime()*3+i);
+		reseed(user_tt, (int)simtime()*3+i+1);
 		object_req = create_stream();
-		reseed(object_req, (int)simtime()*4+i);
+		reseed(object_req, (int)simtime()*4+i+1);
 		html_1 = create_stream();
-		reseed(html_1, (int)simtime()*5+i);
+		reseed(html_1, (int)simtime()*5+i+1);
 		html_2 = create_stream();
-		reseed(html_2, (int)simtime()*6+i);
+		reseed(html_2, (int)simtime()*6+i+1);
 		obj_size = create_stream();
-		reseed(obj_size, (int)simtime()*7+i);
+		reseed(obj_size, (int)simtime()*7+i+1);
 		p_hit_proxy = create_stream();
-		reseed(p_hit_proxy, (int)simtime()*8+i);
+		reseed(p_hit_proxy, (int)simtime()*8+i+1);
 
 	collect_class_facility_all();
 	
@@ -168,15 +168,15 @@ FILE * mov_avg_fd;
 		//riavviare le risorse
 		wait(event_list_empty);
 		reset();		
-		reseed(sess_req_1, (int)simtime()+i);
-		reseed(sess_req_2, (int)simtime()*2+i);
-		reseed(user_tt, (int)simtime()*3+i);
-		reseed(object_req, (int)simtime()*4+i);
+		reseed(sess_req_1, (int)simtime()+i+1);
+		reseed(sess_req_2, (int)simtime()*2+i+1);
+		reseed(user_tt, (int)simtime()*3+i+1);
+		reseed(object_req, (int)simtime()*4+i+1);
 		
-		reseed(html_1, (int)simtime()*5+i);
-		reseed(html_2, (int)simtime()*6+i);
-		reseed(obj_size, (int)simtime()*7+i);
-		reseed(p_hit_proxy, (int)simtime()*8+i);
+		reseed(html_1, (int)simtime()*5+i+1);
+		reseed(html_2, (int)simtime()*6+i+1);
+		reseed(obj_size, (int)simtime()*7+i+1);
+		reseed(p_hit_proxy, (int)simtime()*8+i+1);
 		n_repl++;	
 	}	
 	

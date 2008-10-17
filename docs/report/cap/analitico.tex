@@ -1,7 +1,7 @@
 \chapter{Modello Analitico}
 Dal modello simulativo è stato possibile ricavare il tasso di arrivo di richeste HTTP, dato fondamentale per poter eseguire un modello analitico. Dalla configurazione standard si è ricavato il valore: 
 
-$$\lambda =  3311.86 \frac{richieste}{sec}$$
+$$\lambda =  3308.79 \frac{richieste}{sec}$$
 
 Le probabilità di arrivo di richieste di classe r, sono date dalla formula:
 
@@ -62,40 +62,62 @@ Si presentano di seguito i risultati ottenuti applicando il modello analitico, s
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3	&Totale\\
+Utilizzazioni\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink & 0.3073406 & 0.0000001 & 0.0000000 & 0.3073408 \\ \hline
-LS1 & 0.3015911 & 0.0030800 & 0.0019719 & 0.3066430 \\ \hline
-CPU Web Switch & 0.6972333 & 0.0000003 & 0.0000001 & 0.6972337 \\ \hline
-LS2 & 0.2870191 & 0.0030078 & 0.0019257 & 0.2919526 \\ \hline
-L2 & 0.2870191 & 0.0030078 & 0.0019257 & 0.2919526 \\ \hline
-LW2 & 0.0043488 & 0.0000456 & 0.0000292 & 0.0044235 \\ \hline
-CPU Web Server & 0.6690623 & 0.0000003 & 0.0000001 & 0.6690626 \\ \hline
-Disco Web Server & 0.3233364 & 0.0029420 & 0.0018836 & 0.3281619 \\ \hline
-outLink & 0.2877608 & 0.0030800 & 0.0019719 & 0.2928126 \\ \hline
+L2: &0.286753040 &0.003004982 &0.001923920 &0.291681942\\
+\hline
+inLink: &0.307055735 &0.000000123 &0.000000031 &0.307055889\\
+\hline
+outLink: &0.287494007 &0.003077099 &0.001970093 &0.292541199\\
+\hline
+cpu web switch: &0.689330905 &0.000000276 &0.000000069 &0.68933125\\
+\hline
+cpu web server: &0.668442090 &0.000000267 &0.000000067 &0.668442424\\
+\hline
+disco web server: &0.323036672 &0.002939248 &0.001881830 &0.32785775\\
+\hline
+LS1: &0.301311515 &0.003077104 &0.001970095 &0.306358714\\
+\hline
+LS2: &0.286753040 &0.003004982 &0.001923920 &0.291681942\\
+\hline
+LW2: &0.004344743 &0.000045530 &0.000029150 &0.004419423\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Utilizzazioni}
 \label{utilizzazioni}
 \end{table}
-Dalla tabella presentata si può notare che, anche attraverso la risoluzione analitica, i vincoli sulle utilizzazioni sono rispettati e che sono molto simili a quelli presentati nel modello simulativo, se si escludono una differenza del 5\% per quanto riguarda l'utilizzazione dei dischi e del 2\% per quanto riguarda il link di uscita, la LAN e la scheda di rete LS2.
+Dalla tabella presentata si può notare che, anche attraverso la risoluzione analitica, i vincoli sulle utilizzazioni sono rispettati e che sono molto simili a quelli presentati nel modello simulativo, se si escludono una differenza di circa il 3\% per quanto riguarda l'utilizzazione dei dischi.
 \begin{table}[htbp]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3 &Totale\\
+Lunghezza delle code\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink & 0.4437111 & 0.0000001 & 0.0000000 & 0.4437112 \\ \hline
-LS1 & 0.4318259 & 0.0030895 & 0.0019758 & 0.4368912 \\ \hline
-CPU Web Switch & 2.3028735 & 0.0000003 & 0.0000001 & 2.3028739 \\ \hline
-LS2 & 0.4025621 & 0.0030168 & 0.0019294 & 0.4075084 \\ \hline
-L2 & 0.4025621 & 0.0030168 & 0.0019294 & 0.4075084 \\ \hline
-LW2 & 0.0043678 & 0.0000456 & 0.0000292 & 0.0044425 \\ \hline
-CPU Web Server & 2.0217167 & 0.0000003 & 0.0000001 & 2.0217170 \\ \hline
-Disco Web Server & 0.4778392 & 0.0029507 & 0.0018871 & 0.4826770 \\ \hline
-outLink & 0.4040226 & 0.0030895 & 0.0019758 & 0.4090879 \\ \hline
+L2: &0.402038923 &0.003014039 &0.001927629 &0.406980591\\
+\hline
+inLink: &0.443117507 &0.000000123 &0.000000031 &0.443117661\\
+\hline
+outLink: &0.403496967 &0.003086597 &0.001973982 &0.408557546\\
+\hline
+cpu web switch: &2.218858963 &0.000000276 &0.000000069 &2.218859308\\
+\hline
+cpu web server: &2.016064373  &0.000000267 &0.000000067 &2.016064707\\
+\hline
+disco web server: &0.477184891 &0.002947912 &0.001885377 &0.48201818\\
+\hline
+LS1: &0.431253014 &0.003086602 &0.001973984 &0.4363136\\
+\hline
+LS2: &0.402038923 &0.003014039 &0.001927629 &0.406980591\\
+\hline
+LW2: &0.004363702 &0.000045532 &0.000029151 &0.004438385\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Lunghezza Code}
@@ -109,15 +131,30 @@ Come era logico aspettarsi, data la natura della formula che rappresenta la lung
 Centro	&Classe 1	&Classe 2	&Classe 3\\
 \hline
 \hline
-inLink & 0.0001340 & 0.0000928 & 0.0000928 \\ \hline
-LS1 & 0.0001304 & 2.3321298 & 5.9658888 \\ \hline
-CPU Web Switch & 0.0006953 & 0.0002105 & 0.0002105 \\ \hline
-LS2 & 0.0001177 & 2.2773006 & 5.8257885 \\ \hline
-L2 & 0.0001177 & 2.2773006 & 5.8257885 \\ \hline
-LW2 & 0.0000843 & 2.2705545 & 5.8147395 \\ \hline
-CPU Web Server & 0.0402896 & 0.0133333 & 0.0133333 \\ \hline
-Disco Web Server & 0.1142708 & 1764.05 & 4512.89 \\ \hline
-outLink & 0.0001220 & 2.3321256 & 5.9658847 \\ \hline
+\hline
+Tempo di residenza\\
+\hline
+Centro &Classe1 &Classe2 &Classe3\\
+\hline
+\hline
+L2: &0.000117695 &2.277294228 &5.825778128\\
+\hline
+inLink: &0.000133921 &0.000092800 &0.000092800\\
+\hline
+outLink: &0.000121947 &2.332118913 &5.965873728\\
+\hline
+cpu web switch: &0.000670596 &0.000208333 &0.000208333\\
+\hline
+cpu web server: &0.040214192 &0.013333337 &0.013333334\\
+\hline
+disco web server: &0.114220190 &1764.048526653 &4512.885306683\\
+\hline
+LS1: &0.000130336 &2.332123114 &5.965877921\\
+\hline
+LS2: &0.000117695 &2.277294228 &5.825778128\\
+\hline
+LW2: &0.000084312 &2.270554378 &5.814739298\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Tempo di residenza}
@@ -130,18 +167,29 @@ In questa tabella si notano immediatamente i valori spropositati dei tempi di re
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3 &Totale\\
+Utilizzazioni\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink & 0.1844044 & 0.0000001 & 0.0000000 & 0.1844045 \\ \hline
-LS1 & 0.1809546 & 0.0018480 & 0.0011832 & 0.1839858 \\ \hline
-CPU Web Switch & 0.4183400 & 0.0000002 & 0.0011832 & 0.4195233 \\ \hline
-LS2 & 0.1722115 & 0.0018047 & 0.0011395 & 0.1751556 \\ \hline
-L2 & 0.1722115 & 0.0018047 & 0.0011554 & 0.1751715 \\ \hline
-LW2 & 0.0026093 & 0.0000273 & 0.0000175 & 0.0026541 \\ \hline
-CPU Web Server & 0.4014374 & 0.0000002 & 0.0000000 & 0.4014376 \\ \hline
-Disco Web Server & 0.1940018 & 0.0017652 & 0.0011301 & 0.1968972 \\ \hline
-outLink & 0.1726565 & 0.0018480 & 0.0011832 & 0.1756876 \\ \hline
+L2: &0.172051824 &0.001802989 &0.001154352 &0.175009165\\
+\hline
+inLink: &0.184233441 &0.000000074 &0.000000018 &0.184233533\\
+\hline
+outLink: &0.172496404 &0.001846259 &0.001182056 &0.175524719\\
+\hline
+cpu web switch: &0.413598543 &0.000000165 &0.000000041 &0.413598749\\
+\hline
+cpu web server: &0.401065254 &0.000000160 &0.000000040 &0.401065454\\
+\hline
+disco web server: &0.193822003 &0.001763549 &0.001129098 &0.19671465\\
+\hline
+LS1: &0.180786909 &0.001846263 &0.001182057 &0.183815229\\
+\hline
+LS2: &0.172051824 &0.001802989 &0.001154352 &0.175009165\\
+\hline
+LW2: &0.002606846 &0.000027318 &0.000017490 &0.002651654\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Utilizzazioni}
@@ -152,18 +200,29 @@ Le utilizzazioni, nel caso dell'introduzione del proxy server, tendono a diminui
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3 &Totale\\
+Lunghezza delle code\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink & 0.2260978 & 0.0000001 & 0.0000000 & 0.2260979 \\ \hline
-LS1 & 0.2209336 & 0.0018514 & 0.0011846 & 0.2239696 \\ \hline
-CPU Web Switch & 0.7192174 & 0.0000002 & 0.0000000 & 0.7192176 \\ \hline
-LS2 & 0.2080380 & 0.0018079 & 0.0011568 & 0.2110027 \\ \hline
-L2 & 0.2080380 & 0.0018079 & 0.0011568 & 0.2110027 \\ \hline
-LW2 & 0.0026161 & 0.0000273 & 0.0000175 & 0.0026609 \\ \hline
-CPU Web Server & 0.6706690 & 0.0000002 & 0.0000000 & 0.6706692 \\ \hline
-Disco Web Server & 0.2406976 & 0.0017683 & 0.0011314 & 0.2435973 \\ \hline
-outLink & 0.2086877 & 0.0018514 & 0.0011846 & 0.2117237 \\ \hline
+L2: &0.207805064 &0.001806246 &0.001155686 &0.210766996\\
+\hline
+inLink: &0.225840884 &0.000000074 &0.000000018 &0.225840976\\
+\hline
+outLink: &0.208453963 &0.001849674 &0.001183455 &0.211487092\\
+\hline
+cpu web switch: &0.705316364 &0.000000165 &0.000000041 &0.70531657\\
+\hline
+cpu web server: &0.669630968 &0.000000160 &0.000000040 &0.669631168\\
+\hline
+disco web server: &0.240420855 &0.001766664 &0.001130374 &0.243317893\\
+\hline
+LS1: &0.220683618 &0.001849678 &0.001183456 &0.223716752\\
+\hline
+LS2: &0.207805064 &0.001806246 &0.001155686 &0.210766996\\
+\hline
+LW2: &0.002613659 &0.000027319 &0.000017490 &0.002658468\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Lunghezza Code}
@@ -174,18 +233,29 @@ L'introduzione del proxy comporta anche un minore accodamento delle richieste. S
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3 \\
+Tempo di residenza\\
+\hline
+Centro &Classe1 &Classe2 &Classe3\\
 \hline
 \hline
-inLink & 0.0001138 & 0.0000928 & 0.0000928 \\ \hline
-LS1 & 0.0001112 & 2.3292513 & 5.9611776 \\ \hline
-CPU Web Switch & 0.0003619 & 0.0002105 & 0.0002105 \\ \hline
-LS2 & 0.0001014 & 2.2745558 & 5.8212959 \\ \hline
-L2 & 0.0001014 & 2.2745558 & 5.8212959 \\ \hline
-LW2 & 0.0000842 & 2.2705131 & 5.8146716 \\ \hline
-CPU Web Server & 0.0222756 & 0.0133333 & 0.0133333 \\ \hline
-Disco Web Server & 0.0959343 & 1761.97 & 4509.49 \\ \hline
-outLink & 0.0001050 & 2.3292471 & 5.9611734 \\ \hline
+L2: &0.000101390 &2.274551992 &5.821289614\\
+\hline
+inLink: &0.000113758 &0.000092800 &0.000092800\\
+\hline
+outLink: &0.000105000 &2.329243139 &5.961166833\\
+\hline
+cpu web switch: &0.000355274 &0.000208333 &0.000208333\\
+\hline
+cpu web server: &0.022261746 &0.013333335 &0.013333334\\
+\hline
+disco web server: &0.095912913 &1761.970872492 &4509.484474463\\
+\hline
+LS1: &0.000111160 &2.329247330 &5.961171019\\
+\hline
+LS2: &0.000101390 &2.274551992 &5.821289614\\
+\hline
+LW2: &0.000084165 &2.270513026 &5.814671497\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Tempo di residenza}
@@ -197,19 +267,31 @@ L'introduzione del proxy server non risolve il problema della gestione di file d
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3 &Totale\\
+Utilizzazioni\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink & 0.3073406 & 0.0000001 & 0.0000000 & 0.3073408 \\ \hline
-LS1 & 0.0138303 & 0.0000000 & 0.0000000 & 0.0138303 \\ \hline
-CPU Web Switch & 0.3486167 & 0.0000001 & 0.0000000 & 0.3486168 \\ \hline
-LS2 & 0.0090041 & 0.0000000 & 0.0000000 & 0.0090041 \\ \hline
-L2 & 0.0090041 & 0.0000000 & 0.0000000 & 0.0090041 \\ \hline
-LW2 & 0.0001364 & 0.0000000 & 0.0000000 & 0.0001364 \\ \hline
-CPU Web Server & 0.6690623 & 0.0000003 & 0.0000001 & 0.6690626 \\ \hline
-Disco Web Server & 0.3233364 & 0.0029420 & 0.0018836 & 0.3281619 \\ \hline
-LW3 & 0.0070097 & 0.0000750 & 0.0000480 & 0.0071327 \\ \hline
-Link Addizionale & 0.4626379 & 0.0049517 & 0.0031703 & 0.4707599 \\ \hline
+L2: &0.008995768 &0.000000004 &0.000000001 &0.008995773\\
+\hline
+inLink: &0.307055735 &0.000000123 &0.000000031 &0,307055889\\
+\hline
+cpu web switch: &0.344665453 &0.000000138 &0.000000034 &0.344665625\\
+\hline
+cpu web server: &0.668442090 &0.000000267 &0.000000067 &0.668442424\\
+\hline
+disco web server: &0.323036672 &0.002939248 &0.001881830 &0.32785775\\
+\hline
+linkAdd: &0.462209015 &0.004947104 &0.003167353 &0.470323472\\
+\hline
+LS1: &0.013817508 &0.000000006 &0.000000001 &0.013817515\\
+\hline
+LS2: &0.008995768 &0.000000004 &0.000000001 &0.008995773\\
+\hline
+LW2: &0.000136300 &0.000000000 &0.000000000 &0.0001363\\
+\hline
+LW3: &0.007003167 &0.000074956 &0.000047990 &0.007126113\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Utilizzazioni}
@@ -220,19 +302,30 @@ Come già evidenziato nel modello simulativo, l'introduzione del link addizional
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3 &Totale\\
+Lunghezza delle code\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink & 0.4437111 & 0.0000001 & 0.0000000 & 0.4437112 \\ \hline
-LS1 & 0.0140243 & 0.0000000 & 0.0000000 & 0.0140243 \\ \hline
-CPU Web Switch & 0.5351943 & 0.0000001 & 0.0000000 & 0.5351945 \\ \hline
-LS2 & 0.0090859 & 0.0000000 & 0.0000000 & 0.0090859 \\ \hline
-L2 & 0.0090859 & 0.0000000 & 0.0000000 & 0.0090859 \\ \hline
-LW2 & 0.0001364 & 0.0000000 & 0.0000000 & 0.0001364 \\ \hline
-CPU Web Server & 2.0217167 & 0.0000003 & 0.0000001 & 2.0217170 \\ \hline
-Disco Web Server & 0.4778392 & 0.0029507 & 0.0018871 & 0.4826770 \\ \hline
-LW3 & 0.0070591 & 0.0000750 & 0.0000480 & 0.0071822 \\ \hline
-Link Addizionale & 0.8609424 & 0.0049763 & 0.0031804 & 0.8690992 \\ \hline
+L2: &0.009077427 &0.000000004 &0.000000001 &0.009077432\\
+\hline
+inLink: &0.443117507 &0.000000123 &0.000000031 &0.443117661\\
+\hline
+cpu web switch: &0.525938170 &0.000000138 &0.000000034 &0.525938342\\
+\hline
+cpu web server: &2.016064373 &0.000000267 &0.000000067 &2.016064707\\
+\hline
+disco web server: &0.477184891 &0.002947912 &0.001885377 &0.48201818\\
+\hline
+linkAdd: &0.859458465 &0.004971700 &0.003177417 &0.867607582\\
+\hline
+LS1: &0.014011107 &0.000000006 &0.000000001 &0.014011114\\
+\hline
+LS2: &0.009077427 &0.000000004 &0.000000001 &0.009077432\\
+\hline
+LW2: &0.000136318 &0.000000000 &0.000000000 &0.000136318\\
+\hline
+LW3: &0.007052557 &0.000074962 &0.000047992 &0.007175511\\
 \end{tabular}
 \end{center}
 \caption{Lunghezza Code}
@@ -243,19 +336,31 @@ Le code risultano essere tutte minori di uno, ad eccezione della CPU del Web Ser
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3 \\
+Tempo di residenza\\
+\hline
+Centro &Classe1 &Classe2 &Classe3\\
 \hline
 \hline
-inLink & 0.0001340 & 0.0000928 & 0.0000928 \\ \hline
-LS1 & 0.0000042 & 0.0000042 & 0.0000042 \\ \hline
-CPU Web Switch & 0.0003232 & 0.0002105 & 0.0002105 \\ \hline
-LS2 & 0.0000027 & 0.0000027 & 0.0000027 \\ \hline
-L2 & 0.0000027 & 0.0000027 & 0.0000027 \\ \hline
-LW2 & 0.0000027 & 0.0000027 & 0.0000027 \\ \hline
-CPU Web Server & 0.0402896 & 0.0133333 & 0.0133333 \\ \hline
-Disco Web Server & 0.1142708 & 1764.05 & 4512.89 \\ \hline
-LW3 & 0.0001407 & 3.7381305 & 9.5730007 \\ \hline
-Link Addizionale & 0.0002600 & 3.7564509 & 9.6029851 \\ \hline
+L2: &0.000002743 &0.000002719 &0.000002719\\
+\hline
+inLink: &0.000133921 &0.000092800 &0.000092800\\
+\hline
+cpu web switch: &0.000317904 &0.000208333 &0.000208333\\
+\hline
+cpu web server: &0.040214192 &0.013333337 &0.013333334\\
+\hline
+disco web server: &0.114220190 &1764.048526653 &4512.885306683\\
+\hline
+linkAdd: &0.000259750 &3.756433553 &9.602956788\\
+\hline
+LS1: &0.000004235 &0.000004176 &0.000004176\\
+\hline
+LS2: &0.000002743 &0.000002719 &0.000002719\\
+\hline
+LW2: &0.000002719 &0.000002719 &0.000002719\\
+\hline
+LW3: &0.000140677 &3.738130279 &9.573000246\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Tempo di residenza}

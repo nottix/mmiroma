@@ -192,7 +192,13 @@ int get_doc_class(double doc_size)
 	int index = 0;
 	distance[0] = fabs(10281-doc_size);
 	distance[1] = fabs(279513744-doc_size);
-	distance[2] = fabs(715827882-doc_size);
+	distance[2] = fabs(715827882-doc_size); 
+	/*distance[0] = fabs(10073-doc_size);
+	distance[1] = fabs(17740962-doc_size);
+	distance[2] = fabs(70926601-doc_size);
+	distance[3] = fabs(279513744-doc_size);
+	distance[4] = fabs(715827882-doc_size);
+	*/
 	min = distance[0];
 	for(i=1; i < K; i++) {
 		if(distance[i] < min) {
