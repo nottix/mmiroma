@@ -1,39 +1,76 @@
+\hline
+Utilizzazioni
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
+\hline
+\hline
+ cpu web server i-esimo: 	&0.7167869	&0.0000002	&0.0000001	&0.7167871\\
+\hline
+ disco i-esimo: 	&0.3128002	&0.0000000	&0.0000000	&0.3128002\\
+\hline
+ inLink: 	&0.3294591	&0.0000002	&0.0000001	&0.3294594\\
+\hline
+ outLink: 	&0.2996635	&0.0000000	&0.0000000	&0.2996635\\
+\hline
+ cpu web switch: 	&0.7392626	&0.0000002	&0.0000001	&0.7392628\\
+\hline
+ LAN: 	&0.2990815	&0.0000000	&0.0000000	&0.2990815\\
+\hline
+ LS1: 	&0.3144901	&0.0000000	&0.0000000	&0.3144901\\
+\hline
+ LS2:	&0.2990815	&0.0000000	&0.0000000	&0.2990815\\
+\hline
+ LW2: 	0.0045316	0.0000000	0.0000000	&0.0045316\\
+\hline
 
+\hline
+Lunghezza media delle code
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
+\hline
+\hline
+ cpu web server i-esimo: 	&3.9782364	&0.0000012	&0.0000006	&3.9782382\\
+\hline
+ disco i-esimo: 	&0.6957288	&0.0000000	&0.0000000	&0.6957288\\
+\hline
+ inLink: 	&1.0129555	&0.0000002	&0.0000001	&1.0129558\\
+\hline
+ outLink: 	&5.6197781	&0.0000000	&0.0000000	&5.6197781\\
+\hline
+ cpu web switch: 	&6.0216761	&0.0000009	&0.0000001	&6.0216771\\
+\hline
+ LAN: 	&2.0022744	&0.0000002	&0.0000000	&2.0022746\\
+\hline
+ LS1: 	&4.5046757	&0.0000000	&0.0000000	&4.5046757\\
+\hline
+ LS2: 	&3.6126354	&0.0000000	&0.0000000	&3.6126354\\
+\hline
+ LW2: 	&0.0051400	&0.0000000	&0.0000000	&0.0051400\\
+\hline
 
-Utilizzazione cpu web server i-esimo: 	0.6675424	0.0000002	0.0000002	
-Utilizzazione disco i-esimo              : 	0.2889666	0.0000000	0.0000000	
-Utilizzazione inLink     : 	0.3071744	0.0000001	0.0000002	
-Utilizzazione outLink     : 	0.0000000	0.0000000	0.0000000	
-Utilizzazione cpu web switch            : 	0.3484280	0.0000002	0.0000002	
-Utilizzazione LAN                       : 	0.0089992	0.0000000	0.0000000	
-Utilizzazione LS1                       :	0.0138228	0.0000000	0.0000000	
-Utilizzazione LS2                       :	0.0089992	0.0000000	0.0000000	
-Utilizzazione LW2                       :	0.0001364	0.0000000	0.0000000	
-Utilizzazione LINK_ADD                       :	0.4449257	0.0000000	0.0000000	
-Utilizzazione LW3                       :	0.0067413	0.0000000	0.0000000	
+\hline
+Tempo Medio di Risposta
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
+\hline
+\hline
+ cpu web server i-esimo: 	&0.0365676	&0.0001307	&0.0000703	&0.0367686\\
+\hline
+ disco i-esimo: 	&0.1738966	&0.0000000	&0.0000000	&0.1738966\\
+\hline
+ inLink: 	&0.0002853	&0.0000227	&0.0000093	&0.0003173\\
+\hline
+ outlink: 	&0.0015856	&0.0000000	&0.0000000	&0.0015856\\
+\hline
+ cpu web switch: 	&0.0008480	&0.0000995	&0.0000137	&0.0009611\\
+\hline
+ LAN: 	&0.0002824	&0.0000231	&0.0000003	&0.0003057\\
+\hline
+ LS1: 	&0.0006352	&0.0000008	&0.0000004	&0.0006365\\
+\hline
+ LS2: 	&0.0005094	&0.0000005	&0.0000003	&0.0005103\\
+\hline
+ LW2: 	&0.0000495	&0.0000000	&0.0000000	&0.0000495\\
+\hline
 
-Lunghezza coda cpu web server i-esimo : 	1.5040370	0.0000005	0.0000007	
-Lunghezza coda disco i-esimo              : 	1.6973230	0.0000060	0.0000000	
-Lunghezza coda inLink      : 	0.4664123	0.0000002	0.0000002	
-Lunghezza coda outLink       : 	0.0000000	0.0000000	0.0000000	
-Lunghezza coda cpu web switch             : 	0.4110552	0.0000002	0.0000002	
-Lunghezza coda LAN                        : 	0.0089992	0.0000000	0.0000000	
-Lunghezza coda LS1                        : 	0.0138228	0.0000000	0.0000000	
-Lunghezza coda LS2                        : 	0.0089992	0.0000000	0.0000000	
-Lunghezza coda LW2                        : 	0.0001364	0.0000000	0.0000000	
-Lunghezza coda LINK_ADD                       : 	3.2110055	0.0000000	0.0000000	
-Lunghezza coda LW3                        : 	0.0070295	0.0000000	0.0000000	
-
-Tempo medio di risposta cpu web server i-esimo: 	0.0149968	0.0000659	0.0000813	
-Tempo medio di risposta disco i-esimo             : 	3.4561668	0.0000000	0.0000000	
-Tempo medio di risposta inLink     : 	0.0001409	0.0000198	0.0000186	
-Tempo medio di risposta link internet uscita      : 	0.0000000	0.0000000	0.0000000	
-Tempo medio di risposta cpu web switch            : 	0.0001242	0.0000252	0.0000211	
-Tempo medio di risposta LAN                       : 	0.0000027	0.0000005	0.0000005	
-Tempo medio di risposta LS1                       : 	0.0000042	0.0000008	0.0000008	
-Tempo medio di risposta LS2                       : 	0.0000027	0.0000005	0.0000005	
-Tempo medio di risposta LW2                       : 	0.0000027	0.0000000	0.0000000	
-Tempo medio di risposta LINK_ADD                       : 	0.0009744	0.0000000	0.0000000	
-Tempo medio di risposta LW3                       : 	0.0001407	0.0000000	0.0000000	
-
- Tasso medio di arrivi (lambda)                        : 3310.08
+ Tasso medio di arrivi (lambda)                        : 3550.2

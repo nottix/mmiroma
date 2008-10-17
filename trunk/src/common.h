@@ -14,7 +14,7 @@
 #define ROTATIONAL_SPEED 7200 //RPM
 #define TRANSFER_RATE 100 //MB/sec
 #define BANDWIDTH_L2 1024 // Mbps
-#define CPU_WEB_SWITCH_SERVICE_RATE 9500 //richieste/secondo tasso servizio CPU switch
+#define CPU_WEB_SWITCH_SERVICE_RATE 9600 //richieste/secondo tasso servizio CPU switch
 #define NUM_SERVER 66 
 #define NUM_DISK 12
 #define BANDWIDTH_LINKADD 622 //Mbps
@@ -29,8 +29,8 @@
 #define MAX_CLASSES 10
 #define MAX_OBSERVATION 400000#define NUM_CLASSES 3 //uguale a K
 
-#define K 3 //numero di cluster
-#define NUM_ITERATIONS 5 
+#define K 3//numero di cluster
+#define NUM_ITERATIONS 10 
 #define SEED 3
 
 //definizione delle varianti

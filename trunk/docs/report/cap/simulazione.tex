@@ -202,7 +202,7 @@ I parametri da dimensionare erano i seguenti:
 	\item Banda del link Addizionale
 \end{itemize}
 Transfer rate delle schede di rete LS1, LS2, LW2, LW3.
-E' doveroso sottolineare che tutte le schede di rete sono state dimensionate tenendo conto delle reti a cui erano collegate e quindi queste presenteranno un transfer rate pari alla banda della LAN a cui sono accoppiate. Le simulazioni sono state condotte sulla configurazione standard del sistema in cui il server veniva scelto in modo random e  i risultati sono stati mediati su 5 run diversi, poiché non è molto corretto attenersi agli esiti di una singola simulazione del sistema. I parametri risultanti sono stati:
+E' doveroso sottolineare che tutte le schede di rete sono state dimensionate tenendo conto delle reti a cui erano collegate e quindi queste presenteranno un transfer rate pari alla banda della LAN a cui sono accoppiate. Le simulazioni sono state condotte sulla configurazione standard del sistema in cui il server veniva scelto in modo random e  i risultati sono stati mediati su 10 run diversi, poiché non è molto corretto attenersi agli esiti di una singola simulazione del sistema. I parametri risultanti sono stati:
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c||}
@@ -213,7 +213,7 @@ Banda incoming Link				&45 Mbps (T3)\\
 \hline	
 Banda Outgoing Link				&1000 Mbps\\
 \hline
-CPU Web Switch Service Rate		&9500 richieste/secondo\\
+CPU Web Switch Service Rate		&9600 richieste/secondo\\
 \hline
 Numero di Web Server			&66\\
 \hline
@@ -421,68 +421,72 @@ rerun();
 Dal frammento di codice sopra riportato si può notare il ciclo \code{for} e la funzione \code{rerun()} che consentono di eseguire più simulazioni e quindi di ottenere risultati più accurati; inoltre si può notare come siano stati scartati i valori relativi al transiente. E' opportuno sottolineare come alla condizione di convergenza sia stata aggiunta un'ulteriore condizione basata sul numero di osservazioni, poiché come visto nello studio del transiente, la convergenza potrebbe non verificarsi per tutte le iterazioni.
 
 \section{Presentazione dei risultati}
-Si presentano di seguito i risultati mediati su 5 iterazioni, per ogni componente del sistema preso in esame e per tutte le varianti analizzate. Le statistiche riportate sono l'utilizzazione, la lunghezza media delle coda e il tempo di risposta per ogni classe di richiesta.
+Si presentano di seguito i risultati mediati su 10 iterazioni, per ogni componente del sistema preso in esame e per tutte le varianti analizzate. Le statistiche riportate sono l'utilizzazione, la lunghezza media delle coda e il tempo di risposta per ogni classe di richiesta.
 \subsection{Risultati Random}
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3	&Totale\\
+Utilizzazioni\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink	&0.3073418		&0.0000002		&0.0000002		&0.3073422\\
+ cpu web server i-esimo: 	&0.6673596	&0.0000002	&0.0000001	&0.6673599\\
 \hline
-LS1	&0.2907208		&0.0000000		&0.0000000		&0.2907208\\
+ disco i-esimo: 	&0.2901815	&0.0000000	&0.0000000	&0.2901815\\
 \hline
-CPU Web Switch	&0.6960784		&0.0000002		&0.0000002		&0.6960788\\
+ inLink: 	&0.3070558	&0.0000002	&0.0000001	&0.3070561\\
 \hline
-LS2	&0.2764128		&0.0000000		&0.0000000		&0.2764128\\
+ outLink: 	&0.2779962	&0.0000000	&0.0000000	&0.2779962\\
 \hline
-L2		&0.2764129		&0.0000000		&0.0000000		&0.2764129\\
+ cpu web switch: 	&0.6882190	&0.0000003	&0.0000001	&0.6882193\\
 \hline
-LW2	&0.0041882		&0.0000000		&0.0000000		&0.0041882\\
+ LAN: 	&0.2774720	&0.0000000	&0.0000000	&0.2774720\\
 \hline
-CPU Web Server	&0.6679466		&0.0000002		&0.0000002		&0.6679470\\
+ LS1: 	&0.2917997	&0.0000000	&0.0000000	&0.2917997\\
 \hline
-Disco Web Server	&0.2891558		&0.0000000		&0.0000000		&0.2891558\\
+ LS2:	&0.2774737	&0.0000000	&0.0000000	&0.2774737\\
 \hline
-outLink		&0.2768898		&0.0000000		&0.0000000		&0.2768898\\
+ LW2: 	0.0042041	0.0000000	0.0000000	&0.0042041\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Risultati}
+\caption{Utilizzazioni}
 \label{risrandom}
 \end{table}
-Come si può notare, il vincolo sull'utilizzazione richiesto nelle specifiche del progetto è stato rispettato, con la risorsa collo di bottiglia (CPU Web Switch) che presenta un'utilizzazione del 69,6\%. Le altre risorse, ad eccezione della CPU del web server, presentano un'utilizzazione piuttosto basse.
+Come si può notare, il vincolo sull'utilizzazione richiesto nelle specifiche del progetto è stato rispettato, con la risorsa collo di bottiglia (CPU Web Switch) che presenta un'utilizzazione del 68,8\%. Le altre risorse, ad eccezione della CPU del web server, presentano un'utilizzazione piuttosto basse.
 
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3	&Totale\\
+Lunghezza media delle code\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink	&0.8156514		&0.0000002		&0.0000002		&0.8156518\\
+ cpu web server i-esimo: 	&1.5556346	&0.0000003	&0.0000001	&1.5556350\\
 \hline
-LS1	&3.1515519		&0.0000052		&0.0000000		&3.1515571\\
+ disco i-esimo: 	&1.6398481	&0.0000002	&0.0000000	&1.6398483\\
 \hline
-CPU Web Switch	&3.6578590		&0.0000003		&0.0000004		&3.6578597\\
+ inLink: 	&0.8287492	&0.0000002	&0.0000001	&0.8287495\\
 \hline
-LS2	&2.5567767		&0.0000000		&0.0000000		&2.5567767\\
+ outLink: 	&4.2762899	&0.0000000	&0.0000000	&4.2762899\\
 \hline
-L2		&1.5184698		&0.0000000		&0.0000000		&1.5184698\\
+ cpu web switch: 	&3.6788684	&0.0000005	&0.0000003	&3.6788692\\
 \hline
-LW2	&0.0044237		&0.0000000		&0.0000000		&0.0044237\\
+ LAN: 	&1.6334769	&0.0000001	&0.0000000	&1.6334770\\
 \hline
-CPU Web Server	&1.5397864		&0.0000002		&0.0000003		&1.5397869\\
+ LS1: 	&3.3884849	&0.0000000	&0.0000000	&3.3884849\\
 \hline
-Disco Web Server	&1.5960687		&0.0000000		&0.0000000		&1.5960687\\
+ LS2: 	&2.7263059	&0.0000002	&0.0000001	&2.7263062\\
 \hline
-outLink		&4.0123727		&0.0000000		&0.0000000		&4.0123727\\
+ LW2: 	&0.0044529	&0.0000000	&0.0000000	&0.0044529\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Risultati}
+\caption{Lunghezza code}
 \label{ris}
 \end{table}
 Per quanto concerne la lunghezza della coda, si nota un accodamento delle risposte nel link di uscita, che presenta valori più alti persino del web switch.
@@ -491,18 +495,29 @@ Per quanto concerne la lunghezza della coda, si nota un accodamento delle rispos
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3\\
+Tempo Medio di Risposta\\
+\hline
+Centro &Classe1 &Classe2 &Classe3\\
 \hline
 \hline
-inLink & 0.0002465 & 0.0000186 & 0.0000305 \\ \hline
-LS1 & 0.0004580 & 0.0000008 & 0.0000008 \\ \hline
-CPU Web Switch & 0.0005651 & 0.0000836 & 0.0000849 \\ \hline
-LS2 & 0.0003758 & 0.0000005 & 0.0000327 \\ \hline
-L2 & 0.0002277 & 0.0000062 & 0.0000005 \\ \hline
-LW2 & 0.0000441 & 0.0000000 & 0.0000002 \\ \hline
-CPU Web Server & 0.0097529 & 0.0000202 & 0.0000202 \\ \hline
-Disco Web Server & 4.6214934 & 0.0000000 & 0.0000000 \\ \hline
-outLink & 0.0011748 & 0.0000000 & 0.0000000 \\ \hline
+ cpu web server i-esimo: 	&0.0155025	&0.0000349	&0.0000133\\
+\hline
+ disco i-esimo: 	&0.8416113	&0.0000000	&0.0000000\\
+\hline
+ inLink: 	&0.0002501	&0.0000286	&0.0000122\\
+\hline
+ outlink: 	&0.0012935	&0.0000000	&0.0000000\\
+\hline
+ cpu web switch: 	&0.0005546	&0.0000599	&0.0000377\\
+\hline
+ LAN: 	&0.0002467	&0.0000079	&0.0000003\\
+\hline
+ LS1: 	&0.0005116	&0.0000013	&0.0000004\\
+\hline
+ LS2: 	&0.0004116	&0.0000223	&0.0000111\\
+\hline
+ LW2: 	&0.0000445	&0.0000000	&0.0000000\\
+\hline
 \end{tabular}
 \end{center}
 \label{tempomediorisposta}
@@ -514,18 +529,29 @@ I tempi medi di risposta per la Classe1 evidenziano una lentezza generale dei di
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3\\
+Utilizzazioni\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink & 0.3283939 & 0.0000002 & 0.0000002 & 0.3283943 \\ \hline
-LS1 & 0.3127823 & 0.0000000 & 0.0000000 & 0.3127823 \\ \hline
-CPU Web Switch & 0.7446522 & 0.0000002 & 0.0000002 & 0.7446526 \\ \hline
-LS2 & 0.2974405 & 0.0000000 & 0.0000000 & 0.2974405 \\ \hline
-L2 & 0.2974405 & 0.0000000 & 0.0000000 & 0.2974405 \\ \hline
-LW2 & 0.0045066 & 0.0000000 & 0.0000000 & 0.0045066 \\ \hline
-CPU Web Server & 0.7144889 & 0.0000002 & 0.0000002 & 0.7144893 \\ \hline
-Disco Web Server & 0.3111120 & 0.0000000 & 0.0000000 & 0.3111120 \\ \hline
-outLink & 0.2980040 & 0.0000000 & 0.0000000 & 0.2980040 \\ \hline
+ cpu web server i-esimo: 	&0.6747827	&0.0000003	&0.0000001	&0.6747830\\
+\hline
+ disco i-esimo: 	&0.2937349	&0.0000000	&0.0000000	&0.2937349\\
+\hline
+ inLink: 	&0.3104327	&0.0000002	&0.0000001	&0.3104331\\
+\hline
+ outLink: 	&0.2814336	&0.0000000	&0.0000000	&0.2814336\\
+\hline
+ cpu web switch: 	&0.6958719	&0.0000003	&0.0000001	&0.6958723\\
+\hline
+ LAN: 	&0.2809161	&0.0000000	&0.0000000	&0.2809161\\
+\hline
+ LS1: 	&0.2954094	&0.0000000	&0.0000000	&0.2954094\\
+\hline
+ LS2:	&0.2809159	&0.0000000	&0.0000000	&0.2809159\\
+\hline
+ LW2: 	0.0042562	0.0000000	0.0000000	&0.0042562\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Utilizzazioni}
@@ -536,18 +562,29 @@ Le utilizzazioni delle varie risorse adottando la politica round robin sono quas
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3	&Totale\\
+Lunghezza media delle code\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink & 0.9971276 & 0.0000002 & 0.0000002 & 0.9971280 \\ \hline
-LS1 & 4.6631723 & 0.0000000 & 0.0000000 & 4.6631723 \\ \hline
-CPU Web Switch & 6.1476659 & 0.0000002 & 0.0000002 & 6.1476663 \\ \hline
-LS2 & 3.7715343 & 0.0000022 & 0.0000000 & 3.7715365 \\ \hline
-L2 & 2.0528048 & 0.0000000 & 0.0000000 & 2.0528048 \\ \hline
-LW2 & 0.0051349 & 0.0000000 & 0.0000000 & 0.0051349 \\ \hline
-CPU Web Server & 4.0246807 & 0.0000010 & 0.0000014 & 4.0246831 \\ \hline
-Disco Web Server & 0.7011001 & 0.0000000 & 0.0000006 & 0.7011007 \\ \hline
-outLink & 5.7938724 & 0.0000000 & 0.0000000 & 5.7938724 \\ \hline
+ cpu web server i-esimo: 	&1.0056119	&0.0000004	&0.0000001	&1.0056125\\
+\hline
+ disco i-esimo: 	&1.6242344	&0.0000000	&0.0000002	&1.6242346\\
+\hline
+ inLink: 	&0.8558574	&0.0000002	&0.0000005	&0.8558581\\
+\hline
+ outLink: 	&4.4133256	&0.0000000	&0.0000000	&4.4133256\\
+\hline
+ cpu web switch: 	&3.9749297	&0.0000004	&0.0000003	&3.9749304\\
+\hline
+ LAN: 	&1.6945618	&0.0000001	&0.0000000	&1.6945619\\
+\hline
+ LS1: 	&3.4855153	&0.0000006	&0.0000000	&3.4855159\\
+\hline
+ LS2: 	&2.8162152	&0.0000000	&0.0000001	&2.8162153\\
+\hline
+ LW2: 	&0.0045441	&0.0000000	&0.0000000	&0.0045441\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Lunghezza Code}
@@ -558,41 +595,63 @@ Rispetto al caso presentato precedentemente, si nota un leggero aumento delle co
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3\\
+Tempo Medio di Risposta\\
+\hline
+Centro &Classe1 &Classe2 &Classe3\\
 \hline
 \hline
-inLink & 0.0002818 & 0.0000186 & 0.0000186 \\ \hline
-LS1 & 0.0006594 & 0.0000008 & 0.0000008 \\ \hline
-CPU Web Switch & 0.0008687 & 0.0000211 & 0.0000211 \\ \hline
-LS2 & 0.0005333 & 0.0002488 & 0.0000005 \\ \hline
-L2 & 0.0002903 & 0.0000005 & 0.0000005 \\ \hline
-LW2 & 0.0000488 & 0.0000000 & 0.0000000 \\ \hline
-CPU Web Server & 0.0368452 & 0.0001163 & 0.0001609 \\ \hline
-Disco Web Server & 0.2914445 & 0.0000000 & 0.0000000 \\ \hline
-outLink & 0.0016394 & 0.0000000 & 0.0000000 \\ \hline
+ cpu web server i-esimo: 	&0.0099264	&0.0000537	&0.0000101\\
+\hline
+ disco i-esimo: 	&0.5745555	&0.0000000	&0.0000000\\
+\hline
+ inLink: 	&0.0002556	&0.0000278	&0.0000574\\
+\hline
+ outlink: 	&0.0013225	&0.0000000	&0.0000000\\
+\hline
+ cpu web switch: 	&0.0005932	&0.0000531	&0.0000403\\
+\hline
+ LAN: 	&0.0002535	&0.0000113	&0.0000003\\
+\hline
+ LS1: 	&0.0005215	&0.0000742	&0.0000004\\
+\hline
+ LS2: 	&0.0004213	&0.0000008	&0.0000151\\
+\hline
+ LW2: 	&0.0000449	&0.0000000	&0.0000000\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Tempo medio di risposta}
 \label{tempomediorisposta}
 \end{table}
-Anche per quanto riguarda i tempi medi di risposta, i risultati son analoghi al caso precedente, fatta eccezione per i dischi del web server che presentano un leggero aumento dei tempi, dovuti all'aumento delle code.
+Anche per quanto riguarda i tempi medi di risposta, i risultati sono analoghi al caso precedente, fatta eccezione per i dischi del web server che presentano un leggero aumento dei tempi, dovuti all'aumento delle code.
 \subsection{Risultati Least Loaded}
 \begin{table}[htbp]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3	&Totale\\
+Utilizzazioni\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink & 0.3283939 & 0.0000002 & 0.0000002 & 0.3283943 \\ \hline
-LS1 & 0.3127823 & 0.0000000 & 0.0000000 & 0.3127823 \\ \hline
-CPU Web Switch & 0.7446522 & 0.0000002 & 0.0000002 & 0.7446526 \\ \hline
-LS2 & 0.2974405 & 0.0000000 & 0.0000000 & 0.2974405 \\ \hline
-L2 & 0.2974405 & 0.0000000 & 0.0000000 & 0.2974405 \\ \hline
-LW2 & 0.0045066 & 0.0000000 & 0.0000000 & 0.0045066 \\ \hline
-CPU Web Server & 0.7144889 & 0.0000002 & 0.0000002 & 0.7144893 \\ \hline
-Disco Web Server & 0.3111120 & 0.0000000 & 0.0000000 & 0.3111120 \\ \hline
-outLink & 0.2980040 & 0.0000000 & 0.0000000 & 0.2980040 \\ \hline
+ cpu web server i-esimo: 	&0.7167869	&0.0000002	&0.0000001	&0.7167871\\
+\hline
+ disco i-esimo: 	&0.3128002	&0.0000000	&0.0000000	&0.3128002\\
+\hline
+ inLink: 	&0.3294591	&0.0000002	&0.0000001	&0.3294594\\
+\hline
+ outLink: 	&0.2996635	&0.0000000	&0.0000000	&0.2996635\\
+\hline
+ cpu web switch: 	&0.7392626	&0.0000002	&0.0000001	&0.7392628\\
+\hline
+ LAN: 	&0.2990815	&0.0000000	&0.0000000	&0.2990815\\
+\hline
+ LS1: 	&0.3144901	&0.0000000	&0.0000000	&0.3144901\\
+\hline
+ LS2:	&0.2990815	&0.0000000	&0.0000000	&0.2990815\\
+\hline
+ LW2: 	0.0045316	0.0000000	0.0000000	&0.0045316\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Utilizzazioni}
@@ -603,18 +662,29 @@ Adottando questa politica diminuiscono i tempi medi di servizio e di conseguenza
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3	&Totale\\
+Lunghezza media delle code\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink & 0.9971276 & 0.0000002 & 0.0000002 & 0.9971280 \\ \hline
-LS1 & 4.6631723 & 0.0000000 & 0.0000000 & 4.6631723 \\ \hline
-CPU Web Switch & 6.1476659 & 0.0000002 & 0.0000002 & 6.1476663 \\ \hline
-LS2 & 3.7715343 & 0.0000022 & 0.0000000 & 3.7715365 \\ \hline
-L2 & 2.0528048 & 0.0000000 & 0.0000000 & 2.0528048 \\ \hline
-LW2 & 0.0051349 & 0.0000000 & 0.0000000 & 0.0051349 \\ \hline
-CPU Web Server & 4.0246807 & 0.0000010 & 0.0000014 & 4.0246831 \\ \hline
-Disco Web Server & 0.7011001 & 0.0000000 & 0.0000006 & 0.7011007 \\ \hline
-outLink & 5.7938724 & 0.0000000 & 0.0000000 & 5.7938724 \\ \hline
+ cpu web server i-esimo: 	&3.9782364	&0.0000012	&0.0000006	&3.9782382\\
+\hline
+ disco i-esimo: 	&0.6957288	&0.0000000	&0.0000000	&0.6957288\\
+\hline
+ inLink: 	&1.0129555	&0.0000002	&0.0000001	&1.0129558\\
+\hline
+ outLink: 	&5.6197781	&0.0000000	&0.0000000	&5.6197781\\
+\hline
+ cpu web switch: 	&6.0216761	&0.0000009	&0.0000001	&6.0216771\\
+\hline
+ LAN: 	&2.0022744	&0.0000002	&0.0000000	&2.0022746\\
+\hline
+ LS1: 	&4.5046757	&0.0000000	&0.0000000	&4.5046757\\
+\hline
+ LS2: 	&3.6126354	&0.0000000	&0.0000000	&3.6126354\\
+\hline
+ LW2: 	&0.0051400	&0.0000000	&0.0000000	&0.0051400\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Lunghezza Code}
@@ -625,63 +695,96 @@ Come avviene per le utilizzazioni, anche la lunghezza media delle code aumenta p
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3\\
+Tempo Medio di Risposta\\
+\hline
+Centro &Classe1 &Classe2 &Classe3\\
 \hline
 \hline
-inLink & 0.0002818 & 0.0000186 & 0.0000186 \\ \hline
-LS1 & 0.0006594 & 0.0000008 & 0.0000008 \\ \hline
-CPU Web Switch & 0.0008687 & 0.0000211 & 0.0000211 \\ \hline
-LS2 & 0.0005333 & 0.0002488 & 0.0000005 \\ \hline
-L2 & 0.0002903 & 0.0000005 & 0.0000005 \\ \hline
-LW2 & 0.0000488 & 0.0000000 & 0.0000000 \\ \hline
-CPU Web Server & 0.0368452 & 0.0001163 & 0.0001609 \\ \hline
-Disco Web Server & 0.2914445 & 0.0000000 & 0.0000000 \\ \hline
-outLink & 0.0016394 & 0.0000000 & 0.0000000 \\ \hline
+ cpu web server i-esimo: 	&0.0365676	&0.0001307	&0.0000703\\
+\hline
+ disco i-esimo: 	&0.1738966	&0.0000000	&0.0000000\\
+\hline
+ inLink: 	&0.0002853	&0.0000227	&0.0000093\\
+\hline
+ outlink: 	&0.0015856	&0.0000000	&0.0000000\\
+\hline
+ cpu web switch: 	&0.0008480	&0.0000995	&0.0000137\\
+\hline
+ LAN: 	&0.0002824	&0.0000231	&0.0000003\\
+\hline
+ LS1: 	&0.0006352	&0.0000008	&0.0000004\\
+\hline
+ LS2: 	&0.0005094	&0.0000005	&0.0000003\\
+\hline
+ LW2: 	&0.0000495	&0.0000000	&0.0000000\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Tempo medio di risposta}
 \label{tempomediodirisposta}
 \end{table}
-I tempi di risposta sono più o meno analoghi a quelli presentati in precedenza, fatta eccezione per i dischi del web server, che, come ci si poteva aspettare, riducono notevolmente il loro tempo medio di risposta (si passa infatti da alcuni secondi ad alcuni decimi).
+I tempi di risposta sono più o meno analoghi a quelli presentati in precedenza, fatta eccezione per i dischi del web server, che, come ci si poteva aspettare, riducono il loro tempo medio di risposta.
 \subsection{Risultati Proxy}
 \begin{table}[htbp]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3	&Totale\\
+Utilizzazioni\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink & 0.1971430 & 0.0000002 & 0.0000001 & 0.1971433 \\ \hline
-LS1 & 0.1885414 & 0.0000000 & 0.0000000 & 0.1885414 \\ \hline
-CPU Web Switch & 0.4467349 & 0.0000002 & 0.0000001 & 0.4467352 \\ \hline
-LS2 & 0.1793150 & 0.0000000 & 0.0000000 & 0.1793150 \\ \hline
-L2 & 0.1793153 & 0.0000000 & 0.0000000 & 0.1793153 \\ \hline
-LW2 & 0.0027169 & 0.0000000 & 0.0000000 & 0.0027169 \\ \hline
-CPU Web Server & 0.4286867 & 0.0000002 & 0.0000001 & 0.4286870 \\ \hline
-Disco Web Server & 0.1874500 & 0.0000000 & 0.0000000 & 0.1874500 \\ \hline
-outLink & 0.1796695 & 0.0000000 & 0.0000000 & 0.1796695 \\ \hline
+ cpu web server i-esimo: 	&0.4382355	&0.0000001	&0.0000000	&0.4382356\\
+\hline
+ disco i-esimo: 	&0.1921759	&0.0000000	&0.0000000	&0.1921759\\
+\hline
+ inLink: 	&0.2014804	&0.0000001	&0.0000000	&0.2014805\\
+\hline
+ outLink: 	&0.1842500	&0.0000000	&0.0000000	&0.1842500\\
+\hline
+ cpu web switch: 	&0.4519287	&0.0000001	&0.0000000	&0.4519288\\
+\hline
+ LAN: 	&0.1838706	&0.0000000	&0.0000000	&0.1838706\\
+\hline
+ LS1: 	&0.1933170	&0.0000000	&0.0000000	&0.1933170\\
+\hline
+ LS2:	&0.1838711	&0.0000000	&0.0000000	&0.1838711\\
+\hline
+ LW2: 	0.0027859	0.0000000	0.0000000	&0.0027859\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Utilizzazioni}
 \label{utilizzazioni}
 \end{table}
-L'introduzione del proxy, con un cache hit rate del 40\%, porta ad un notevole calo delle utilizzazioni, riducendo a meno del 45\% l'utilizzazione della risorsa collo di bottiglia del sistema (la CPU del web switch) e della CPU del Web Server. 
+L'introduzione del proxy, con un cache hit rate del 40\%, porta ad un notevole calo delle utilizzazioni, riducendo a meno del 46\% l'utilizzazione della risorsa collo di bottiglia del sistema (la CPU del web switch) e della CPU del Web Server. 
 \begin{table}[htbp]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3	&Totale\\
+Lunghezza media delle code\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink & 0.3234559 & 0.0000002 & 0.0000001 & 0.3234562 \\ \hline
-LS1 & 1.7807534 & 0.0000000 & 0.0000000 & 1.7807534 \\ \hline
-CPU Web Switch & 0.8958446 & 0.0000004 & 0.0000001 & 0.8958451 \\ \hline
-LS2 & 1.3407172 & 0.0000000 & 0.0000007 & 1.3407179 \\ \hline
-L2 & 0.8102622 & 0.0000000 & 0.0000001 & 0.8102623 \\ \hline
-LW2 & 0.0028945 & 0.0000000 & 0.0000000 & 0.0028945 \\ \hline
-CPU Web Server & 0.6106546 & 0.0000002 & 0.0000002 & 0.6106550 \\ \hline
-Disco Web Server & 1.1629642 & 0.0000000 & 0.0000000 & 1.1629642 \\ \hline
-outLink & 2.1765415 & 0.0000000 & 0.0000000 & 2.1765415 \\ \hline
+ cpu web server i-esimo: 	&0.6329342	&0.0000002	&0.0000000	&0.6329343\\
+\hline
+ disco i-esimo: 	&0.9622401	&0.0000000	&0.0000000	&0.9622401\\
+\hline
+ inLink: 	&0.3370955	&0.0000001	&0.0000000	&0.3370956\\
+\hline
+ outLink: 	&2.1766564	&0.0000000	&0.0000000	&2.1766564\\
+\hline
+ cpu web switch: 	&0.9132859	&0.0000002	&0.0000000	&0.9132861\\
+\hline
+ LAN: 	&0.8057551	&0.0000000	&0.0000000	&0.8057551\\
+\hline
+ LS1: 	&1.7810221	&0.0000057	&0.0000000	&1.7810278\\
+\hline
+ LS2: 	&1.3518652	&0.0000001	&0.0000000	&1.3518653\\
+\hline
+ LW2: 	&0.0029656	&0.0000000	&0.0000000	&0.0029656\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Lunghezza Code}
@@ -692,18 +795,29 @@ Anche le code tendono a diminuire notevolmente, come era logico aspettarsi.
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3\\
+Tempo Medio di Risposta\\
+\hline
+Centro &Classe1 &Classe2 &Classe3\\
 \hline
 \hline
-inLink & 0.0001522 & 0.0000411 & 0.0000186 \\ \hline
-LS1 & 0.0004197 & 0.0000041 & 0.0000008 \\ \hline
-CPU Web Switch & 0.0002110 & 0.0000681 & 0.0000211 \\ \hline
-LS2 & 0.0003160 & 0.0000011 & 0.0001318 \\ \hline
-L2 & 0.0001909 & 0.0000011 & 0.0000163 \\ \hline
-LW2 & 0.0000450 & 0.0000000 & 0.0000000 \\ \hline
-CPU Web Server & 0.0094943 & 0.0000404 & 0.0000476 \\ \hline
-Disco Web Server & 1.0960041 & 0.0000000 & 0.0000000 \\ \hline
-outLink & 0.0010271 & 0.0000000 & 0.0000000 \\ \hline
+ cpu web server i-esimo: 	&0.0096208	&0.0000288	&0.0000000\\
+\hline
+ disco i-esimo: 	&1.0033886	&0.0000000	&0.0000000\\
+\hline
+ inLink: 	&0.0001552	&0.0000186	&0.0000000\\
+\hline
+ outlink: 	&0.0010055	&0.0000000	&0.0000000\\
+\hline
+ cpu web switch: 	&0.0002102	&0.0000291	&0.0000000\\
+\hline
+ LAN: 	&0.0001859	&0.0000005	&0.0000000\\
+\hline
+ LS1: 	&0.0004110	&0.0011045	&0.0000000\\
+\hline
+ LS2: 	&0.0003119	&0.0000110	&0.0000000\\
+\hline
+ LW2: 	&0.0000451	&0.0000000	&0.0000000\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Tempo medio di risposta}
@@ -716,19 +830,33 @@ Analogo discorso vale anche per i tempi medi di risposta. Si ricorda che per l'e
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3	&Totale\\
+Utilizzazioni\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink & 0.3071744 & 0.0000001 & 0.0000002 & 0.3071747 \\ \hline
-LS1 & 0.0138228 & 0.0000000 & 0.0000000 & 0.0138228 \\ \hline
-CPU Web Switch & 0.3484280 & 0.0000002 & 0.0000002 & 0.3484284 \\ \hline
-LS2 & 0.0089992 & 0.0000000 & 0.0000000 & 0.0089992 \\ \hline
-L2 & 0.0089992 & 0.0000000 & 0.0000000 & 0.0089992 \\ \hline
-LW2 & 0.0001364 & 0.0000000 & 0.0000000 & 0.0001364 \\ \hline
-CPU Web Server & 0.6675424 & 0.0000002 & 0.0000002 & 0.6675428 \\ \hline
-Disco Web Server & 0.2889666 & 0.0000000 & 0.0000000 & 0.2889666 \\ \hline
-LW3 & 0.0067413 & 0.0000000 & 0.0000000 & 0.0067413 \\ \hline
-Link Addizionale & 0.4449257 & 0.0000000 & 0.0000000 & 0.4449257 \\ \hline
+ cpu web server i-esimo: 	&0.6729036	&0.0000003	&0.0000001	&0.6729039\\
+\hline
+ disco i-esimo: 	&0.2926927	&0.0000000	&0.0000000	&0.2926927\\
+\hline
+ inLink: 	&0.3096163	&0.0000002	&0.0000001	&0.3096167\\
+\hline
+ outLink: 	&0.0000000	&0.0000000	&0.0000000	&0.0000000\\
+\hline
+ cpu web switch: 	&0.3475399	&0.0000003	&0.0000001	&0.3475402\\
+\hline
+ LAN: 	&0.0090708	&0.0000000	&0.0000000	&0.0090708\\
+\hline
+ LS1: 	&0.0139327	&0.0000000	&0.0000000	&0.0139327\\
+\hline
+ LS2:	&0.0090708	&0.0000000	&0.0000000	&0.0090708\\
+\hline
+ LW2: 	0.0001374	0.0000000	0.0000000	&0.0001374\\
+\hline
+ LINK_ADD: 	&0.4508218	&0.0000000	&0.0000000	&0.4508218\\
+\hline
+ LW3: 	&0.0068306	&0.0000000	&0.0000000	&0.0068306\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Utilizzazioni}
@@ -739,19 +867,33 @@ L'introduzione del link addizionale comporta una notevole diminuzione dell'utili
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3	&Totale\\
+Lunghezza media delle code\\
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
-inLink & 0.4664123 & 0.0000002 & 0.0000002 & 0.4664127 \\ \hline
-LS1 & 0.0138228 & 0.0000000 & 0.0000000 & 0.0138228 \\ \hline
-CPU Web Switch & 0.4110552 & 0.0000002 & 0.0000002 & 0.4110556 \\ \hline
-LS2 & 0.0089992 & 0.0000000 & 0.0000000 & 0.0089992 \\ \hline
-L2 & 0.0089992 & 0.0000000 & 0.0000000 & 0.0089992 \\ \hline
-LW2 & 0.0001364 & 0.0000000 & 0.0000000 & 0.0001364 \\ \hline
-CPU Web Server & 1.5040370 & 0.0000005 & 0.0000007 & 1.5040382 \\ \hline
-Disco Web Server & 1.6973230 & 0.0000060 & 0.0000000 & 1.6973290 \\ \hline
-LW3 & 0.0070295 & 0.0000000 & 0.0000000 & 0.0070295 \\ \hline
-Link Addizionale & 3.2110055 & 0.0000000 & 0.0000000 & 3.2110055 \\ \hline
+ cpu web server i-esimo: 	&1.5404288	&0.0000006	&0.0000001	&1.5404295\\
+\hline
+ disco i-esimo: 	&1.6460958	&0.0000006	&0.0000000	&1.6460963\\
+\hline
+ inLink: 	&0.4752640	&0.0000007	&0.0000001	&0.4752647\\
+\hline
+ outLink: 	&0.0000000	&0.0000000	&0.0000000	&0.0000000\\
+\hline
+ cpu web switch: 	&0.4067200	&0.0000004	&0.0000001	&0.4067205\\
+\hline
+ LAN: 	&0.0090708	&0.0000000	&0.0000000	&0.0090708\\
+\hline
+ LS1: 	&0.0139327	&0.0000000	&0.0000000	&0.0139327\\
+\hline
+ LS2: 	&0.0090708	&0.0000000	&0.0000000	&0.0090708\\
+\hline
+ LW2: 	&0.0001374	&0.0000000	&0.0000000	&0.0001374\\
+\hline
+ LINK_ADD: 	&3.5259678	&0.0000000	&0.0000000	&3.5259678\\
+\hline
+ LW3: 	&0.0071490	&0.0000000	&0.0000000	&0.0071490\\
+\hline
 \end{tabular}
 \end{center}
 \caption{Lunghezza Code}
@@ -762,22 +904,36 @@ Anche la lunghezza media delle code dello switch e delle componenti di rete tend
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
-Centro	&Classe 1	&Classe 2	&Classe 3\\
+Tempo Medio di Risposta\\
+\hline
+Centro &Classe1 &Classe2 &Classe3\\
 \hline
 \hline
-inLink & 0.0001409 & 0.0000198 & 0.0000186 \\ \hline
-LS1 & 0.0000042 & 0.0000008 & 0.0000008 \\ \hline
-CPU Web Switch & 0.0001242 & 0.0000252 & 0.0000211 \\ \hline
-LS2 & 0.0000027 & 0.0000005 & 0.0000005 \\ \hline
-L2 & 0.0000027 & 0.0000005 & 0.0000005 \\ \hline
-LW2 & 0.0000027 & 0.0000000 & 0.0000000 \\ \hline
-CPU Web Server & 0.0149968 & 0.0000659 & 0.0000813 \\ \hline
-Disco Web Server & 3.4561668 & 0.0000000 & 0.0000000 \\ \hline
-LW3 & 0.0001407 & 0.0000000 & 0.0000000 \\ \hline
-Link Addizionale & 0.0009744 & 0.0000000 & 0.0000000 \\ \hline
+ cpu web server i-esimo: 	&0.0152177	&0.0000734	&0.0000101\\
+\hline
+ disco i-esimo: 	&0.8363018	&0.0000000	&0.0000000\\
+\hline
+ inLink: 	&0.0001423	&0.0000773	&0.0000093\\
+\hline
+ outlink: 	&0.0000000	&0.0000000	&0.0000000\\
+\hline
+ cpu web switch: 	&0.0001219	&0.0000428	&0.0000104\\
+\hline
+ LAN: 	&0.0000027	&0.0000008	&0.0000003\\
+\hline
+ LS1: 	&0.0000042	&0.0000013	&0.0000004\\
+\hline
+ LS2: 	&0.0000027	&0.0000008	&0.0000003\\
+\hline
+ LW2: 	&0.0000027	&0.0000000	&0.0000000\\
+\hline
+ LINK_ADD: 	&0.0010579	&0.0000000	&0.0000000\\
+\hline
+ LW3: 	&0.0001419	&0.0000000	&0.0000000\\
+\hline
 \end{tabular}
 \end{center}
-\caption{Tempo di residenza}
-\label{tempodiresidenza}
+\caption{Tempo medio di risposta}
+\label{tempomediodirisposta}
 \end{table}
 Quanto evidenziato in precedenza, risulta essere valido anche per il tempo medio di risposta.

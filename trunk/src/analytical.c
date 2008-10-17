@@ -7,7 +7,7 @@
 #include <stdarg.h>
 #include "common.h"
 #include "service.h"
-#define LAMBDA_SIM 3311.86 //prova
+#define LAMBDA_SIM 3308.79 //prova
 #define NUM_OBS 10000000
 
 //Calcola la lunghezza della coda
@@ -38,9 +38,15 @@ int main(int argc, char **argv)
 	
 	//centroidi
 	double doc_size[NUM_CLASSES];  
-	doc_size[0] = 10281;
+	/*doc_size[0] = 10281;  DOC_SIZE PER K=3
 	doc_size[1] = 279513744;
 	doc_size[2] = 715827882;
+	*/
+	doc_size[0] = 10073;
+	doc_size[1] = 17740962;
+	doc_size[2] = 70926601;
+	doc_size[3] = 279513744;
+	doc_size[4] = 715827882;
 	
 	//probabilità che la risorsa non si trovi nel proxy
 	double miss = 1- P_HIT;    
@@ -48,9 +54,17 @@ int main(int argc, char **argv)
 	
 	//tasso di richieste per ogni classe = probabilità di classe * tasso di richieste totale
   double lambda[NUM_CLASSES];
-	lambda[0] = ((double)9999995/(double)NUM_OBS)*LAMBDA_SIM;
+	/*lambda[0] = ((double)9999995/(double)NUM_OBS)*LAMBDA_SIM;
 	lambda[1] = ((double)4/(double)NUM_OBS)*LAMBDA_SIM;
 	lambda[2] = ((double)1/(double)NUM_OBS)*LAMBDA_SIM;
+	*/
+	
+	lambda[0] = ((double)9999917/(double)NUM_OBS)*LAMBDA_SIM;
+	lambda[1] = ((double)65/(double)NUM_OBS)*LAMBDA_SIM;
+	lambda[2] = ((double)13/(double)NUM_OBS)*LAMBDA_SIM;
+	lambda[3] = ((double)4/(double)NUM_OBS)*LAMBDA_SIM;
+	lambda[4] = ((double)1/(double)NUM_OBS)*LAMBDA_SIM;
+	
 	fprintf(fd_file, "calcolo indici locali variante standard\n");
 
 	//calcolo utilizzazioni

@@ -44,24 +44,38 @@ void cluster(double *array, int array_length, int k)
 	int *num_data_per_cluster = (int*)malloc(sizeof(long)*k);
 	double *total_data_per_cluster = (double*)malloc(sizeof(double)*k);
 	//calcolo del minimo e del massimo
+  
 	for(i=1;i < array_length; i++) {
 		if(array[i] > max)
 			max = array[i];
 		if(array[i] < min)
 			min = array[i];
 	}
+	printf("k %d:\n", k);
 	//assegnazione dei primi due centroidi
 	centroids[0] = min;
 	printf("centroide min %lf\n", centroids[0]);
 	centroids[k-1] = max;
-	printf("centroide max %lf\n", centroids[2]);
+	printf("centroide max %lf\n", centroids[k-1]);
 	//calcolo degli altri centroidi in caso k>2
+	/***
 	if(k>2) {
 		for(i=1; i < k-1; i++) {
-			centroids[i] = (max-min)/(k-1) * i;
+			centroids[i] = min+ i*(max-min)/k;
+			printf("new %lf\n", centroids[i]);
 		}
 	}
-	printf("centroide medio %lf\n", centroids[1]);
+	for(i=0; i < k; i++)
+	 printf("centroide[%d] = %lf\n", i, centroids[i]);
+	*********************************************/
+	////PROVA CLUSTER RANDOM
+	for(i=1; i < k-1; i++)
+	{
+		int rand = csim_random_int(0,array_length);
+		centroids[i] = array[rand]; 
+		
+	}  
+	/*** FINE PROVA CLUSTER RANDOM*/ 
 	while(!iter) {
 
 		//assegnazione dei dati ad ogni cluster
@@ -74,7 +88,7 @@ void cluster(double *array, int array_length, int k)
 				if(distance > distance_temp) {
 					distance = distance_temp;
 					counter = j;
-					printf("counter: %d\n", counter);
+					//printf("counter: %d\n", counter);
 				}
 			}
 
@@ -92,7 +106,7 @@ void cluster(double *array, int array_length, int k)
 		//aggiornamento dei centroidi in seguito al primo step e confronto con la precedente iterazione
 		for(i=0; i < k; i++) {
 			centroids[i] = total_data_per_cluster[i] / ((double)num_data_per_cluster[i]); 
-			printf("i: %d, num: %lf, den: %lf, centroide: %lf - tot_dati: %d\t", i, total_data_per_cluster[i], ((double)num_data_per_cluster[i]), centroids[i], num_data_per_cluster[i]);
+			printf("i: %d,  centroide: %lf - tot_dati: %d\t", i, centroids[i], num_data_per_cluster[i]);
 			if( fabs(centroids[i]-old_centroids[i]) < pow(10,-10) ) {  //valore epsilon = 10^-10
 				printf("converged: %d\n", converged);
 				converged++;
@@ -129,7 +143,7 @@ void sim(int argc, char **argv)
 	reseed(obj_size, SEED);
 
 	create("prova");
-	int array_length= 1000000;
+	int array_length= 10000000;
 	double *array = (double*)malloc(sizeof(double)*array_length);
 	double session;
 	int objects;
@@ -153,10 +167,10 @@ void sim(int argc, char **argv)
 		}
 	}
 	//clustering dei documenti
-	cluster(array,array_length,3);
+	cluster(array,array_length,5);
 
 	int m=0;
-	FILE *fd_file;
+	/*FILE *fd_file;
 	char *pathname = (char*)malloc(128);
 	sprintf(pathname, "docs");
 	fd_file = fopen(pathname, "w");
@@ -164,7 +178,7 @@ void sim(int argc, char **argv)
 		fprintf(fd_file, "%g\n", array[m]);
 	}
 	fclose(fd_file); 
-
+*/
 
 }
 
