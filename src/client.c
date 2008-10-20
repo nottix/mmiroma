@@ -54,7 +54,7 @@ int get_least_loaded()
 	for(i=1; i<NUM_SERVER; i++) {
 		disk_qlen = 0.0;
 		for(j=0; j < NUM_DISK; j++) {
-			disk_qlen += qlength(diskWS[j+i*NUM_DISK]); //i*NUM_DISK perchè per ogni server ci sono NUM_DISK dischi
+			disk_qlen += qlength(diskWS[j+i*NUM_DISK]); //i*NUM_DISK perche' per ogni server ci sono NUM_DISK dischi
 		}
 		qlen_tmp = disk_qlen+qlength(cpuWS[i])+qlength(LW2[i]);
 		if(server_qlen > qlen_tmp) {

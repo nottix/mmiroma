@@ -21,7 +21,7 @@
 #define INLINK_BANDWIDTH 45 //Mbps
 #define OUTLINK_BANDWIDTH 1000 //Mbps
 #define LS1_TRANSFER_RATE 1000 //Mbps
-#define P_HIT 0.4 //probabilità che la risorsa richiesta sia conservata nel proxy
+#define P_HIT 0.4 //probabilita' che la risorsa richiesta sia conservata nel proxy
 
 #define MAX_SERVERS 5000
 #define MAX_PROCESSES 100000000

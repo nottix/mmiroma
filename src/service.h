@@ -41,7 +41,7 @@ double D_OutLink(double docSize);
 
 /** 
  * Calcola la domanda di servizio sottomessa alla LAN che collega il Web Switch con i Web Server.
-.* Il fattore moltiplicativo 1024 è commentato perchè le richieste sono già espressi in byte
+.* Il fattore moltiplicativo 1024 e' commentato perche' le richieste sono gia' espressi in byte
  */
 double D_LAN(double docSize);
 

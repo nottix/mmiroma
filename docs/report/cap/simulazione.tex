@@ -81,7 +81,7 @@ FACILITY L2;
 FACILITY CPU_web_switch; 
 FACILITY inLink; 
 FACILITY outLink; 
-FACILITY link_add; 
+FACILITY LINK\_ADD; 
 FACILITY LS1; 
 FACILITY LS2; 
 FACILITY LW2[NUM_SERVER]; 
@@ -344,7 +344,7 @@ use(CPU_web_switch, D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE));
  exit_box(WebSwitch, switch_start_time); 
  use(L2, D_LAN(0)); 
 /* random */ 
-if(variant == RANDOM || variant == LINK_ADD || variant == PROXY) { 
+if(variant == RANDOM || variant == LINK\_ADD || variant == PROXY) { 
     tmp_server = current_server; 
     current_server = csim_random_int(0, NUM_SERVER-1); 
 } 
@@ -364,15 +364,15 @@ tmp_disk = currentDisk[tmp_server];
 currentDisk[tmp_server] = (tmp_disk+1)%NUM_DISK; 
 use(diskWS[tmp_server*NUM_DISK + tmp_disk], D_WSDisk(doc_size)); 
 use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE)); 
-if(variant != LINK_ADD) { 
+if(variant != LINK\_ADD) { 
     use(LW2[tmp_server], D_LAN(doc_size)); 
 } 
 else { 
    use(LW3[tmp_server], D_linkAdd(doc_size)); 
 }		 
 exit_box(WebServer, server_start_time); 
-if(variant == LINK_ADD) { 
-   use(link_add, D_linkAdd(doc_size)); 
+if(variant == LINK\_ADD) { 
+   use(LINK\_ADD, D_linkAdd(doc_size)); 
 }		  
 else { 
   use(L2, D_LAN(doc_size)); 
@@ -427,8 +427,6 @@ Si presentano di seguito i risultati mediati su 10 iterazioni, per ogni componen
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}
 \hline
-Utilizzazioni\\
-\hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
@@ -460,8 +458,6 @@ Come si può notare, il vincolo sull'utilizzazione richiesto nelle specifiche de
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}
-\hline
-Lunghezza media delle code\\
 \hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
@@ -495,8 +491,6 @@ Per quanto concerne la lunghezza della coda, si nota un accodamento delle rispos
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
-Tempo Medio di Risposta\\
-\hline
 Centro &Classe1 &Classe2 &Classe3\\
 \hline
 \hline
@@ -529,8 +523,6 @@ I tempi medi di risposta per la Classe1 evidenziano una lentezza generale dei di
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Utilizzazioni\\
-\hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
@@ -562,8 +554,6 @@ Le utilizzazioni delle varie risorse adottando la politica round robin sono quas
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Lunghezza media delle code\\
-\hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
@@ -594,8 +584,6 @@ Rispetto al caso presentato precedentemente, si nota un leggero aumento delle co
 \begin{table}[htbp]
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
-\hline
-Tempo Medio di Risposta\\
 \hline
 Centro &Classe1 &Classe2 &Classe3\\
 \hline
@@ -629,8 +617,6 @@ Anche per quanto riguarda i tempi medi di risposta, i risultati sono analoghi al
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Utilizzazioni\\
-\hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
@@ -662,8 +648,6 @@ Adottando questa politica diminuiscono i tempi medi di servizio e di conseguenza
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Lunghezza media delle code\\
-\hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
@@ -694,8 +678,6 @@ Come avviene per le utilizzazioni, anche la lunghezza media delle code aumenta p
 \begin{table}[htbp]
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
-\hline
-Tempo Medio di Risposta\\
 \hline
 Centro &Classe1 &Classe2 &Classe3\\
 \hline
@@ -729,8 +711,6 @@ I tempi di risposta sono più o meno analoghi a quelli presentati in precedenza,
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Utilizzazioni\\
-\hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
@@ -762,8 +742,6 @@ L'introduzione del proxy, con un cache hit rate del 40\%, porta ad un notevole c
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Lunghezza media delle code\\
-\hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
@@ -794,8 +772,6 @@ Anche le code tendono a diminuire notevolmente, come era logico aspettarsi.
 \begin{table}[htbp]
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
-\hline
-Tempo Medio di Risposta\\
 \hline
 Centro &Classe1 &Classe2 &Classe3\\
 \hline
@@ -830,8 +806,6 @@ Analogo discorso vale anche per i tempi medi di risposta. Si ricorda che per l'e
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Utilizzazioni\\
-\hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
@@ -853,7 +827,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
  LW2: 	0.0001374	0.0000000	0.0000000	&0.0001374\\
 \hline
- LINK_ADD: 	&0.4508218	&0.0000000	&0.0000000	&0.4508218\\
+ LINK\_ADD: 	&0.4508218	&0.0000000	&0.0000000	&0.4508218\\
 \hline
  LW3: 	&0.0068306	&0.0000000	&0.0000000	&0.0068306\\
 \hline
@@ -866,8 +840,6 @@ L'introduzione del link addizionale comporta una notevole diminuzione dell'utili
 \begin{table}[htbp]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
-\hline
-Lunghezza media delle code\\
 \hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
@@ -890,7 +862,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
  LW2: 	&0.0001374	&0.0000000	&0.0000000	&0.0001374\\
 \hline
- LINK_ADD: 	&3.5259678	&0.0000000	&0.0000000	&3.5259678\\
+ LINK\_ADD: 	&3.5259678	&0.0000000	&0.0000000	&3.5259678\\
 \hline
  LW3: 	&0.0071490	&0.0000000	&0.0000000	&0.0071490\\
 \hline
@@ -903,8 +875,6 @@ Anche la lunghezza media delle code dello switch e delle componenti di rete tend
 \begin{table}[htbp]
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
-\hline
-Tempo Medio di Risposta\\
 \hline
 Centro &Classe1 &Classe2 &Classe3\\
 \hline
@@ -927,7 +897,7 @@ Centro &Classe1 &Classe2 &Classe3\\
 \hline
  LW2: 	&0.0000027	&0.0000000	&0.0000000\\
 \hline
- LINK_ADD: 	&0.0010579	&0.0000000	&0.0000000\\
+ LINK\_ADD: 	&0.0010579	&0.0000000	&0.0000000\\
 \hline
  LW3: 	&0.0001419	&0.0000000	&0.0000000\\
 \hline
