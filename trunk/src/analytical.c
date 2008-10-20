@@ -48,11 +48,11 @@ int main(int argc, char **argv)
 	doc_size[3] = 279513744;
 	doc_size[4] = 715827882;
 	
-	//probabilità che la risorsa non si trovi nel proxy
+	//probabilita' che la risorsa non si trovi nel proxy
 	double miss = 1- P_HIT;    
 	int i = 0;
 	
-	//tasso di richieste per ogni classe = probabilità di classe * tasso di richieste totale
+	//tasso di richieste per ogni classe = probabilita' di classe * tasso di richieste totale
   double lambda[NUM_CLASSES];
 	/*lambda[0] = ((double)9999995/(double)NUM_OBS)*LAMBDA_SIM;
 	lambda[1] = ((double)4/(double)NUM_OBS)*LAMBDA_SIM;
@@ -79,7 +79,7 @@ int main(int argc, char **argv)
 		utilizzazione_outLink[i] = lambda[i]*D_OutLink(doc_size[i]);
 		fprintf(fd_file, "outLink: %9.9f\n", utilizzazione_outLink[i]);
 
-		utilizzazione_cpu_web_switch[i] = lambda[i] * D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE)* 2; //fattore due perchè processa sia richieste in entrata che in uscita (two-way) 
+		utilizzazione_cpu_web_switch[i] = lambda[i] * D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE)* 2; //fattore due perche' processa sia richieste in entrata che in uscita (two-way) 
 		fprintf(fd_file, "cpu web switch: %9.9f\n", utilizzazione_cpu_web_switch[i]);
 
 		utilizzazione_cpu_web_server[i] = (lambda[i] * D_Cpu(CPU_SERVICE_RATE) * 2)/(double) NUM_SERVER;
@@ -170,7 +170,7 @@ int main(int argc, char **argv)
 		utilizzazione_inLink[i] = lambda[i]*D_InLink();
 		fprintf(fd_file, "inLink: %9.9f\n", utilizzazione_inLink[i]);
 
-		utilizzazione_cpu_web_switch[i] = lambda[i] * D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE);//fattore due perchè processa sia richieste in entrata che in uscita (two-way) 
+		utilizzazione_cpu_web_switch[i] = lambda[i] * D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE);//fattore due perche' processa sia richieste in entrata che in uscita (two-way) 
 		fprintf(fd_file, "cpu web switch: %9.9f\n", utilizzazione_cpu_web_switch[i]);
 
 		utilizzazione_cpu_web_server[i] = (lambda[i] * D_Cpu(CPU_SERVICE_RATE) * 2)/(double) NUM_SERVER;
@@ -277,7 +277,7 @@ int main(int argc, char **argv)
 		utilizzazione_outLink[i] = miss*lambda[i]*D_OutLink(doc_size[i]);
 		fprintf(fd_file, "outLink: %9.9f\n", utilizzazione_outLink[i]);
 
-		utilizzazione_cpu_web_switch[i] = miss*lambda[i] * D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE)* 2; //fattore due perchè processa sia richieste in entrata che in uscita (two-way) 
+		utilizzazione_cpu_web_switch[i] = miss*lambda[i] * D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE)* 2; //fattore due perche' processa sia richieste in entrata che in uscita (two-way) 
 		fprintf(fd_file, "cpu web switch: %9.9f\n", utilizzazione_cpu_web_switch[i]);
 
 		utilizzazione_cpu_web_server[i] = miss*(lambda[i] * D_Cpu(CPU_SERVICE_RATE) * 2)/(double) NUM_SERVER;

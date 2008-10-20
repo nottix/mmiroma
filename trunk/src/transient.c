@@ -38,9 +38,7 @@ extern int maxObservation;
 
 TABLE resptime;
 
-int	WELCH_N = 0,
-	 	WELCH_M = 0,
-	 	WELCH_W = 0;
+int WELCH_N = 0, WELCH_M = 0, WELCH_W = 0;
 
 char * output_file_name;
 
@@ -92,7 +90,7 @@ FILE * mov_avg_fd;
 	max_processes(MAX_PROCESSES);	//numero massimo dei processi in giro nella rete	
 	max_facilities(MAX_FACILITIES);
 	max_servers(MAX_SERVERS);
-  inLink = facility("inLink");
+	inLink = facility("inLink");
 	outLink = facility("outLink");
 	LS1 = facility("LS1");
 	LS2 = facility("LS2");
@@ -109,29 +107,28 @@ FILE * mov_avg_fd;
 	
 	lambda = meter("Arrival Rate");
 	max_classes(MAX_CLASSES);	//viene assegnato il numero massimo di classi per evitare l'errore "TOO MANY PROCESSES CLASS"
-	for(cont=0; cont<NUM_CLASSES; cont++){
-    className[0] = '\0';
+	for(cont=0; cont<NUM_CLASSES; cont++) {
+		className[0] = '\0';
 		sprintf(className, "Classe%d", cont);
 		requestClasses[cont] = process_class(className);
-
 	}
 	// Inizializzazione degli stream (reseed simtime*i+num)
-		sess_req_1 = create_stream();
-		reseed(sess_req_1, (int)simtime()+i+1);
-		sess_req_2 = create_stream();
-		reseed(sess_req_2, (int)simtime()*2+i+1);
-		user_tt = create_stream();
-		reseed(user_tt, (int)simtime()*3+i+1);
-		object_req = create_stream();
-		reseed(object_req, (int)simtime()*4+i+1);
-		html_1 = create_stream();
-		reseed(html_1, (int)simtime()*5+i+1);
-		html_2 = create_stream();
-		reseed(html_2, (int)simtime()*6+i+1);
-		obj_size = create_stream();
-		reseed(obj_size, (int)simtime()*7+i+1);
-		p_hit_proxy = create_stream();
-		reseed(p_hit_proxy, (int)simtime()*8+i+1);
+	sess_req_1 = create_stream();
+	reseed(sess_req_1, (int)simtime()+i+1);
+	sess_req_2 = create_stream();
+	reseed(sess_req_2, (int)simtime()*2+i+1);
+	user_tt = create_stream();
+	reseed(user_tt, (int)simtime()*3+i+1);
+	object_req = create_stream();
+	reseed(object_req, (int)simtime()*4+i+1);
+	html_1 = create_stream();
+	reseed(html_1, (int)simtime()*5+i+1);
+	html_2 = create_stream();
+	reseed(html_2, (int)simtime()*6+i+1);
+	obj_size = create_stream();
+	reseed(obj_size, (int)simtime()*7+i+1);
+	p_hit_proxy = create_stream();
+	reseed(p_hit_proxy, (int)simtime()*8+i+1);
 
 	collect_class_facility_all();
 	
@@ -144,7 +141,6 @@ FILE * mov_avg_fd;
 		observations[i] = (double*)malloc(WELCH_M * sizeof(double));
 	}
 
-	
 	//PASSO 1: vengono effettuate WELCH_N repliche di lunghezza WELCH_M ognuna. I risultati
 	//			  sono inseriti nella matrice sample_matrix.
 	//	  	  Il tempo di risposta percepito dal client viene campionato ogni SAMPLE_TIME secondi
@@ -154,17 +150,17 @@ FILE * mov_avg_fd;
 
 
 	printf("n_repl =%d, m_repl =%d\n", n_repl, m_repl);
-	while(n_repl < WELCH_N){
-	observed_sample = 1;
-		while(observed_sample < WELCH_M){
+	while(n_repl < WELCH_N) {
+		observed_sample = 1;
+		while(observed_sample < WELCH_M) {
 
 			intT=exponential(1/(double)(ARRIVAL));
 			hold(intT);		//think time
 			web_session(clientID, RANDOM, 1, n_repl);	
 			clientID++;		
 		}
-		printf("Replication n° %d terminated\n",n_repl);
-		//ogni volta che viene terminata una replica è necessario
+		printf("Replication n %d terminated\n",n_repl);
+		//ogni volta che viene terminata una replica e' necessario
 		//riavviare le risorse
 		wait(event_list_empty);
 		reset();		
@@ -217,7 +213,7 @@ FILE * mov_avg_fd;
 	}	
 	
 
-	//PASSO 4: scrittura dell'array moving average su file che sarà utile poi per graficare
+	//PASSO 4: scrittura dell'array moving average su file che sara' utile poi per graficare
 	//	   i valori e determinare il valore l (lunghezza del transiente).
 	
 	
@@ -230,7 +226,7 @@ FILE * mov_avg_fd;
 	
 	fclose(mov_avg_fd);	
 	
-	printf("Il file %s è stato riempito con l'array Moving Average.\n\n", output_file_name);
+	printf("Il file %s e' stato riempito con l'array Moving Average.\n\n", output_file_name);
 
 	free(averaged_process);
 	free(moving_average);

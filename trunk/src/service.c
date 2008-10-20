@@ -3,7 +3,7 @@
 /**
  * In questo file sono contenute tutte le domande di servizio per i componenti della rete.
  * Le domande di servizio delle schede di rete LS2, LW2 e LW3 non sono state implementate
- * poichè si è assunto che queste presentino un transfer rate pari alla banda delle LAN a 
+ * poiche' si e' assunto che queste presentino un transfer rate pari alla banda delle LAN a 
  * cui sono collegate.
  */ 
 
@@ -46,7 +46,7 @@ double D_OutLink(double docSize) {
 
 /** 
  * Calcola la domanda di servizio sottomessa alla LAN che collega il Web Switch con i Web Server.
-.* Il fattore moltiplicativo 1024 è commentato perchè le richieste sono già espressi in byte
+.* Il fattore moltiplicativo 1024 e' commentato perche' le richieste sono gia' espressi in byte
  */
 double D_LAN(double docSize) {
 	if(docSize == 0) {
