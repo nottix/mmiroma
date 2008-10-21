@@ -446,7 +446,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
  LS2:	&0.2774737	&0.0000000	&0.0000000	&0.2774737\\
 \hline
- LW2: 	0.0042041	0.0000000	0.0000000	&0.0042041\\
+ LW2: 	&0.0042041	&0.0000000	&0.0000000	&0.0042041\\
 \hline
 \end{tabular}
 \end{center}
@@ -489,7 +489,7 @@ Per quanto concerne la lunghezza della coda, si nota un accodamento delle rispos
 \begin{table}[htbp]
 \caption{Tempo medio di risposta}
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{||c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3\\
 \hline
@@ -542,7 +542,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
  LS2:	&0.2809159	&0.0000000	&0.0000000	&0.2809159\\
 \hline
- LW2: 	0.0042562	0.0000000	0.0000000	&0.0042562\\
+ LW2: 	&0.0042562	&0.0000000	&0.0000000	&0.0042562\\
 \hline
 \end{tabular}
 \end{center}
@@ -552,7 +552,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 Le utilizzazioni delle varie risorse adottando la politica round robin sono quasi identiche a quelle con politica random presentate precedentemente.
 \begin{table}[htbp]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{||c|c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
@@ -583,7 +583,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 Rispetto al caso presentato precedentemente, si nota un leggero aumento delle code dei dischi del web server e della cpu del web switch, mentre si ha una leggera diminuzione o valori analoghi per tutte le altre risorse.
 \begin{table}[htbp]
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{||c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3\\
 \hline
@@ -615,7 +615,7 @@ Anche per quanto riguarda i tempi medi di risposta, i risultati sono analoghi al
 \subsection{Risultati Least Loaded}
 \begin{table}[htbp]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{||c|c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
@@ -636,7 +636,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
  LS2:	&0.2990815	&0.0000000	&0.0000000	&0.2990815\\
 \hline
- LW2: 	0.0045316	0.0000000	0.0000000	&0.0045316\\
+ LW2: 	&0.0045316	&0.0000000	&0.0000000	&0.0045316\\
 \hline
 \end{tabular}
 \end{center}
@@ -646,7 +646,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 Adottando questa politica diminuiscono i tempi medi di servizio e di conseguenza si ha un aumento del carico del sistema. Per questo motivo è possibile notare un aumento delle utilizzazioni per tutte le risposte del sistema, che porta a superare la soglia del 70\% sia per la CPU del web switch che per quella del Web Server.
 \begin{table}[htbp]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{||c|c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
@@ -677,7 +677,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 Come avviene per le utilizzazioni, anche la lunghezza media delle code aumenta per tutti i centri, ad eccezione dei dischi del web server, poiché non accade mai che un server particolarmente carico riceva altre richieste da far processare ai suoi dischi se prima le code non sono state svuotate
 \begin{table}[htbp]
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{||c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3\\
 \hline
@@ -709,7 +709,7 @@ I tempi di risposta sono più o meno analoghi a quelli presentati in precedenza,
 \subsection{Risultati Proxy}
 \begin{table}[htbp]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{||c|c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
@@ -730,7 +730,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
  LS2:	&0.1838711	&0.0000000	&0.0000000	&0.1838711\\
 \hline
- LW2: 	0.0027859	0.0000000	0.0000000	&0.0027859\\
+ LW2: 	&0.0027859	&0.0000000	&0.0000000	&0.0027859\\
 \hline
 \end{tabular}
 \end{center}
@@ -740,7 +740,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 L'introduzione del proxy, con un cache hit rate del 40\%, porta ad un notevole calo delle utilizzazioni, riducendo a meno del 46\% l'utilizzazione della risorsa collo di bottiglia del sistema (la CPU del web switch) e della CPU del Web Server. 
 \begin{table}[htbp]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{||c|c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
@@ -771,7 +771,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 Anche le code tendono a diminuire notevolmente, come era logico aspettarsi. 
 \begin{table}[htbp]
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{||c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3\\
 \hline
@@ -804,7 +804,7 @@ Analogo discorso vale anche per i tempi medi di risposta. Si ricorda che per l'e
 \subsection{Risultati Link Addizionale}
 \begin{table}[htbp]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{||c|c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
@@ -825,7 +825,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
  LS2:	&0.0090708	&0.0000000	&0.0000000	&0.0090708\\
 \hline
- LW2: 	0.0001374	0.0000000	0.0000000	&0.0001374\\
+ LW2: 	&0.0001374	&0.0000000	&0.0000000	&0.0001374\\
 \hline
  LINK\_ADD: 	&0.4508218	&0.0000000	&0.0000000	&0.4508218\\
 \hline
@@ -839,7 +839,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 L'introduzione del link addizionale comporta una notevole diminuzione dell'utilizzazione della cpu del web switch e  della maggior parte delle componenti di rete, come la LAN L2 e le schede di rete LS1, LS2 e LW2, poiché queste hanno il compito di gestire solamente le richieste, mentre le risposte  vengono interamente smistate verso la scheda di rete LW3 e il link addizionale.
 \begin{table}[htbp]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{||c|c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
@@ -874,7 +874,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 Anche la lunghezza media delle code dello switch e delle componenti di rete tende a diminuire notevolmente, mentre restano immutate quelle dei web server.
 \begin{table}[htbp]
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{||c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3\\
 \hline
