@@ -3,14 +3,14 @@ Il \var{workload} del sistema può essere visto come un insieme di tutti gli inp
 \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=1.2]{etc/schema3.png}
-\caption{Schema}
+\caption{Schema Modelli}
 \label{schema3}
 \end{center}
 \end{figure}
 Questa metrica è ben diversa dal numero di utenti che accedono in media al sistema ogni secondo, o al numero di richieste di pagine HTML sottoposte in media al sistema; in quest'ultimo caso, infatti, non si terrebbe conto dei numerosi oggetti inclusi in una pagina HTML. 
 Non essendo in possesso di un carico reale (ad esempio un log di sistema), non è stato possibile effettuare un'analisi del fattore di \var{burstiness} poichè non si conoscevano il numero medio di richieste HTTP ricevute dal sistema in un determinato intervallo di tempo, nè tanto meno effettuare un'analisi analitica. Di conseguenza, la prima operazione eseguita è stata quella di effettuare un partizionamento dei documenti sulla base dei valori presentati in tabella (tabella requisiti del progetto). 
 \section{Partizionamento del Carico}
-I carichi reali possono presentare componenti molto eterogenee tra loro, in particolar modo per quel 
+I carichi reali possono presentare componenti molto eterogenei tra loro, in particolar modo per quel 
 che riguarda la loro utilizzazione delle risorse del sistema; spesso la rappresentazione di un carico 
 mediante una sola classe manca di accuratezza in questo senso, poiché un solo valore medio non è 
 molto significativo in caso di elevata varianza dei campioni considerati. 
@@ -28,7 +28,7 @@ Per l'analisi del caso di studio si è deciso di utilizzare il k-means che rient
 \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.71]{etc/kmeans.png}
-\caption{Schema}
+\caption{Algoritmo K-Means}
 \label{schema3}
 \end{center}
 \end{figure}
@@ -75,6 +75,6 @@ Classe		&Prob. arrivo richieste classe R	\\
 \hline
 \end{tabular}
 \end{center}
-\caption{specifiche2}
+\caption{Probabilita' di arrivo delle richieste}
 \label{test_2}
 \end{table}

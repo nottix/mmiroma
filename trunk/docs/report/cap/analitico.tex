@@ -5,10 +5,10 @@ $$\lambda =  3308.79 \frac{richieste}{sec}$$
 
 Le probabilità di arrivo di richieste di classe r, sono date dalla formula:
 
-$$p_{r} = \frac{count_{r}}{observation (scrivere per bene)}$$
+$$p_{r} = \frac{count_{r}}{observation)}$$
 
 Di seguito si riportano nuovamente i valori già presentati nel capitolo 2
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c||}
 \hline
@@ -37,7 +37,7 @@ Classe		&Prob. arrivo richieste classe R	\\
 \hline
 \end{tabular}
 \end{center}
-\caption{specifiche2}
+\caption{Probabilita' di arrivo delle richieste}
 \label{test_2}
 \end{table}
 Il tasso di richieste per la singola classe è dato dalla formula: 
@@ -45,7 +45,7 @@ $$
 \lambda_{r} = \lambda*p_{r}
 $$
 Formule indici di prestazione:
-(inserire le formule di utilizzazione, lunghezza coda e tempi di residenza tramite un editor, per ora sono scritte a cazzo).
+
 Utilizzazione:
 $$U_{i,r} = \lambda_{r} * D_{i,r}$$
 $$U_{i} (vettore)  = \sum_{1}^{NUM\_CLASSES} U_{i,r}$$
@@ -58,9 +58,9 @@ Per $D_{i,r}$ si intende la domanda di servizio della risorsa i-esima per richie
 \section{Presentazione dei risultati}
 Si presentano di seguito i risultati ottenuti applicando il modello analitico, sia alla rete in configurazione standard che nelle sue varianti.
 \subsection{Risultati standard}
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{||c|c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
@@ -89,9 +89,9 @@ LW2: &0.004344743 &0.000045530 &0.000029150 &0.004419423\\
 \label{utilizzazioni}
 \end{table}
 Dalla tabella presentata si può notare che, anche attraverso la risoluzione analitica, i vincoli sulle utilizzazioni sono rispettati e che sono molto simili a quelli presentati nel modello simulativo, se si escludono una differenza di circa il 3\% per quanto riguarda l'utilizzazione dei dischi.
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{||c|c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
@@ -120,9 +120,9 @@ LW2: &0.004363702 &0.000045532 &0.000029151 &0.004438385\\
 \label{lunghezzacode}
 \end{table}
 Come era logico aspettarsi, data la natura della formula che rappresenta la lunghezza della coda, le risorse più utilizzate sono quelle che presentano i valori più alti.
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{||c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3\\
 \hline
@@ -153,9 +153,9 @@ LW2: &0.000084312 &2.270554378 &5.814739298\\
 In questa tabella si notano immediatamente i valori spropositati dei tempi di residenza dei dischi del web server nel caso di richieste di Classe 2 e 3. Questi valori sono dovuti al fatto che i file appartenenti a queste due classi sono dell'ordine di centinaia di megabyte e dunque le operazioni di lettura dal disco richiedono svariati minuti per essere completate (si ricorda al lettore che i centroidi di classe 2 e 3 hanno una dimensione rispettivamente di 279 MB e 715 MB).
 
 \subsection{Risultati proxy}
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{||c|c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
@@ -184,9 +184,9 @@ LW2: &0.002606846 &0.000027318 &0.000017490 &0.002651654\\
 \label{utilizzazioni}
 \end{table}
 Le utilizzazioni, nel caso dell'introduzione del proxy server, tendono a diminuire notevolmente, in modo particolare se si considerano le CPU del Web Switch e dei Web Server. Anche in questo caso, i risultati sono molto simili a quelli ottenuti col modello simulativo.
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{||c|c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
@@ -215,9 +215,9 @@ LW2: &0.002613659 &0.000027319 &0.000017490 &0.002658468\\
 \label{lunghezzacode}
 \end{table}
 L'introduzione del proxy comporta anche un minore accodamento delle richieste. Si può notare infatti come ogni centro presenti delle code inferiori ad uno.
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{||c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3\\
 \hline
@@ -247,9 +247,9 @@ LW2: &0.000084165 &2.270513026 &5.814671497\\
 \end{table}
 L'introduzione del proxy server non risolve il problema della gestione di file di Classe 2 e 3, infatti rispetto al caso standard le differenze tra i tempi di residenza sono minime.
 \subsection{Risultati Link Addizionale}
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{||c|c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
@@ -280,9 +280,9 @@ LW3: &0.007003167 &0.000074956 &0.000047990 &0.007126113\\
 \label{utilizzazioni}
 \end{table}
 Come già evidenziato nel modello simulativo, l'introduzione del link addizionale permette di ridurre notevolmente le utilizzazioni del web switch e delle componenti di rete “interne” (LS1, LS2, L2, LW2). In questo caso la risorsa collo di bottiglia diventa la CPU del Web Server. Anche in quest'ultimo caso, le differenze rispetto alle utilizzazioni  ottenuti col modello simulativo sono minime.
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{||c|c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
@@ -312,9 +312,9 @@ LW3: &0.007052557 &0.000074962 &0.000047992 &0.007175511\\
 \label{lunghezzacode}
 \end{table}
 Le code risultano essere tutte minori di uno, ad eccezione della CPU del Web Server che presenta un valore pari a 2 a causa dell'alta utilizzazione.
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{||c|c|c|c||}
 \hline
 Centro &Classe1 &Classe2 &Classe3\\
 \hline
