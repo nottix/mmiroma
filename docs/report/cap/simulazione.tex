@@ -22,12 +22,12 @@ Un \var{simulation engine} consiste di un insieme di oggetti e metodi usati per 
 \end{description}
 A titolo di esempio, si potrebbe dunque rappresentare un sistema di tipo Client/Server come una facility (il server) ed un processo CSIM (il client) che usa la facility. Data la natura del CSIM, brevemente riassunta finora, è evidente come questo offra ottime possibilità di tradurre un modello a reti di code (QN) in un modello simulativo.
 \section{Rappresentazione del workload}
-La rappresentazione del carico mediante le distribuzioni è stata facilitata in quanto CSIM offre delle funzioni per generare i valori sia secondo la distribuzione Lognormale che secondo la distribuzione Pareto. Per quanto concerne il numero di richieste per sessione, che seguono la distribuzione gaussiana inversa, si è utilizzato l'\var{algoritmo di Michael/Shucany/Haas}:
+La rappresentazione del carico mediante le distribuzioni è stata facilitata in quanto CSIM offre delle funzioni per generare i valori sia secondo la distribuzione Lognormale che secondo la distribuzione Pareto. Per quanto concerne il numero di richieste per sessione, che seguono la distribuzione gaussiana inversa, si è utilizzato l'\var{algoritmo di Michael/Shucany/Haas} \cite{rif3}:
 \begin{enumerate}
 	\item Si generi V da $N(0,1)$ (distribuzione normale) e si ponga y = $v^{2}$;
-	\item Si ponga $x_{1} =  \mu + \mu^{2}*\frac{y}{2*\lambda} – \frac{\mu}{2*\lambda} * \sqrt{4*\mu*\lambda*y+\mu^{2}*y^{2}}$;
+	\item Si ponga $x_{1} =  \mu + \mu^{2}*\frac{y}{2*\lambda} - \frac{\mu}{2*\lambda} * \sqrt{4*\mu*\lambda*y+\mu^{2}*y^{2}}$;
 	\item Si generi u da $U(0,1)$ (distribuzione uniforme);
-	\item Se $u \leq \frac{\mu}{mu+x_{1}}$ allora si ponga $x = x_{1}$, altrimenti si ponga $x = \mu^{\frac{2}{x_{1}}}$
+	\item Se $u \leq \frac{\mu}{\mu+x_{1}}$ allora si ponga $x = x_{1}$, altrimenti si ponga $x = \mu^{\frac{2}{x_{1}}}$
 \end{enumerate}
 Il workload cui è sottoposto il sistema per ogni utente è il seguente:
 \begin{figure}[H]
@@ -68,11 +68,11 @@ while(i<array_length) {
 
 \section{Rappresentazione delle risorse}
 Come brevemente introdotto in precedenza, una facility modella in ambiente CSIM una risorsa del sistema, con la rispettiva coda. La libreria mette a disposizione diversi tipologie di facility, scegliendo le più adatte al modello: 
-\begin{itemize}
-	\item facility risorsa con una sola coda ed un solo servente, occupabile da un solo processo alla volta; 
-	\item facility set array di facility di primo tipo e quindi una risorsa con più code e più serventi (una coda per ogni servente) indipendenti tra loro. 
-	\item multi-server facility risorsa con una sola coda ma più serventi, occupabili tutti contemporaneamente; 
-\end{itemize}
+\begin{description}
+	\item[facility:] risorsa con una sola coda ed un solo servente, occupabile da un solo processo alla volta; 
+	\item[facility set:] array di facility di primo tipo e quindi una risorsa con più code e più serventi (una coda per ogni servente) indipendenti tra loro.
+	\item[multi-server facility:] risorsa con una sola coda ma più serventi, occupabili tutti contemporaneamente; 
+\end{description}
 Per realizzare la simulazione sono state utilizzate solo le prime due categorie. Si riporta il codice CSIM in cui avviene la dichiarazione delle suddette facility, che verranno analizzate in seguito:
 \begin{lstlisting}
 FACILITY cpuWS[NUM_SERVER]; 
@@ -87,7 +87,7 @@ FACILITY LS2;
 FACILITY LW2[NUM_SERVER]; 
 FACILITY LW3[NUM_SERVER];
 \end{lstlisting}
-Prima di presentare le domande di servizio per ogni FACILITY, si definiscono dei parametri della rete e alcune funzioni di "supporto" per consentire una maggiore comprensione:
+Prima di presentare le domande di servizio per ogni FACILITY, si definiscono dei parametri della rete e alcune funzioni di "supporto" per consentire una maggiore comprensione \cite{rif1}:
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c||}
@@ -104,7 +104,7 @@ Prima di presentare le domande di servizio per ogni FACILITY, si definiscono dei
 \hline
 \end{tabular}
 \end{center}
-\caption{specifiche3}
+\caption{parametri di rete}
 \label{test_3}
 \end{table}
 \begin{lstlisting}
@@ -202,7 +202,7 @@ I parametri da dimensionare erano i seguenti:
 	\item Banda del link Addizionale
 \end{itemize}
 Transfer rate delle schede di rete LS1, LS2, LW2, LW3.
-E' doveroso sottolineare che tutte le schede di rete sono state dimensionate tenendo conto delle reti a cui erano collegate e quindi queste presenteranno un transfer rate pari alla banda della LAN a cui sono accoppiate. Le simulazioni sono state condotte sulla configurazione standard del sistema in cui il server veniva scelto in modo random e  i risultati sono stati mediati su 10 run diversi, poiché non è molto corretto attenersi agli esiti di una singola simulazione del sistema. I parametri risultanti sono stati:
+E' doveroso sottolineare che tutte le schede di rete sono state dimensionate tenendo conto delle reti a cui sono collegate e quindi queste presenteranno un transfer rate pari alla banda della LAN a cui sono accoppiate. Le simulazioni sono state condotte sulla configurazione standard del sistema in cui il server veniva scelto in modo random e  i risultati sono stati mediati su 10 run diversi, poiché non è molto corretto attenersi agli esiti di una singola simulazione del sistema. I parametri risultanti sono stati:
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c||}
@@ -231,21 +231,21 @@ Banda Link Addizionale	&622 Mbps (OC-12)\\
 \hline
 \end{tabular}
 \end{center}
-\caption{specifiche4}
+\caption{dimensionamento}
 \label{test_4}
 \end{table}
 
 \section{Transiente}
-Un sistema web attraversa una fase iniziale durante la quale le code dei vari serventi cominciano a riempirsi, fino a raggiungere un livello di regime, in cui gli indici di prestazione del sistema assumono valori stabili. E’ quindi importante non tenere conto delle statistiche relative al periodo iniziale (transiente o transitorio), in quanto queste potrebbero rischiare di falsare i risultati complessivi. La determinazione della lunghezza del transiente è stata ricavata tramite l’algoritmo di Welch descritto da Law e Kelton in. Esso consente di determinare il numero di osservazioni l (di un indice del sistema Y ) che è necessario scartare dal numero totale di osservazioni m. Se l ed m sono scelti troppo piccoli la stima dell’indice potrebbe discostarsi 
-dal caso stazionario; viceversa se l è scelto troppo grande la stima dell’indice rischia di possedere una varianza troppo grande. 
-L’algoritmo proposto da Welch fa uso di una procedura grafica per determinare un valore di l tale che $E[Yi ] \approx lim(i \rightarrow \inf ) E[Y_{i}] = \nu per i > l $. Ciò è equivalente a determinare per quale valore di l la curva media del transiente si appiattisce fino a raggiungere il valore $\nu$ . In generale è difficile ricavare l tramite una singola replica, a causa della variabilità dell’indice Y. Per risolvere un tale problema Welch propone una procedura basata sull’utilizzo di n repliche della simulazione indipendenti tra loro. L'algoritmo è il seguente:
+Un sistema web attraversa una fase iniziale durante la quale le code dei vari serventi cominciano a riempirsi, fino a raggiungere un livello di regime, in cui gli indici di prestazione del sistema assumono valori stabili. E’ quindi importante non tenere conto delle statistiche relative al periodo iniziale (transiente o transitorio), in quanto queste potrebbero rischiare di falsare i risultati complessivi \cite{rif1}, \cite{rif2}. La determinazione della lunghezza del transiente è stata ricavata tramite l’algoritmo di Welch descritto da Law e Kelton \cite{rif4}. Esso consente di determinare il numero di osservazioni \var{l} (di un indice del sistema \var{Y} ) che è necessario scartare dal numero totale di osservazioni \var{m}. Se \var{l} ed \var{m} sono scelti troppo piccoli la stima dell’indice potrebbe discostarsi 
+dal caso stazionario; viceversa se \var{l} è scelto troppo grande la stima dell’indice rischia di possedere una varianza troppo grande. 
+L’algoritmo proposto da Welch fa uso di una procedura grafica per determinare un valore di \var{l} tale che $E[Yi ] \approx lim(i \rightarrow \inf ) E[Y_{i}] = \nu \;per\; i > l $. Ciò è equivalente a determinare per quale valore di \var{l} la curva media del transiente si appiattisce fino a raggiungere il valore $\nu$ . In generale è difficile ricavare \var{l} tramite una singola replica, a causa della variabilità dell’indice \var{Y}. Per risolvere un tale problema Welch propone una procedura basata sull’utilizzo di \var{n} repliche della simulazione indipendenti tra loro. L'algoritmo è il seguente:
 \begin{enumerate}
 	\item Fare n repliche della simulazione ( dove $n\geq5$ ), ognuna di lunghezza m ( dove m sono le osservazioni fatte nella simulazione ), porre $Y_{ij}$ come la i-esima osservazione della j-esima replica ( $j = 1,2,\ldots,n; i = 1,2,\ldots ,m$ )
 	\item Calcolare $Y_{i}$ come media delle $Y_{ij}$ di ogni replica
 \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.65]{etc/ipsilon.png}
-\caption{Carico}
+\caption{Calcolo delle medie}
 \label{carico}
 \end{center}
 \end{figure}
@@ -262,17 +262,17 @@ Caso 1: n=10, m = 500000, W = 5000
 \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.5]{etc/grafico1.png}
-\caption{Grafico1}
+\caption{Transiente caso 1}
 \label{Grafico1}
 \end{center}
 \end{figure}
-Utilizzando una finestra piccola rispetto al numero di osservazioni, si nota un'alta variabilità dei valori osservati e un trend monotono crescente all'aumentare del numero di osservazioni.
+Utilizzando una finestra piccola rispetto al numero di osservazioni, si nota un'alta variabilità dei valori osservati e un trend  crescente all'aumentare del numero di osservazioni.
 
 Caso2 : n=10, m=500000, W = 50000
 \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.5]{etc/grafico2.png}
-\caption{Grafico2}
+\caption{Transiente caso 2}
 \label{Grafico2}
 \end{center}
 \end{figure}
@@ -282,11 +282,11 @@ Caso3: n=10, m=500000, W = 100000
 \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.5]{etc/grafico3.png}
-\caption{Grafico3}
+\caption{Transiente caso 3}
 \label{Grafico3}
 \end{center}
 \end{figure}
-Anche in quest'ultimo caso, il tempo di risposta non sembra convergere, nonostante presenti un andamento piuttosto stabile. La mancata convergenza verso un valore potrebbe dipendere dalla distribuzione heavy tailed dei documenti, e dal fatto che i dischi potrebbero essere sottoposti a svolgere delle operazioni per file di centinaia di megabyte (si vedano i risultati del partizionamento del carico). Non essendo stato possibile determinare con precisione il valore l, si è deciso comunque  di eliminare dalla simulazione le prime 100000 osservazioni della simulazione, pur avendo la consapevolezza che il tempo di risposta tende ad aumentare al numero di osservazioni.
+Anche in quest'ultimo caso, il tempo di risposta non sembra convergere, nonostante presenti un andamento piuttosto stabile. La mancata convergenza verso un valore potrebbe dipendere dalla distribuzione heavy tailed dei documenti, e dal fatto che i dischi potrebbero essere sottoposti a svolgere delle operazioni per file di centinaia di megabyte (si vedano i risultati del partizionamento del carico). Non essendo stato possibile determinare con precisione il valore \var{l}, si è deciso comunque  di eliminare dalla simulazione le prime 100000 osservazioni della simulazione, pur avendo la consapevolezza che il tempo di risposta tende ad aumentare al numero di osservazioni.
 
 \section{Struttura della simulazione}
 Si presentano di seguito alcuni aspetti ritenuti importanti per comprendere al meglio la simulazione, in modo particolare la generazione di una sessione e delle relative richieste (il processo web client), e il processo principale che si occupa di raccogliere le statistiche.
@@ -318,18 +318,18 @@ for(i=0; i < session; i++) {
   hold(user_think_time(alfa_tt));
 }
 \end{lstlisting}
-Per ogni richiesta della sessione viene invocata la funzione web\_client specifica quali risorse vengono utilizzate e in che misura. 
+Per ogni richiesta della sessione viene invocata la funzione web\_client, che specifica quali risorse vengono utilizzate e in che misura. 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.62]{etc/webclient.png}
-\caption{webclient}
+\caption{Ciclo richiesta-risposta}
 \label{webclient}
 \end{center}
 \end{figure}
 \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.62]{etc/webclient2.png}
-\caption{webclient2}
+\caption{Ciclo richiesta-risposta con link addizionale}
 \label{webclient2}
 \end{center}
 \end{figure}
@@ -450,7 +450,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Utilizzazioni}
+\caption{Utilizzazioni Random}
 \label{risrandom}
 \end{table}
 Come si può notare, il vincolo sull'utilizzazione richiesto nelle specifiche del progetto è stato rispettato, con la risorsa collo di bottiglia (CPU Web Switch) che presenta un'utilizzazione del 68,8\%. Le altre risorse, ad eccezione della CPU del web server, presentano un'utilizzazione piuttosto basse.
@@ -482,12 +482,11 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Lunghezza code}
+\caption{Lunghezza code Random}
 \label{ris}
 \end{table}
 Per quanto concerne la lunghezza della coda, si nota un accodamento delle risposte nel link di uscita, che presenta valori più alti persino del web switch.
 \begin{table}[htbp]
-\caption{Tempo medio di risposta}
 \begin{center}
 \begin{tabular}{||c|c|c|c||}
 \hline
@@ -514,6 +513,7 @@ Centro &Classe1 &Classe2 &Classe3\\
 \hline
 \end{tabular}
 \end{center}
+\caption{Tempo medio di risposta Random}
 \label{tempomediorisposta}
 \end{table}
 I tempi medi di risposta per la Classe1 evidenziano una lentezza generale dei dischi nel soddisfare le richieste. Per le altre due classi non è possibile fare alcun tipo di assunzione, dato il limitato numero di osservazioni di Classi 2 e 3 a cui è sottoposto il sistema e dato il limite temporale della simulazione, che non permette alle richieste di queste due classi di essere soddisfatte (non mi piace molto la cosa del limitato numero di osservazioni). Risultati sicuramente più significativi per le Classi superiori saranno osservabili nel momento in cui verranno presentati i risultati del modello analitico.
@@ -546,7 +546,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Utilizzazioni}
+\caption{Utilizzazioni Round Robin}
 \label{utilizzazioni}
 \end{table}
 Le utilizzazioni delle varie risorse adottando la politica round robin sono quasi identiche a quelle con politica random presentate precedentemente.
@@ -577,7 +577,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Lunghezza Code}
+\caption{Lunghezza Code Round Robin}
 \label{lunghezzacode}
 \end{table}
 Rispetto al caso presentato precedentemente, si nota un leggero aumento delle code dei dischi del web server e della cpu del web switch, mentre si ha una leggera diminuzione o valori analoghi per tutte le altre risorse.
@@ -608,7 +608,7 @@ Centro &Classe1 &Classe2 &Classe3\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Tempo medio di risposta}
+\caption{Tempo medio di risposta Round Robin}
 \label{tempomediorisposta}
 \end{table}
 Anche per quanto riguarda i tempi medi di risposta, i risultati sono analoghi al caso precedente, fatta eccezione per i dischi del web server che presentano un leggero aumento dei tempi, dovuti all'aumento delle code.
@@ -640,7 +640,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Utilizzazioni}
+\caption{Utilizzazioni Least Loaded}
 \label{utilizzazioni}
 \end{table}
 Adottando questa politica diminuiscono i tempi medi di servizio e di conseguenza si ha un aumento del carico del sistema. Per questo motivo è possibile notare un aumento delle utilizzazioni per tutte le risposte del sistema, che porta a superare la soglia del 70\% sia per la CPU del web switch che per quella del Web Server.
@@ -671,7 +671,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Lunghezza Code}
+\caption{Lunghezza Code Least Loaded}
 \label{lunghezzacode}
 \end{table}
 Come avviene per le utilizzazioni, anche la lunghezza media delle code aumenta per tutti i centri, ad eccezione dei dischi del web server, poiché non accade mai che un server particolarmente carico riceva altre richieste da far processare ai suoi dischi se prima le code non sono state svuotate
@@ -702,12 +702,12 @@ Centro &Classe1 &Classe2 &Classe3\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Tempo medio di risposta}
+\caption{Tempo medio di risposta Least Loaded}
 \label{tempomediodirisposta}
 \end{table}
 I tempi di risposta sono più o meno analoghi a quelli presentati in precedenza, fatta eccezione per i dischi del web server, che, come ci si poteva aspettare, riducono il loro tempo medio di risposta.
 \subsection{Risultati Proxy}
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}
 \hline
@@ -734,11 +734,11 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Utilizzazioni}
+\caption{Utilizzazioni Proxy}
 \label{utilizzazioni}
 \end{table}
 L'introduzione del proxy, con un cache hit rate del 40\%, porta ad un notevole calo delle utilizzazioni, riducendo a meno del 46\% l'utilizzazione della risorsa collo di bottiglia del sistema (la CPU del web switch) e della CPU del Web Server. 
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}
 \hline
@@ -765,11 +765,11 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Lunghezza Code}
+\caption{Lunghezza Code Proxy}
 \label{lunghezzacode}
 \end{table}
 Anche le code tendono a diminuire notevolmente, come era logico aspettarsi. 
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c||}
 \hline
@@ -796,7 +796,7 @@ Centro &Classe1 &Classe2 &Classe3\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Tempo medio di risposta}
+\caption{Tempo medio di risposta Proxy}
 \label{tempomediodirisposta}
 \end{table}
 Analogo discorso vale anche per i tempi medi di risposta. Si ricorda che per l'esecuzione della simulazione con l'introduzione del proxy (e con il link addizionale, che sarà presentato nella prossima  sezione), è stata adottata la politica random.
@@ -833,7 +833,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Utilizzazioni}
+\caption{Utilizzazioni Link Addizionale}
 \label{utilizzazioni}
 \end{table}
 L'introduzione del link addizionale comporta una notevole diminuzione dell'utilizzazione della cpu del web switch e  della maggior parte delle componenti di rete, come la LAN L2 e le schede di rete LS1, LS2 e LW2, poiché queste hanno il compito di gestire solamente le richieste, mentre le risposte  vengono interamente smistate verso la scheda di rete LW3 e il link addizionale.
@@ -868,7 +868,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Lunghezza Code}
+\caption{Lunghezza Code Link Addizionale}
 \label{lunghezzacode}
 \end{table}
 Anche la lunghezza media delle code dello switch e delle componenti di rete tende a diminuire notevolmente, mentre restano immutate quelle dei web server.
@@ -903,7 +903,7 @@ Centro &Classe1 &Classe2 &Classe3\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Tempo medio di risposta}
+\caption{Tempo medio di risposta Link Addizionale}
 \label{tempomediodirisposta}
 \end{table}
 Quanto evidenziato in precedenza, risulta essere valido anche per il tempo medio di risposta.

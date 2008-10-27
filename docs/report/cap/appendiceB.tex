@@ -1,5 +1,21 @@
 \chapter{Appendice}\label{appendice}
 In questa sezione verranno presentati i risultati ottenuti applicando l'algoritmo di Clustering K-Means con K=5. Questa scelta è stata fatta per cercare di comprendere meglio come si comportano i documenti di dimensione media, visto che i cluster minimi e massimi sono rimasti praticamente invariati. 
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{||c|c|c||}
+\hline
+Classe	&Dimensione(byte)		&Richieste \\ 
+\hline\hline
+1 &10073 &9999917\\ \hline 
+2 &17740962 &65 \\ \hline 
+3 &70926601 &13 \\ \hline 
+4 &279513744 &4 \\ \hline 
+5 &715827882 &1 \\ \hline
+\end{tabular}
+\end{center}
+\caption{Risultati clustering}
+\label{risclustering}
+\end{table}
 \section{Risultati Modello Simulativo}
 \subsection{Risultati Random}
 \begin{table}[H]
@@ -29,7 +45,7 @@ Centro &Classe1 &Classe2 &Classe3 &Classe4 &Classe5 &Totale\\
 \hline
 \end{tabular}
 \end{scriptsize}\end{center}
-\caption{Utilizzazioni}
+\caption{Utilizzazioni Random}
 \label{risrandom}
 \end{table}
 
@@ -60,12 +76,11 @@ Centro &Classe1 &Classe2 &Classe3 &Classe4 &Classe5 &Totale\\
 \hline
 \end{tabular}
 \end{scriptsize}\end{center}
-\caption{Lunghezza code}
+\caption{Lunghezza code Random}
 \label{ris}
 \end{table}
 
 \begin{table}[H]
-\caption{Tempo medio di risposta}
 \begin{center}\begin{scriptsize}
 \begin{tabular}{||c|c|c|c|c|c|c||}
 \hline
@@ -92,6 +107,7 @@ Centro &Classe1 &Classe2 &Classe3 &Classe4 &Classe5 &Totale\\
 \hline
 \end{tabular}
 \end{scriptsize}\end{center}
+\caption{Tempo medio di risposta Random}
 \label{tempomediorisposta}
 \end{table}
 
@@ -123,7 +139,7 @@ Centro &Classe1 &Classe2 &Classe3 &Classe4 &Classe5 &Totale\\
 \hline
 \end{tabular}
 \end{scriptsize}\end{center}
-\caption{Utilizzazioni}
+\caption{Utilizzazioni Round Robin}
 \label{utilizzazioni}
 \end{table}
 
@@ -154,7 +170,7 @@ Centro &Classe1 &Classe2 &Classe3 &Classe4 &Classe5 &Totale\\
 \hline
 \end{tabular}
 \end{scriptsize}\end{center}
-\caption{Lunghezza Code}
+\caption{Lunghezza Code Round Robin}
 \label{lunghezzacode}
 \end{table}
 
@@ -185,7 +201,7 @@ Centro &Classe1 &Classe2 &Classe3 &Classe4 &Classe5 &Totale\\
 \hline
 \end{tabular}
 \end{scriptsize}\end{center}
-\caption{Tempo medio di risposta}
+\caption{Tempo medio di risposta Round Robin}
 \label{tempomediorisposta}
 \end{table}
 
@@ -217,7 +233,7 @@ Centro &Classe1 &Classe2 &Classe3 &Classe4 &Classe5 &Totale\\
 \hline
 \end{tabular}
 \end{scriptsize}\end{center}
-\caption{Utilizzazioni}
+\caption{Utilizzazioni Least Loaded}
 \label{utilizzazioni}
 \end{table}
 
@@ -248,7 +264,7 @@ Centro &Classe1 &Classe2 &Classe3 &Classe4 &Classe5 &Totale\\
 \hline
 \end{tabular}
 \end{scriptsize}\end{center}
-\caption{Lunghezza Code}
+\caption{Lunghezza Code Least Loaded}
 \label{lunghezzacode}
 \end{table}
 
@@ -279,7 +295,7 @@ Centro &Classe1 &Classe2 &Classe3 &Classe4 &Classe5 &Totale\\
 \hline
 \end{tabular}
 \end{scriptsize}\end{center}
-\caption{Tempo medio di risposta}
+\caption{Tempo medio di risposta Least Loaded}
 \label{tempomediodirisposta}
 \end{table}
 
@@ -311,7 +327,7 @@ Centro &Classe1 &Classe2 &Classe3 &Classe4 &Classe5 &Totale\\
 \hline
 \end{tabular}
 \end{scriptsize}\end{center}
-\caption{Utilizzazioni}
+\caption{Utilizzazioni Proxy}
 \label{utilizzazioni}
 \end{table}
 
@@ -342,7 +358,7 @@ Centro &Classe1 &Classe2 &Classe3 &Classe4 &Classe5 &Totale\\
 \hline
 \end{tabular}
 \end{scriptsize}\end{center}
-\caption{Lunghezza Code}
+\caption{Lunghezza Code Proxy}
 \label{lunghezzacode}
 \end{table}
 
@@ -373,7 +389,7 @@ Centro &Classe1 &Classe2 &Classe3 &Classe4 &Classe5 &Totale\\
 \hline
 \end{tabular}
 \end{scriptsize}\end{center}
-\caption{Tempo medio di risposta}
+\caption{Tempo medio di risposta Proxy}
 \label{tempomediodirisposta}
 \end{table}
 
@@ -409,7 +425,7 @@ Centro &Classe1 &Classe2 &Classe3 &Classe4 &Classe5 &Totale\\
 \hline
 \end{tabular}
 \end{scriptsize}\end{center}
-\caption{Utilizzazioni}
+\caption{Utilizzazioni Link Addizionale}
 \label{utilizzazioni}
 \end{table}
 
@@ -444,7 +460,7 @@ Centro &Classe1 &Classe2 &Classe3 &Classe4 &Classe5 &Totale\\
 \hline
 \end{tabular}
 \end{scriptsize}\end{center}
-\caption{Lunghezza Code}
+\caption{Lunghezza Code Link Addizionale}
 \label{lunghezzacode}
 \end{table}
 
@@ -479,11 +495,35 @@ Centro &Classe1 &Classe2 &Classe3 &Classe4 &Classe5 &Totale\\
 \hline
 \end{tabular}
 \end{scriptsize}\end{center}
-\caption{Tempo medio di risposta}
+\caption{Tempo medio di risposta Link Addizionale}
 \label{tempomediodirisposta}
 \end{table}
 
 \section{Risultati Modello Analitico}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{||c|c||}
+\hline
+Classe		&Prob. arrivo richieste classe R	\\
+\hline
+\hline
+1		&0.9999917\\
+\hline
+2		&0.0000065\\
+\hline
+3		&0.0000013\\
+\hline
+4		&0.0000004\\
+\hline
+5		&0.0000001\\
+\hline 	\\
+\end{tabular}
+\end{center}
+\caption{specifiche2}
+\label{test_2}
+\end{table}
+
 \subsection{Risultati Standard}
 \begin{table}[H]
 \begin{center}\begin{scriptsize}
