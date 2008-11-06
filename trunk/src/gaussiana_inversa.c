@@ -13,7 +13,7 @@ STREAM p_hit_proxy;
 //calcolo della media per una distribuzione lognormale
 double calc_mean_lognormal(double mu, double sigma) 
 {
-	double sum = mu+(pow(sigma,2)/2);
+	double sum = mu+(pow(sigma, 2)/2);
 	return exp(sum);
 }
 
@@ -25,14 +25,14 @@ double calc_stddev_lognormal(double mu, double sigma)
 }
 
 //algoritmo di Michael/Schucany/Haas per la generazione di valori tramite la gaussiana inversa
-int session_request(double mu, double lambda)   //dimensionare come un intero???
+int session_request(double mu, double lambda)
 {
 	int x; 
-	double v = stream_normal(sess_req_1,0,1);
-	double y = pow(v,2);
+	double v = stream_normal(sess_req_1, 0, 1);
+	double y = pow(v, 2);
 	double x1 = 0;
-	x1 = mu + ((pow(mu,2)*y)/(2*lambda)) - ((mu/(2*lambda)) * sqrt(4*mu*lambda*y+pow(mu,2)*pow(y,2)));
-	double u = stream_uniform(sess_req_2,0,1);
+	x1 = mu + ((pow(mu, 2)*y)/(2*lambda)) - ((mu/(2*lambda)) * sqrt(4*mu*lambda*y+pow(mu, 2)*pow(y, 2)));
+	double u = stream_uniform(sess_req_2, 0, 1);
 	double temp = mu/(mu+x1);
 	if(u <= temp) {
 		x = (int)round(x1);
@@ -67,8 +67,8 @@ int object_per_request(double alfa)
 double html_page_size(double mu, double sigma, double alfa)
 {
 	double x = 0.0;
-	int k = 10240; //dimensionarlo in KB???
-	x = stream_lognormal(html_1, calc_mean_lognormal(mu,sigma),calc_stddev_lognormal(mu,sigma));
+	int k = 10240; //Byte
+	x = stream_lognormal(html_1, calc_mean_lognormal(mu, sigma), calc_stddev_lognormal(mu, sigma));
 	if(x<k)
 		return x;
 	else {
@@ -85,7 +85,7 @@ double embedded_object_size(double mu, double sigma)
 {
 	double x = 0.0;
 	while(x <= 0.0) {
-		x = stream_lognormal(obj_size, calc_mean_lognormal(mu,sigma),calc_stddev_lognormal(mu,sigma));
+		x = stream_lognormal(obj_size, calc_mean_lognormal(mu, sigma), calc_stddev_lognormal(mu, sigma));
 	}
 	return x;
 }

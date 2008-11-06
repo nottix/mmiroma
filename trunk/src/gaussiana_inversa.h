@@ -1,7 +1,7 @@
 #ifndef _GAUSSIANA_INVERSA_H
 #define _GAUSSIANA_INVERSA_H
 
-#include<math.h>
+#include <math.h>
 #include <csim.h>
 
 #ifndef _ISOC99_SOURCE
