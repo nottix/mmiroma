@@ -2809,7 +2809,7 @@ TABLE 3:  System Response Time
       results of run length control using confidence intervals
 
       cpu time limit   10000.0          accuracy requested      0.005000
-      cpu time used        7.8          accuracy achieved       0.016652
+      cpu time used       21.4          accuracy achieved       0.016652
 
       > warning - requested accuracy has not been achieved
 
@@ -2835,17 +2835,17 @@ BOX 4:  Web Switch
 
       statistics on elapsed times
 
-      minimum         0.000111          mean                    0.001042
-      maximum         0.073106          variance                0.000005
-      range           0.072995          standard deviation      0.002175
-      observations      400370          coefficient of var      2.088326
+      minimum         0.000111          mean                   47.741235
+      maximum       151.209460          variance             2806.957308
+      range         151.209349          standard deviation     52.980726
+      observations      800345          coefficient of var      1.109748
 
       statistics on population
 
-      initial       1      minimum       0      mean                    3.699073
-      final         0      maximum     163      variance               82.185281
-      entries  400369      range       163      standard deviation      9.065610
-      exits    400370                           coeff of variation      2.450779
+      initial       4      minimum       0      mean                   11.670150
+      final         0      maximum     688      variance             1137.192983
+      entries  800341      range       688      standard deviation     33.722292
+      exits    800345                           coeff of variation      2.889619
 
 METER SUMMARY
                                                         mean          maximum

@@ -2823,17 +2823,17 @@ BOX 2:  Web Switch
 
       statistics on elapsed times
 
-      minimum         0.000111          mean                    0.001362
-      maximum         0.124596          variance                0.000015
-      range           0.124485          standard deviation      0.003927
-      observations      400517          coefficient of var      2.883172
+      minimum         0.000111          mean                   48.205297
+      maximum       151.483729          variance             2863.426872
+      range         151.483618          standard deviation     53.510998
+      observations      800596          coefficient of var      1.110065
 
       statistics on population
 
-      initial       0      minimum       0      mean                    4.802142
-      final         4      maximum     211      variance              183.043889
-      entries  400521      range       211      standard deviation     13.529371
-      exits    400517                           coeff of variation      2.817362
+      initial       1      minimum       0      mean                   17.836806
+      final         7      maximum     866      variance             4040.846591
+      entries  800602      range       866      standard deviation     63.567654
+      exits    800596                           coeff of variation      3.563847
 
 METER SUMMARY
                                                         mean          maximum

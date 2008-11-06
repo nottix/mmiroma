@@ -1,7 +1,7 @@
 #ifndef _SERVICE_H
 #define _SERVICE_H
 
-#include<math.h>
+#include <math.h>
 #include "common.h"
 
 #define TCPOV 20 //byte
@@ -14,11 +14,6 @@
 #define DISK_REVOLUTION_TIME 60/(double)ROTATIONAL_SPEED // sec
 #define ROTATIONAL_LATENCY 0.5*DISK_REVOLUTION_TIME //sec 
 #define DISK_TRANSFER_RATE 100 //MB/sec
-/*#define BANDWIDTH_LINKADD 622 //Mbps
-#define INLINK_BANDWIDTH 45 //prova
-#define OUTLINK_BANDWIDTH 1000 //come sopra
-#define LS1_TRANSFER_RATE 1000 
-*/
 
 //Divide il numero di Byte m in ingresso in datagrammi
 int NDatagrams(double m);
@@ -41,7 +36,7 @@ double D_OutLink(double docSize);
 
 /** 
  * Calcola la domanda di servizio sottomessa alla LAN che collega il Web Switch con i Web Server.
-.* Il fattore moltiplicativo 1024 e' commentato perche' le richieste sono gia' espressi in byte
+ * Il fattore moltiplicativo 1024 e' commentato perche' le richieste sono gia' espressi in byte
  */
 double D_LAN(double docSize);
 

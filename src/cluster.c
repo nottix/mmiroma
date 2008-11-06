@@ -1,11 +1,11 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdarg.h>
-#include<string.h>
-#include<csim.h>
+#include <string.h>
+#include <csim.h>
 #include "gaussiana_inversa.h"
 #include "client.h"
 
@@ -71,7 +71,7 @@ void cluster(double *array, int array_length, int k)
 	////PROVA CLUSTER RANDOM
 	for(i=1; i < k-1; i++)
 	{
-		int rand = csim_random_int(0,array_length);
+		int rand = csim_random_int(0, array_length);
 		centroids[i] = array[rand]; 
 		
 	}  
@@ -142,7 +142,7 @@ void sim(int argc, char **argv)
 	obj_size = create_stream();
 	reseed(obj_size, SEED);
 
-	create("prova");
+	create("Clustering");
 	int array_length= 10000000;
 	double *array = (double*)malloc(sizeof(double)*array_length);
 	double session;
@@ -167,7 +167,7 @@ void sim(int argc, char **argv)
 		}
 	}
 	//clustering dei documenti
-	cluster(array,array_length,5);
+	cluster(array, array_length, 5);
 
 	int m=0;
 	/*FILE *fd_file;

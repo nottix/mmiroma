@@ -72,6 +72,7 @@ int web_client(double doc_size, int variant, int bool_transient, int iter)
 	double startTime;
 	double server_start_time = 0.0;
 	double switch_start_time = 0.0;
+	double switch_time = 0.0;
 	int tmp_server;
 	startTime = simtime();
 	int tmp_disk = 0;
@@ -82,11 +83,10 @@ int web_client(double doc_size, int variant, int bool_transient, int iter)
 	switch_start_time = enter_box(WebSwitch);
 	use(LS1, D_LS1in()); 
 	use(CPU_web_switch, D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE)); 
-  use(LS2, D_LAN(0)); //stessa banda della LAN, in richiesta doc_size=0
-  exit_box(WebSwitch, switch_start_time);
+	use(LS2, D_LAN(0)); //stessa banda della LAN, in richiesta doc_size=0
+	exit_box(WebSwitch, switch_start_time);
   
 	use(L2, D_LAN(0));
-
 
 	/* random */
 	if(variant == RANDOM || variant == LINK_ADD || variant == PROXY) {
@@ -106,7 +106,6 @@ int web_client(double doc_size, int variant, int bool_transient, int iter)
 	use(LW2[tmp_server], D_LAN(0));
 	use(cpuWS[tmp_server], D_Cpu(CPU_SERVICE_RATE));
 	
-
 	//selezione del disco round robin
 	tmp_disk = currentDisk[tmp_server];
 	currentDisk[tmp_server] = (tmp_disk+1)%NUM_DISK;
@@ -123,10 +122,14 @@ int web_client(double doc_size, int variant, int bool_transient, int iter)
 		use(link_add, D_linkAdd(doc_size));
 	}		  
 	else {
-		use(L2, D_LAN(doc_size)); 
+		use(L2, D_LAN(doc_size));
+
+		switch_start_time = enter_box(WebSwitch);
 		use(LS2, D_LAN(doc_size));
 		use(CPU_web_switch, D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE));
 		use(LS1, D_LS1out(doc_size));
+		exit_box(WebSwitch, switch_time);
+
 		use(outLink, D_OutLink(doc_size));
 	}	
 	
