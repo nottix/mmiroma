@@ -7,7 +7,8 @@
 #include <stdarg.h>
 #include "common.h"
 #include "service.h"
-#define LAMBDA_SIM 3308.79 //prova
+
+#define LAMBDA_SIM 3308.79
 #define NUM_OBS 10000000
 
 //Calcola la lunghezza della coda
@@ -17,7 +18,7 @@ double calc_queue_length(double utilization)
 }
 
 //Calcola il tempo di risposta
-double calc_response_time(double service, double utilization)
+double calc_residence_time(double service, double utilization)
 {
 	return service/(1 - utilization);
 }
@@ -37,34 +38,36 @@ int main(int argc, char **argv)
 	double tr_L2, tr_inLink, tr_outLink, tr_cpu_web_switch, tr_cpu_web_server, tr_disco_web_server, tr_link_add, tr_ls1, tr_ls2, tr_lw2, tr_lw3;
 	
 	//centroidi
-	double doc_size[NUM_CLASSES];  
-	/*doc_size[0] = 10281;  DOC_SIZE PER K=3
-	doc_size[1] = 279513744;
-	doc_size[2] = 715827882;
-	*/
-	doc_size[0] = 10073;
-	doc_size[1] = 17740962;
-	doc_size[2] = 70926601;
-	doc_size[3] = 279513744;
-	doc_size[4] = 715827882;
+	double doc_size[NUM_CLASSES];
+	//tasso di richieste per ogni classe = probabilita' di classe * tasso di richieste totale
+	double lambda[NUM_CLASSES];
+	if(K==3) {	
+		doc_size[0] = 10281;
+		doc_size[1] = 279513744;
+		doc_size[2] = 715827882;
+
+		lambda[0] = ((double)9999995/(double)NUM_OBS)*LAMBDA_SIM;
+		lambda[1] = ((double)4/(double)NUM_OBS)*LAMBDA_SIM;
+		lambda[2] = ((double)1/(double)NUM_OBS)*LAMBDA_SIM;
+	}
+	else if(K==5) {
+		doc_size[0] = 10073;
+		doc_size[1] = 17740962;
+		doc_size[2] = 70926601;
+		doc_size[3] = 279513744;
+		doc_size[4] = 715827882;
+
+		lambda[0] = ((double)9999917/(double)NUM_OBS)*LAMBDA_SIM;
+		lambda[1] = ((double)65/(double)NUM_OBS)*LAMBDA_SIM;
+		lambda[2] = ((double)13/(double)NUM_OBS)*LAMBDA_SIM;
+		lambda[3] = ((double)4/(double)NUM_OBS)*LAMBDA_SIM;
+		lambda[4] = ((double)1/(double)NUM_OBS)*LAMBDA_SIM;
+	}
 	
 	//probabilita' che la risorsa non si trovi nel proxy
 	double miss = 1- P_HIT;    
 	int i = 0;
-	
-	//tasso di richieste per ogni classe = probabilita' di classe * tasso di richieste totale
-  double lambda[NUM_CLASSES];
-	/*lambda[0] = ((double)9999995/(double)NUM_OBS)*LAMBDA_SIM;
-	lambda[1] = ((double)4/(double)NUM_OBS)*LAMBDA_SIM;
-	lambda[2] = ((double)1/(double)NUM_OBS)*LAMBDA_SIM;
-	*/
-	
-	lambda[0] = ((double)9999917/(double)NUM_OBS)*LAMBDA_SIM;
-	lambda[1] = ((double)65/(double)NUM_OBS)*LAMBDA_SIM;
-	lambda[2] = ((double)13/(double)NUM_OBS)*LAMBDA_SIM;
-	lambda[3] = ((double)4/(double)NUM_OBS)*LAMBDA_SIM;
-	lambda[4] = ((double)1/(double)NUM_OBS)*LAMBDA_SIM;
-	
+
 	fprintf(fd_file, "calcolo indici locali variante standard\n");
 
 	//calcolo utilizzazioni
@@ -130,35 +133,38 @@ int main(int argc, char **argv)
 	//tempi di residenza
 	for(i=0; i < NUM_CLASSES; i++) {
 		fprintf(fd_file, "\ntempi di residenza %d\n", i);
-		tr_L2 = calc_response_time(D_LAN(doc_size[i]), utilizzazione_L2[i]);
+		tr_L2 = calc_residence_time(D_LAN(doc_size[i]), utilizzazione_L2[i]);
 		fprintf(fd_file, "L2: %9.9f\n", tr_L2);
 
-		tr_inLink = calc_response_time(D_InLink(), utilizzazione_inLink[i]);
+		tr_inLink = calc_residence_time(D_InLink(), utilizzazione_inLink[i]);
 		fprintf(fd_file, "inLink: %9.9f\n", tr_inLink);
 
-		tr_outLink = calc_response_time(D_OutLink(doc_size[i]), utilizzazione_outLink[i]);
+		tr_outLink = calc_residence_time(D_OutLink(doc_size[i]), utilizzazione_outLink[i]);
 		fprintf(fd_file, "outLink: %9.9f\n", tr_outLink);
 
-		tr_cpu_web_switch = calc_response_time(D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE)* 2, utilizzazione_cpu_web_switch[i]);
+		tr_cpu_web_switch = calc_residence_time(D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE)* 2, utilizzazione_cpu_web_switch[i]);
 		fprintf(fd_file, "cpu web switch: %9.9f\n", tr_cpu_web_switch);
 
-		tr_cpu_web_server = calc_response_time(D_Cpu(CPU_SERVICE_RATE) * 2, utilizzazione_cpu_web_server[i]);
+		tr_cpu_web_server = calc_residence_time(D_Cpu(CPU_SERVICE_RATE) * 2, utilizzazione_cpu_web_server[i]);
 		fprintf(fd_file, "cpu web server: %9.9f\n", tr_cpu_web_server);
 
-		tr_disco_web_server = calc_response_time(D_WSDisk(doc_size[i]), utilizzazione_disco_web_server[i]);
+		tr_disco_web_server = calc_residence_time(D_WSDisk(doc_size[i]), utilizzazione_disco_web_server[i]);
 		fprintf(fd_file, "disco web server: %9.9f\n", tr_disco_web_server);
 		
-		tr_ls1 = calc_response_time((D_LS1in()+D_LS1out(doc_size[i])),utilizzazione_ls1[i]);
+		tr_ls1 = calc_residence_time((D_LS1in()+D_LS1out(doc_size[i])),utilizzazione_ls1[i]);
 		fprintf(fd_file, "LS1: %9.9f\n", tr_ls1);
 		
-		tr_ls2 = calc_response_time(D_LAN(doc_size[i]),utilizzazione_ls2[i]);		
+		tr_ls2 = calc_residence_time(D_LAN(doc_size[i]),utilizzazione_ls2[i]);		
 		fprintf(fd_file, "LS2: %9.9f\n", tr_ls2);
 		
-		tr_lw2 = calc_response_time(D_LAN(doc_size[i]), utilizzazione_lw2[i]);
+		tr_lw2 = calc_residence_time(D_LAN(doc_size[i]), utilizzazione_lw2[i]);
 		fprintf(fd_file, "LS2: %9.9f\n", tr_lw2);
 	}	
 
-	//nel caso di inserimento del proxy bisogna moltiplicare tutte le utilizzazioni per 0.6, nel caso di link addizionale bisogna ricalcolare l'utilizzazione della cpu del web  switch (one way) e calcolare la nuova utilizzazione della L3.
+	/* nel caso di inserimento del proxy bisogna moltiplicare tutte le utilizzazioni per 0.6, 
+	 * nel caso di link addizionale bisogna ricalcolare l'utilizzazione della cpu del web 
+	 * switch (one way) e calcolare la nuova utilizzazione della L3.
+	 */
 	fprintf(fd_file, "\ncalcolo indici locali con link addizionale\n");
 
 	//calcolo utilizzazioni link addizionale, cosa cambia nella LAN L2?
@@ -232,34 +238,34 @@ int main(int argc, char **argv)
 	//tempi di residenza
 	for(i=0; i < NUM_CLASSES; i++) {
 		fprintf(fd_file, "\ntempi di residenza %d\n", i);
-		tr_L2 = calc_response_time(D_LAN(0), utilizzazione_L2[i]);
+		tr_L2 = calc_residence_time(D_LAN(0), utilizzazione_L2[i]);
 		fprintf(fd_file, "L2: %9.9f\n", tr_L2);
 
-		tr_inLink = calc_response_time(D_InLink(), utilizzazione_inLink[i]);
+		tr_inLink = calc_residence_time(D_InLink(), utilizzazione_inLink[i]);
 		fprintf(fd_file, "inLink: %9.9f\n", tr_inLink);
 
-		tr_cpu_web_switch = calc_response_time(D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE)* 2, utilizzazione_cpu_web_switch[i]);
+		tr_cpu_web_switch = calc_residence_time(D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE)* 2, utilizzazione_cpu_web_switch[i]);
 		fprintf(fd_file, "cpu web switch: %9.9f\n", tr_cpu_web_switch);
 
-		tr_cpu_web_server = calc_response_time(D_Cpu(CPU_SERVICE_RATE) * 2, utilizzazione_cpu_web_server[i]);
+		tr_cpu_web_server = calc_residence_time(D_Cpu(CPU_SERVICE_RATE) * 2, utilizzazione_cpu_web_server[i]);
 		fprintf(fd_file, "cpu web server: %9.9f\n", tr_cpu_web_server);
 
-		tr_disco_web_server = calc_response_time(D_WSDisk(doc_size[i]), utilizzazione_disco_web_server[i]);
+		tr_disco_web_server = calc_residence_time(D_WSDisk(doc_size[i]), utilizzazione_disco_web_server[i]);
 		fprintf(fd_file, "disco web server: %9.9f\n", tr_disco_web_server);
 		
-		tr_link_add = calc_response_time(D_linkAdd(doc_size[i]), utilizzazione_link_add[i]);
+		tr_link_add = calc_residence_time(D_linkAdd(doc_size[i]), utilizzazione_link_add[i]);
 		fprintf(fd_file, "linkAdd: %9.9f\n", tr_link_add);
 		
-		tr_ls1 = calc_response_time(D_LS1in(), utilizzazione_ls1[i]);
+		tr_ls1 = calc_residence_time(D_LS1in(), utilizzazione_ls1[i]);
 		fprintf(fd_file, "LS1: %9.9f\n", tr_ls1);
 		
-		tr_ls2 = calc_response_time(D_LAN(0), utilizzazione_ls2[i]);
+		tr_ls2 = calc_residence_time(D_LAN(0), utilizzazione_ls2[i]);
 		fprintf(fd_file, "LS2: %9.9f\n", tr_ls2);
 		
-		tr_lw2 = calc_response_time(D_LAN(0), utilizzazione_lw2[i]);
+		tr_lw2 = calc_residence_time(D_LAN(0), utilizzazione_lw2[i]);
 		fprintf(fd_file, "LW2: %9.9f\n", tr_lw2);
 
-		tr_lw3 = calc_response_time(D_linkAdd(doc_size[i]), utilizzazione_lw3[i]);
+		tr_lw3 = calc_residence_time(D_linkAdd(doc_size[i]), utilizzazione_lw3[i]);
 		fprintf(fd_file, "LW3: %9.9f\n", tr_lw3);
 		
 	}	
@@ -327,31 +333,31 @@ int main(int argc, char **argv)
 	//tempi di residenza
 	for(i=0; i < NUM_CLASSES; i++) {
 		fprintf(fd_file, "\ntempi di residenza %d\n", i);
-		tr_L2 = calc_response_time(D_LAN(doc_size[i]), utilizzazione_L2[i]);
+		tr_L2 = calc_residence_time(D_LAN(doc_size[i]), utilizzazione_L2[i]);
 		fprintf(fd_file, "L2: %9.9f\n", tr_L2);
 
-		tr_inLink = calc_response_time(D_InLink(), utilizzazione_inLink[i]);
+		tr_inLink = calc_residence_time(D_InLink(), utilizzazione_inLink[i]);
 		fprintf(fd_file, "inLink: %9.9f\n", tr_inLink);
 
-		tr_outLink = calc_response_time(D_OutLink(doc_size[i]), utilizzazione_outLink[i]);
+		tr_outLink = calc_residence_time(D_OutLink(doc_size[i]), utilizzazione_outLink[i]);
 		fprintf(fd_file, "outLink: %9.9f\n", tr_outLink);
 
-		tr_cpu_web_switch = calc_response_time(D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE)* 2, utilizzazione_cpu_web_switch[i]);
+		tr_cpu_web_switch = calc_residence_time(D_Cpu(CPU_WEB_SWITCH_SERVICE_RATE)* 2, utilizzazione_cpu_web_switch[i]);
 		fprintf(fd_file, "cpu web switch: %9.9f\n", tr_cpu_web_switch);
 
-		tr_cpu_web_server = calc_response_time(D_Cpu(CPU_SERVICE_RATE) * 2, utilizzazione_cpu_web_server[i]);
+		tr_cpu_web_server = calc_residence_time(D_Cpu(CPU_SERVICE_RATE) * 2, utilizzazione_cpu_web_server[i]);
 		fprintf(fd_file, "cpu web server: %9.9f\n", tr_cpu_web_server);
 
-		tr_disco_web_server = calc_response_time(D_WSDisk(doc_size[i]), utilizzazione_disco_web_server[i]);
+		tr_disco_web_server = calc_residence_time(D_WSDisk(doc_size[i]), utilizzazione_disco_web_server[i]);
 		fprintf(fd_file, "disco web server: %9.9f\n", tr_disco_web_server);
 		
-		tr_ls1 = calc_response_time((D_LS1in()+D_LS1out(doc_size[i])),utilizzazione_ls1[i]);
+		tr_ls1 = calc_residence_time((D_LS1in()+D_LS1out(doc_size[i])),utilizzazione_ls1[i]);
 		fprintf(fd_file, "LS1: %9.9f\n", tr_ls1);
 		
-		tr_ls2 = calc_response_time(D_LAN(doc_size[i]),utilizzazione_ls2[i]);		
+		tr_ls2 = calc_residence_time(D_LAN(doc_size[i]),utilizzazione_ls2[i]);		
 		fprintf(fd_file, "LS2: %9.9f\n", tr_ls2);
 		
-		tr_lw2 = calc_response_time(D_LAN(doc_size[i]), utilizzazione_lw2[i]);
+		tr_lw2 = calc_residence_time(D_LAN(doc_size[i]), utilizzazione_lw2[i]);
 		fprintf(fd_file, "LS2: %9.9f\n", tr_lw2);
 	}	
 	fclose(fd_file);

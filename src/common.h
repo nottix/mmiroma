@@ -31,7 +31,7 @@
 #define MAX_PROCESSES 100000000
 #define MAX_FACILITIES 5000
 #define MAX_CLASSES 10
-#define MAX_OBSERVATION 400000#define NUM_CLASSES K //Uguale a K
+#define MAX_OBSERVATION 500000#define NUM_CLASSES K //Uguale a K
 
 //definizione delle varianti
 #define RANDOM 0
