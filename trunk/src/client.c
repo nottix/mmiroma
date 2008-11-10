@@ -67,7 +67,7 @@ int get_least_loaded()
 }
 
 //Gestisce l'intero flusso richiesta-risposta
-int web_client(double doc_size, int variant, int bool_transient, int iter)
+int web_request(double doc_size, int variant, int bool_transient, int iter)
 {
 	double startTime;
 	double server_start_time = 0.0;
@@ -163,20 +163,20 @@ void web_session(int cli_id, int variant, int bool_transient, int iter)
 
 		set_process_class(requestClasses[get_doc_class(html_page)]);
 		if(variant == PROXY && stream_prob(p_hit_proxy) > 0.4) { 
-			web_client(html_page, variant, bool_transient, iter);
+			web_request(html_page, variant, bool_transient, iter);
 		}
 		if(variant != PROXY) {
-			web_client(html_page, variant, bool_transient, iter);
+			web_request(html_page, variant, bool_transient, iter);
 		}
 		num_embedded_objects = object_per_request(alfa_obj);
 		for(j=0; j < num_embedded_objects; j++) {
 			emb_obj_size = embedded_object_size(mu_emb, sigma_emb);
 			set_process_class(requestClasses[get_doc_class(emb_obj_size)]);
 			if(variant == PROXY && stream_prob(p_hit_proxy) > 0.4) {
-				web_client(emb_obj_size, variant, bool_transient, iter);
+				web_request(emb_obj_size, variant, bool_transient, iter);
 			}
 			if(variant != PROXY) {
-				web_client(emb_obj_size, variant, bool_transient, iter);
+				web_request(emb_obj_size, variant, bool_transient, iter);
 			}
 		}
 		hold(user_think_time(alfa_tt)); 
@@ -186,7 +186,7 @@ void web_session(int cli_id, int variant, int bool_transient, int iter)
 	csim_terminate();
 }
 
-//assegna una classe ad un documento, sulla base delle distanze da i centroidi
+//assegna una classe ad un documento, sulla base delle distanze dai centroidi
 int get_doc_class(double doc_size)
 {
 	double distance[K];

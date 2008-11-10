@@ -1,7 +1,7 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#include<csim.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <csim.h>
 #include "gaussiana_inversa.h"
 #include "client.h"
 #include "common.h"
@@ -40,7 +40,7 @@ TABLE resptime;
 
 int WELCH_N = 0, WELCH_M = 0, WELCH_W = 0;
 
-char * output_file_name;
+char *output_file_name;
 
 //Parsa i parametri passati da linea di comando
 void parse_command_line(int argc, char *argv[]){
@@ -61,28 +61,17 @@ void parse_command_line(int argc, char *argv[]){
 		exit(1);
 	}
 	
-	
-	return;	
-	
+	return;
 }
 
 //Simulazione del transiente
 void sim(int argc, char *argv[]){
 
-int clientID=0,
-	 cont=0,
-	 i,s,
-	 n_repl=0,
-	 m_repl=0;
-	 
-	 parse_command_line(argc, argv);
-	 
-double intT,
-		 *averaged_process,
-		 sum=0.0,
-		 *moving_average;
+	int clientID=0,	cont=0, i, s, n_repl=0, m_repl=0;
+	parse_command_line(argc, argv);
+	double intT, *averaged_process, sum=0.0, *moving_average;
 
-FILE * mov_avg_fd;
+	FILE * mov_avg_fd;
 	maxObservation = WELCH_M;
 	observed_sample = 1;
 	create("sim");
@@ -147,8 +136,6 @@ FILE * mov_avg_fd;
 	//	     Il generatore di numeri casuali non viene mai azzerato
 	
 	//ciclo di generazione delle richieste
-
-
 	printf("n_repl =%d, m_repl =%d\n", n_repl, m_repl);
 	while(n_repl < WELCH_N) {
 		observed_sample = 1;
@@ -160,8 +147,6 @@ FILE * mov_avg_fd;
 			clientID++;		
 		}
 		printf("Replication n %d terminated\n",n_repl);
-		//ogni volta che viene terminata una replica e' necessario
-		//riavviare le risorse
 		wait(event_list_empty);
 		reset();		
 		reseed(sess_req_1, (int)simtime()+i+1);
@@ -179,7 +164,6 @@ FILE * mov_avg_fd;
 	//PASSO 2: Viene riempito l'array averaged_process con la media ottenuta dividendo
 	//per WELCH_N, ovvero il numero di repliche effettuate, la somma di tutte le repliche 
 	//per un dato indice appartenente all'insieme WELCH_M
-	
 	for(m_repl = 0; m_repl < WELCH_M; m_repl++){
 	
 		for(n_repl=0;n_repl<WELCH_N; n_repl++) {
@@ -192,8 +176,7 @@ FILE * mov_avg_fd;
 		sum = 0.0;
 	}
 	
-		//PASSO 3: Calcolo dell'array Moving Average	
-	
+	//PASSO 3: Calcolo dell'array Moving Average	
 	for(i = 1; i <= (WELCH_M - WELCH_W); i++){
 		sum = 0.0;
 		if(i <= WELCH_W){
@@ -209,20 +192,14 @@ FILE * mov_avg_fd;
 			
 			moving_average[i] = sum/(double)(2*WELCH_W + 1);
 		}
-	
 	}	
-	
 
 	//PASSO 4: scrittura dell'array moving average su file che sara' utile poi per graficare
-	//	   i valori e determinare il valore l (lunghezza del transiente).
-	
-	
+	//	   i valori e determinare il valore l (lunghezza del transiente).	
 	mov_avg_fd = fopen(output_file_name, "w");
 	
 	for(i = 1; i <= (WELCH_M - WELCH_W); i++)
-		
 		fprintf(mov_avg_fd, "%d\t%g\n", i, moving_average[i]);
-	
 	
 	fclose(mov_avg_fd);	
 	
@@ -231,8 +208,4 @@ FILE * mov_avg_fd;
 	free(averaged_process);
 	free(moving_average);
 	csim_terminate();
-
 }
-
-
-

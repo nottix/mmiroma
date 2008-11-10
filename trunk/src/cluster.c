@@ -6,7 +6,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <csim.h>
-#include "gaussiana_inversa.h"
+#include "workload.h"
 #include "client.h"
 
 extern double mu_session;
@@ -26,6 +26,56 @@ extern STREAM object_req;
 extern STREAM html_1;
 extern STREAM html_2;
 extern STREAM obj_size;
+
+double calc_intra_cluster_distance(double *array, int array_length, double *centroids)
+{
+	int i=0;
+	int docs[K] = {0};
+	double sums[K] = {0};
+	double tot = 0;
+	for(i=0; i < array_length; i++)
+	{
+		int index = get_doc_class(array[i]);
+		sums[index] += fabs(centroids[index]-array[i]);
+		docs[index]++;
+	}
+
+	for(i=0; i<K; i++) {
+		tot += sums[i]/docs[i];
+	}
+		
+	return tot/K;
+}
+
+double calc_inter_cluster_distance(double *centroids)
+{
+	int i=0;
+	int j = 0;
+	int count = 0;
+	double sum = 0;
+	for(i=0; i < K; i++)
+	{
+		for(j=0; j < K; j++)
+		{
+			if(i < j)
+			{
+				sum += fabs(centroids[i]-centroids[j]);
+				count++;
+				printf("distance %f\n", fabs(centroids[i]-centroids[j]));
+			}
+		}
+	}
+	printf("totale e totale media %f %f\n", sum, sum/count);
+	return sum/(double)count;
+}
+
+double calc_beta(double *array, double * centroids, int array_length)
+{
+	double x = calc_intra_cluster_distance(array, array_length, centroids);
+	double y = calc_inter_cluster_distance(centroids);
+	
+	return x/y;
+}
 
 //Algoritmo di clustering K-Means
 void cluster(double *array, int array_length, int k)
@@ -52,30 +102,21 @@ void cluster(double *array, int array_length, int k)
 			min = array[i];
 	}
 	printf("k %d:\n", k);
-	//assegnazione dei primi due centroidi
+	/*
+	 * assegnazione dei primi due centroidi (min e max)
+	 * e assegnazione di centroidi intermedi in modo random
+	 */
 	centroids[0] = min;
 	printf("centroide min %lf\n", centroids[0]);
 	centroids[k-1] = max;
 	printf("centroide max %lf\n", centroids[k-1]);
-	//calcolo degli altri centroidi in caso k>2
-	/***
-	if(k>2) {
-		for(i=1; i < k-1; i++) {
-			centroids[i] = min+ i*(max-min)/k;
-			printf("new %lf\n", centroids[i]);
-		}
-	}
-	for(i=0; i < k; i++)
-	 printf("centroide[%d] = %lf\n", i, centroids[i]);
-	*********************************************/
-	////PROVA CLUSTER RANDOM
+	
 	for(i=1; i < k-1; i++)
 	{
 		int rand = csim_random_int(0, array_length);
 		centroids[i] = array[rand]; 
 		
 	}  
-	/*** FINE PROVA CLUSTER RANDOM*/ 
 	while(!iter) {
 
 		//assegnazione dei dati ad ogni cluster
@@ -108,9 +149,10 @@ void cluster(double *array, int array_length, int k)
 			centroids[i] = total_data_per_cluster[i] / ((double)num_data_per_cluster[i]); 
 			printf("i: %d,  centroide: %lf - tot_dati: %d\t", i, centroids[i], num_data_per_cluster[i]);
 			if( fabs(centroids[i]-old_centroids[i]) < pow(10,-10) ) {  //valore epsilon = 10^-10
-				printf("converged: %d\n", converged);
+				printf("converged: %d", converged);
 				converged++;
 			}
+			printf("\n");
 		}
 		//controllo se l'algoritmo converge
 		if(converged == k) {
@@ -120,6 +162,22 @@ void cluster(double *array, int array_length, int k)
 		memset(num_data_per_cluster,0,k*sizeof(double));
 		memset(total_data_per_cluster,0,k*sizeof(double));
 	}
+	
+	for(i=0; i<K; i++) {
+		for(j=0; j<K; j++) {
+			if(centroids[i] < centroids[j]) {
+				double tmp = centroids[i];
+				centroids[i] = centroids[j];
+				centroids[j] = tmp;
+			}
+		}
+	}
+	
+	for(i=0; i<K; i++) {
+		printf("Cluster[%d]: %lf\n", i, centroids[i]);
+	}
+	
+	printf("Beta: %f\n",calc_beta(array, centroids, array_length));
 }
 
 
@@ -167,18 +225,5 @@ void sim(int argc, char **argv)
 		}
 	}
 	//clustering dei documenti
-	cluster(array, array_length, 5);
-
-	int m=0;
-	/*FILE *fd_file;
-	char *pathname = (char*)malloc(128);
-	sprintf(pathname, "docs");
-	fd_file = fopen(pathname, "w");
-	for(m=0;m<array_length;m++) {
-		fprintf(fd_file, "%g\n", array[m]);
-	}
-	fclose(fd_file); 
-*/
-
+	cluster(array, array_length, K);
 }
-
