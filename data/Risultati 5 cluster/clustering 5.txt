@@ -1,0 +1,6 @@
+i: 0,  centroide: 10073.544768 - tot_dati: 9999917	converged: 0
+i: 1,  centroide: 17740962.783629 - tot_dati: 65	converged: 1
+i: 2,  centroide: 279513744.660317 - tot_dati: 4	converged: 2
+i: 3,  centroide: 70926601.031751 - tot_dati: 13	converged: 3
+i: 4,  centroide: 715827882.666667 - tot_dati: 1	converged: 4
+
