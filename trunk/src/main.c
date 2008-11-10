@@ -3,7 +3,7 @@
 #include <csim.h>
 #include "client.h"
 #include "common.h"
-#include "gaussiana_inversa.h"
+#include "workload.h"
 #include "service.h"
 
 #ifndef _ISOC99_SOURCE

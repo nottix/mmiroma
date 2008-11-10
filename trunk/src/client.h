@@ -6,7 +6,7 @@
 #include <math.h>
 #include <csim.h>
 #include "common.h"
-#include "gaussiana_inversa.h"
+#include "workload.h"
 #include "service.h"
 
 // Ritorna l'indice del server meno utilizzato (serve per la least loaded)

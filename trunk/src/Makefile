@@ -3,7 +3,7 @@ CFLAGS = -g -Wall -std=c99
 CSIMPATH = ../lib/csim_c-19.0
 INCFLAGS = -I./ -I$(CSIMPATH)/lib
 LDFLAGS = -Wl,-rpath,/usr/local/lib 
-OBJECTS = gaussiana_inversa.o service.o client.o
+OBJECTS = workload.o service.o client.o
 LIBS = -lm $(CSIMPATH)/lib/csim.a
 
 all: main
@@ -25,8 +25,8 @@ analytical: analytical.c $(OBJECTS)
 client.o: client.h client.c
 	$(CC) $(INCFLAGS) $(CFLAGS) -o client.o -c client.c
 
-gaussiana_inversa.o: gaussiana_inversa.h gaussiana_inversa.c
-	$(CC) $(INCFLAGS) $(CFLAGS) -o gaussiana_inversa.o -c gaussiana_inversa.c
+workload.o: workload.h workload.c
+	$(CC) $(INCFLAGS) $(CFLAGS) -o workload.o -c workload.c
 
 service.o: service.h service.c
 	$(CC) $(INCFLAGS) $(CFLAGS) -o service.o -c service.c
