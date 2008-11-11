@@ -1,13 +1,15 @@
 \chapter{Modello Analitico}
 Dal modello simulativo è stato possibile ricavare il tasso di arrivo di richeste HTTP, dato fondamentale per poter eseguire un modello analitico. Dalla configurazione standard si è ricavato il valore: 
-
-$$\lambda =  3308.79 \frac{richieste}{sec}$$
-
+\begin{equation}
+\lambda =  3308.79 \frac{richieste}{sec}
+\end{equation}
 Le probabilità di arrivo di richieste di classe r, sono date dalla formula:
-
-$$p_{r} = \frac{count_{r}}{observation)}$$
-
+\begin{equation}
+p_{r} = \frac{count_{r}}{observation}
+\end{equation}
+\begin{flushleft}
 Di seguito si riportano nuovamente i valori già presentati nel capitolo 2
+\end{flushleft}
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c||}
@@ -40,20 +42,30 @@ Classe		&Prob. arrivo richieste classe R	\\
 \caption{Probabilita' di arrivo delle richieste}
 \label{test_2}
 \end{table}
-Il tasso di richieste per la singola classe è dato dalla formula: 
-$$
+\begin{flushleft}
+Il tasso di richieste per la singola classe è dato dalla formula:
+\end{flushleft}
+\begin{equation}
 \lambda_{r} = \lambda*p_{r}
-$$
-Formule indici di prestazione:
-
+\end{equation}
 Utilizzazione:
-$$U_{i,r} = \lambda_{r} * D_{i,r}$$
-$$U_{i} (vettore)  = \sum_{1}^{NUM\_CLASSES} U_{i,r}$$
+\begin{equation}
+U_{i,r}(\overrightarrow{\lambda}) = \lambda_{r} * D_{i,r}
+\end{equation}
+\begin{equation}
+U_{i}(\overrightarrow{\lambda})  = \sum_{r=1}^{K} U_{i,r}(\overrightarrow{\lambda})
+\end{equation}
 Lunghezza coda:
-$$n_{i,r} = \frac{U_{i,r}}{1 - U_{i,r}}$$
-$$n_{i} (vettore) = \sum_{1}^{NUM\_CLASSES} n_{i,r}$$
+\begin{equation}
+n_{i,r}(\overrightarrow{\lambda}) = \frac{U_{i,r}(\overrightarrow{\lambda})}{1 - U_{i}(\overrightarrow{\lambda})}
+\end{equation}
+\begin{equation}
+n_{i}(\overrightarrow{\lambda}) = \sum_{r=1}^{K} n_{i,r}(\overrightarrow{\lambda})
+\end{equation}
 Tempo di residenza:
-$$R_{i,r} = \frac{D_{i,r}}{1 - U_{i,r}}$$
+\begin{equation}
+R_{i,r}(\overrightarrow{\lambda}) = \frac{D_{i,r}}{1 - U_{i}(\overrightarrow{\lambda})}
+\end{equation}\\
 Per $D_{i,r}$ si intende la domanda di servizio della risorsa i-esima per richieste di classe r-esima. Per quanto concerne le domande di servizio, queste sono le stesse presentate nel modello simulativo, con la differenza che in questo caso, quando è necessario fornire la dimensione del documento, per la classe r bisogna usare il centroide r-esimo. I risultati ottenuti per le componenti del web server dovranno poi essere opportunamente mediati per il numero di server (nel caso delle schede di rete e delle CPU) e per il numero di server moltiplicato per il numero di dischi (nel caso dei dischi dei web server). Questa assunzione è valida nel caso il carico sia equamente ripartito tra i server e i dischi.
 \section{Presentazione dei risultati}
 Si presentano di seguito i risultati ottenuti applicando il modello analitico, sia alla rete in configurazione standard che nelle sue varianti.
