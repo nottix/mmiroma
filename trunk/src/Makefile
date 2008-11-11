@@ -3,7 +3,7 @@ CFLAGS = -g -Wall -std=c99
 CSIMPATH = ../lib/csim_c-19.0
 INCFLAGS = -I./ -I$(CSIMPATH)/lib
 LDFLAGS = -Wl,-rpath,/usr/local/lib 
-OBJECTS = workload.o service.o client.o index.o
+OBJECTS = workload.o service.o client.o index.o index_analytical.o
 LIBS = -lm $(CSIMPATH)/lib/csim.a
 
 all: main
@@ -33,6 +33,9 @@ service.o: service.h service.c
 
 index.o: index.h index.c
 	$(CC) $(INCFLAGS) $(CFLAGS) -o index.o -c index.c
+
+index_analytical.o: index_analytical.h index_analytical.c
+	$(CC) $(INCFLAGS) $(CFLAGS) -o index_analytical.o -c index_analytical.c
 
 clean:
 	rm -rf *.o main cluster
