@@ -23,7 +23,7 @@
 #define LS1_TRANSFER_RATE 1000 //Mbps
 #define P_HIT 0.4 //probabilita' che la risorsa richiesta sia conservata nel proxy
 
-#define K 3 //numero di cluster 3 o 5
+#define K 5 //numero di cluster 3 o 5
 #define NUM_ITERATIONS 10
 #define SEED 3
 
