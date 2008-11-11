@@ -8,7 +8,6 @@ Il modello simulativo è stato di fondamentale importanza in quanto ha permesso 
 	\item Esecuzione del transiente
 	\item Presentazione dei risultati
 \end{itemize}
-
 \section{CSIM}
 Un \var{simulation engine} consiste di un insieme di oggetti e metodi usati per costruire un modello di simulazione. CSIM è un package \var{process-oriented} integrabile in programmi C/C++, che realizza un modello di simulazione discreto: \var{next event time advance} (event-driven). CSIM consente di modellare il sistema mediante l’utilizzo di speciali processi che interagiscono tra loro utilizzando delle apposite strutture dati. Il programma mantiene un tempo simulato in modo da consentire lo studio del comportamento del sistema al variare del tempo. CSIM fornisce al programmatore una serie di oggetti, che definiscono le astrazioni di supporto alla costruzione e all’esecuzione del modello simulativo. Gli oggetti principali sono:
 \begin{description}
@@ -116,10 +115,10 @@ int NDatagrams(double m) {
 	return n; 
 } 
 \end{lstlisting}
-\code{Ndatagrams} consente di determinare il numero di messaggi necessari per inviare un messaggio lungo m bytes.
+\code{Ndatagrams} consente di determinare il numero di datagram necessari per inviare un messaggio lungo \code{m} byte.
 \begin{lstlisting}
 int Overhead(double m) { 
-   return (NDatagrams(m)*(TCPOV+IPOV+FRAMEOV)); 
+   return (NDatagrams(m)*(TCPOV+IPOV+FRAMEOV));
 }
 \end{lstlisting}
 \code{Overhead} rappresenta l'overhead necessario per inviare un messaggio lungo m bytes.
@@ -148,23 +147,23 @@ double D_LAN(double docSize) {
     return NetworkTime( docSize, BANDWIDTH_L2); 
 } 
 \end{lstlisting}
-Per quanto concerne la domanda di servizio della LAN si è operata una distinzione tra fase di richieste (in cui \code{docSize = 0}) e fase di risposta
+Per quanto concerne la domanda di servizio della LAN si è operata una distinzione tra fase di richieste (in cui \code{docSize = 0}) e fase di risposta.
 \begin{lstlisting}
 double D_Cpu(double service_rate) { 
-   return 1 / service_rate; 
+   return 1 / service_rate;
 }
 \end{lstlisting}
 La domanda di servizio della CPU vale sia per il Web Server che per il Web Switch, infatti il Service\_Rate dev'essere specificato come parametro di input.
 \begin{lstlisting}
 double D_WSDisk(double doc_size) { 
-   double ret = (number_of_blocks(doc_size)) * ((DISK_SEEK_TIME/pow(10,3)) + ROTATIONAL_LATENCY + (CONTROLLER_TIME/pow(10,3)) + (BLOCK_SIZE/((double)DISK_TRANSFER_RATE*pow(10,6)))); 
-   return ret; 
-} 
+   double ret = (number_of_blocks(doc_size)) * ((DISK_SEEK_TIME/pow(10,3)) + ROTATIONAL_LATENCY + (CONTROLLER_TIME/pow(10,3)) + (BLOCK_SIZE/((double)DISK_TRANSFER_RATE*pow(10,6))));
+   return ret;
+}
 \end{lstlisting}
 La funzione \code{number\_of\_blocks} indica il numero di blocchi necessari da leggere per un intero documento di dimensione \code{doc\_size} bytes ed è così definita:
 \begin{lstlisting}
 int number_of_blocks(double docSize) { 
-   return ceil(docSize/BLOCK_SIZE); 
+   return ceil(docSize/BLOCK_SIZE);
 }
 \end{lstlisting}
 I restanti parametri della domanda di servizio del disco sono:
@@ -173,7 +172,7 @@ I restanti parametri della domanda di servizio del disco sono:
 	\item[ControllerTime:] secondi spesi dal controller del disco per processare una richiesta di I/O 
 	\item[TransferRate:] tasso espresso in MB/sec con cui i dati vengono trasferiti dal/al disco 
 	\item[BlockSize:] dimensione in bytes del blocco del disco 
-	\item[RotationalLatency:] tempo medio in secondi affinchè il settore giusto capiti sotto la testina del braccio del disco 
+	\item[RotationalLatency:] tempo medio in secondi affinchè il settore giusto si trovi sotto la testina del braccio del disco 
 \end{description}
 \begin{lstlisting}
 double D_linkAdd(double doc_size) { 
@@ -200,8 +199,8 @@ I parametri da dimensionare erano i seguenti:
 	\item Numero di Web Server
 	\item Numero di dischi per Web Server
 	\item Banda del link Addizionale
+	\item Transfer rate delle schede di rete LS1, LS2, LW2, LW3.
 \end{itemize}
-Transfer rate delle schede di rete LS1, LS2, LW2, LW3.
 E' doveroso sottolineare che tutte le schede di rete sono state dimensionate tenendo conto delle reti a cui sono collegate e quindi queste presenteranno un transfer rate pari alla banda della LAN a cui sono accoppiate. Le simulazioni sono state condotte sulla configurazione standard del sistema in cui il server veniva scelto in modo random e  i risultati sono stati mediati su 10 run diversi, poiché non è molto corretto attenersi agli esiti di una singola simulazione del sistema. I parametri risultanti sono stati:
 \begin{table}[H]
 \begin{center}
@@ -294,7 +293,7 @@ Si presentano di seguito alcuni aspetti ritenuti importanti per comprendere al m
 Di seugito si riporta un frammento di codice relativo alla creazione di una sessione e relative richieste. 
 \begin{lstlisting}
 int session = session_request(mu_session, lambda_session); 
-..
+...
 for(i=0; i < session; i++) { 
    html_page = html_page_size(mu_html, sigma_html, alfa_html); 
   set_process_class(requestClasses[get_doc_class(html_page)]); 
@@ -318,7 +317,7 @@ for(i=0; i < session; i++) {
   hold(user_think_time(alfa_tt));
 }
 \end{lstlisting}
-Per ogni richiesta della sessione viene invocata la funzione web\_client, che specifica quali risorse vengono utilizzate e in che misura. 
+Per ogni richiesta della sessione viene invocata la funzione \code{web\_request()}, che specifica quali risorse vengono utilizzate e in che misura. 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.62]{etc/webclient.png}
@@ -334,7 +333,7 @@ Per ogni richiesta della sessione viene invocata la funzione web\_client, che sp
 \end{center}
 \end{figure}
 
-Si presenta di seguito un frammento della funzione web\_client per specificare come avvengono i cicli di richiesta risposta sopra rappresentati. In CSIM questi cicli sono rappresentati da un uso esclusivo delle risorse modellate: 
+Si presenta di seguito un frammento della funzione \code{web\_request()} per specificare come avvengono i cicli di richiesta risposta sopra rappresentati. In CSIM questi cicli sono rappresentati da un uso esclusivo delle risorse modellate: 
 \begin{lstlisting}
 use(inLink, D_InLink()); 
 switch_start_time = enter_box(WebSwitch); 
@@ -382,18 +381,12 @@ else {
   use(outLink, D_OutLink(doc_size)); 
 }	
 \end{lstlisting}
-Dal frammento di codice sopra riportato si può notare come sia il web switch che i web server sono stati modellati attraverso dei BOXES (che servono per collezionare statistiche relative ad un sottoinsieme delle risorse di un sistema), inoltre si può notare come alcuni componenti nel caso sia presente il link addizionale siano molto meno utilizzati (come ad esempio il web switch o la LAN L2).
+Dal frammento di codice sopra riportato si può notare come sia il web switch che i web server sono stati modellati attraverso dei BOXES (che servono per collezionare statistiche relative ad un sottoinsieme delle risorse di un sistema), inoltre si può notare come alcuni componenti, nel caso sia presente il link addizionale, siano molto meno utilizzati (come ad esempio il web switch o la LAN L2).
 
 \subsection{Il processo principale}
-Ogni client è rappresentato come appena discusso da un processo CSIM. Ogni processo viene 
-creato da un processo principale secondo una particolare legge degli arrivi (in questo caso 
-esponenziale). Il processo principale si occupa inoltre di reimpostare le statistiche raccolte una volta 
-superato il periodo di transiente in maniera da escludere dalle considerazioni finali quelli che sono valori non particolarmente aderenti alla realtà perché ottenuti in condizioni del sistema non standard (carico minino, code vuote etc.). 
-La simulazione procede, grazie al costrutto while e la condizione di convergenza, finché non 
-vengono raccolti valori tali da ottenere dei risultati considerati rilevanti (con un certo grado di confidenza) Nel caso in esame si è scelto un livello di confidenza del 98\% con un errore relativo  di 0.005.
-Il codice che realizza tutto questo è di seguito riportato. 
+Ogni client è rappresentato come appena discusso da un processo \var{CSIM}. Ogni processo viene creato da un processo principale secondo una particolare legge degli arrivi (in questo caso esponenziale). Il processo principale si occupa inoltre di reimpostare le statistiche raccolte una volta superato il periodo di transiente in maniera da escludere dalle considerazioni finali quelli che sono valori non particolarmente aderenti alla realtà perché ottenuti in condizioni del sistema non standard (carico minino, code vuote etc.). La simulazione procede, grazie al costrutto \code{while} e la condizione di convergenza, finché non vengono raccolti valori tali da ottenere dei risultati considerati rilevanti (con un certo grado di confidenza). Nel caso in esame si è scelto un livello di confidenza del 98\% con un errore relativo  di 0.005. Il codice che realizza tutto questo è di seguito riportato. 
 \begin{lstlisting}
-..
+...
 for(i=0; i<NUM_ITERATIONS; i++){
  ...
  while(state(converged)==NOT_OCC && num_osservazioni<500000) { 
@@ -418,7 +411,7 @@ rerun();
 ...
 }
 \end{lstlisting}
-Dal frammento di codice sopra riportato si può notare il ciclo \code{for} e la funzione \code{rerun()} che consentono di eseguire più simulazioni e quindi di ottenere risultati più accurati; inoltre si può notare come siano stati scartati i valori relativi al transiente. E' opportuno sottolineare come alla condizione di convergenza sia stata aggiunta un'ulteriore condizione basata sul numero di osservazioni, poiché come visto nello studio del transiente, la convergenza potrebbe non verificarsi per tutte le iterazioni.
+Dal frammento di codice sopra riportato si può notare il ciclo \code{for} e la funzione \code{rerun()} che consentono di eseguire più iterazioni all'interno della simulazione e quindi di ottenere risultati più accurati; inoltre si può notare come siano stati scartati i valori relativi al transiente. E' opportuno sottolineare come alla condizione di convergenza sia stata aggiunta un'ulteriore condizione basata sul numero di osservazioni, poiché come visto nello studio del transiente, la convergenza potrebbe non verificarsi per tutte le iterazioni.
 
 \section{Presentazione dei risultati}
 Si presentano di seguito i risultati mediati su 10 iterazioni, per ogni componente del sistema preso in esame e per tutte le varianti analizzate. Le statistiche riportate sono l'utilizzazione, la lunghezza media delle coda e il tempo di risposta per ogni classe di richiesta.
@@ -486,7 +479,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \label{ris}
 \end{table}
 Per quanto concerne la lunghezza della coda, si nota un accodamento delle risposte nel link di uscita, che presenta valori più alti persino del web switch.
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c||}
 \hline
@@ -516,10 +509,9 @@ Centro &Classe1 &Classe2 &Classe3\\
 \caption{Tempo medio di risposta Random}
 \label{tempomediorisposta}
 \end{table}
-I tempi medi di risposta per la Classe1 evidenziano una lentezza generale dei dischi nel soddisfare le richieste. Per le altre due classi non è possibile fare alcun tipo di assunzione, dato il limitato numero di osservazioni di Classi 2 e 3 a cui è sottoposto il sistema e dato il limite temporale della simulazione, che non permette alle richieste di queste due classi di essere soddisfatte (non mi piace molto la cosa del limitato numero di osservazioni). Risultati sicuramente più significativi per le Classi superiori saranno osservabili nel momento in cui verranno presentati i risultati del modello analitico.
-
+I tempi medi di risposta per la Classe1 evidenziano una lentezza generale dei dischi nel soddisfare le richieste. Per le altre due classi non è possibile fare alcun tipo di assunzione\footnote{E' stata presentata in appendice la suddivisione in 5 classi utilizzata per ottenere una migliore rappresentazione dei risultati delle classi intermedie}. Risultati sicuramente più significativi per le Classi superiori saranno osservabili nel momento in cui verranno presentati i risultati del modello analitico.
 \subsection{Risultati Round Robin}
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -550,7 +542,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \label{utilizzazioni}
 \end{table}
 Le utilizzazioni delle varie risorse adottando la politica round robin sono quasi identiche a quelle con politica random presentate precedentemente.
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}
 \hline
@@ -581,7 +573,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \label{lunghezzacode}
 \end{table}
 Rispetto al caso presentato precedentemente, si nota un leggero aumento delle code dei dischi del web server e della cpu del web switch, mentre si ha una leggera diminuzione o valori analoghi per tutte le altre risorse.
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c||}
 \hline
@@ -613,7 +605,7 @@ Centro &Classe1 &Classe2 &Classe3\\
 \end{table}
 Anche per quanto riguarda i tempi medi di risposta, i risultati sono analoghi al caso precedente, fatta eccezione per i dischi del web server che presentano un leggero aumento dei tempi, dovuti all'aumento delle code.
 \subsection{Risultati Least Loaded}
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}
 \hline
@@ -644,7 +636,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \label{utilizzazioni}
 \end{table}
 Adottando questa politica diminuiscono i tempi medi di servizio e di conseguenza si ha un aumento del carico del sistema. Per questo motivo è possibile notare un aumento delle utilizzazioni per tutte le risposte del sistema, che porta a superare la soglia del 70\% sia per la CPU del web switch che per quella del Web Server.
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}
 \hline
@@ -674,8 +666,8 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \caption{Lunghezza Code Least Loaded}
 \label{lunghezzacode}
 \end{table}
-Come avviene per le utilizzazioni, anche la lunghezza media delle code aumenta per tutti i centri, ad eccezione dei dischi del web server, poiché non accade mai che un server particolarmente carico riceva altre richieste da far processare ai suoi dischi se prima le code non sono state svuotate
-\begin{table}[htbp]
+Come avviene per le utilizzazioni, anche la lunghezza media delle code aumenta per tutti i centri, ad eccezione dei dischi del web server, poiché non accade mai che un server particolarmente carico riceva altre richieste da far processare ai suoi dischi se prima le code non sono state svuotate.
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c||}
 \hline
@@ -802,7 +794,7 @@ Centro &Classe1 &Classe2 &Classe3\\
 Analogo discorso vale anche per i tempi medi di risposta. Si ricorda che per l'esecuzione della simulazione con l'introduzione del proxy (e con il link addizionale, che sarà presentato nella prossima  sezione), è stata adottata la politica random.
 
 \subsection{Risultati Link Addizionale}
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}
 \hline
@@ -837,7 +829,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \label{utilizzazioni}
 \end{table}
 L'introduzione del link addizionale comporta una notevole diminuzione dell'utilizzazione della cpu del web switch e  della maggior parte delle componenti di rete, come la LAN L2 e le schede di rete LS1, LS2 e LW2, poiché queste hanno il compito di gestire solamente le richieste, mentre le risposte  vengono interamente smistate verso la scheda di rete LW3 e il link addizionale.
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}
 \hline
@@ -872,7 +864,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \label{lunghezzacode}
 \end{table}
 Anche la lunghezza media delle code dello switch e delle componenti di rete tende a diminuire notevolmente, mentre restano immutate quelle dei web server.
-\begin{table}[htbp]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c||}
 \hline
