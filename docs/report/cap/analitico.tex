@@ -145,79 +145,6 @@ In questa tabella si notano immediatamente i valori spropositati dei tempi di re
 Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \hline
 \hline
- cpu web server i-esimo: 	&0.6684421	&0.0000003	&0.0000001	&0.6684424	\\\hline
- disco i-esimo: 	&0.3230367	&0.0029392	&0.0018818	&0.3278577	\\\hline
- inLink: 	&0.3070557	&0.0000001	&0.0000000	&0.3070559	\\\hline
- outLink: 	&0.2874940	&0.0030771	&0.0019701	&0.0000000	\\\hline
- cpu web switch: 	&0.3446655	&0.0000001	&0.0000000	&0.3446656	\\\hline
- LAN: 	&0.0089958	&0.0000000	&0.0000000	&0.0089958	\\\hline
- LS1: 	&0.0138175	&0.0000000	&0.0000000	&0.0138175	\\\hline
- LS2:	&0.0089958	&0.0000000	&0.0000000	&0.0089958	\\\hline
- LW2: 	&0.0001363	&0.0000000	&0.0000000	&0.0001363	\\\hline
- LINK\_ADD: 	&0.4622090	&0.0049471	&0.0031674	&0.4703235	\\\hline
- LW3: 	&0.0070032	&0.0000750	&0.0000480	&0.0071261	\\\hline
-\end{tabular}
-\end{center}
-\caption{Utilizzazioni}
-\label{utilizzazioni}
-\end{table}
-Le utilizzazioni, nel caso dell'introduzione del proxy server, tendono a diminuire notevolmente, in modo particolare se si considerano le CPU del Web Switch e dei Web Server. Anche in questo caso, i risultati sono molto simili a quelli ottenuti col modello simulativo.
-\begin{table}[H]
-\begin{center}
-\begin{tabular}{||c|c|c|c|c||}
-\hline
-Centro &Classe1 &Classe2 &Classe3 &Totale\\
-\hline
-\hline
- cpu web server i-esimo: 	&2.0160664	&0.0000008	&0.0000002	&2.0160674	\\\hline
- disco i-esimo: 	&0.4806076	&0.0043730	&0.0027997	&0.4877803	\\\hline
- inLink: 	&0.4431176	&0.0000002	&0.0000000	&0.4431178	\\\hline
- outLink: 	&0.4063756	&0.0043495	&0.0027847	&0.0000000	\\\hline
- cpu web switch: 	&0.5259383	&0.0000002	&0.0000001	&0.5259386	\\\hline
- LAN: 	&0.0090774	&0.0000000	&0.0000000	&0.0090774	\\\hline
- LS1: 	&0.0140111	&0.0000000	&0.0000000	&0.0140111	\\\hline
- LS2: 	&0.0090774	&0.0000000	&0.0000000	&0.0090774	\\\hline
- LW2: 	&0.0001363	&0.0000000	&0.0000000	&0.0001363	\\\hline
- LINK\_ADD: 	&0.8726251	&0.0093399	&0.0059798	&0.8879447	\\\hline
- LW3: 	&0.0070534	&0.0000755	&0.0000483	&0.0071773	\\\hline
-\end{tabular}
-\end{center}
-\caption{Lunghezza Code}
-\label{lunghezzacode}
-\end{table}
-L'introduzione del proxy comporta anche un minore accodamento delle richieste. Si può notare infatti come ogni centro presenti delle code inferiori ad uno.
-\begin{table}[H]
-\begin{center}
-\begin{tabular}{||c|c|c|c||}
-\hline
-Centro &Classe1 &Classe2 &Classe3\\
-\hline
-\hline
- cpu web server i-esimo: 	&0.0402142	&0.0402142	&0.0402142	\\\hline
- disco i-esimo: 	&0.1150395	&2616.8025427	&6701.5469112	\\\hline
- inLink: 	&0.0001339	&0.0001339	&0.0001339	\\\hline
- outlink: 	&0.0001228	&3.2863295	&8.4162080	\\\hline
- cpu web switch: 	&0.0001590	&0.0001590	&0.0001590	\\\hline
- LAN: 	&0.0000027	&0.0000027	&0.0000027	\\\hline
- LS1: 	&0.0000042	&0.0000042	&0.0000042	\\\hline
- LS2: 	&0.0000027	&0.0000027	&0.0000027	\\\hline
- LW2: 	&0.0000027	&0.0000027	&0.0000027	\\\hline
- LINK\_ADD: 	&0.0002637	&7.0568543	&18.0724278	\\\hline
- LW3: 	&0.0001407	&3.7646776	&9.6412454	\\\hline\hline
-\end{tabular}
-\end{center}
-\caption{Tempo di residenza}
-\label{tempodiresidenza}
-\end{table}
-L'introduzione del proxy server non risolve il problema della gestione di file di Classe 2 e 3, infatti rispetto al caso standard le differenze tra i tempi di residenza sono minime.
-\subsection{Risultati Link Addizionale}
-\begin{table}[H]
-\begin{center}
-\begin{tabular}{||c|c|c|c|c||}
-\hline
-Centro &Classe1 &Classe2 &Classe3 &Totale\\
-\hline
-\hline
  cpu web server i-esimo: 	&0.4010653	&0.0000002	&0.0000000	&0.4010655	\\\hline
  disco i-esimo: 	&0.1938220	&0.0017635	&0.0011291	&0.1967146	\\\hline
  inLink: 	&0.1842334	&0.0000001	&0.0000000	&0.1842335	\\\hline
@@ -232,7 +159,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \caption{Utilizzazioni}
 \label{utilizzazioni}
 \end{table}
-Come già evidenziato nel modello simulativo, l'introduzione del link addizionale permette di ridurre notevolmente le utilizzazioni del web switch e delle componenti di rete “interne” (LS1, LS2, L2, LW2). In questo caso la risorsa collo di bottiglia diventa la CPU del Web Server. Anche in quest'ultimo caso, le differenze rispetto alle utilizzazioni  ottenuti col modello simulativo sono minime.
+Le utilizzazioni, nel caso dell'introduzione del proxy server, tendono a diminuire notevolmente, in modo particolare se si considerano le CPU del Web Switch e dei Web Server. Anche in questo caso, i risultati sono molto simili a quelli ottenuti col modello simulativo.
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}
@@ -254,7 +181,7 @@ Centro &Classe1 &Classe2 &Classe3 &Totale\\
 \caption{Lunghezza Code}
 \label{lunghezzacode}
 \end{table}
-Le code risultano essere tutte minori di uno, ad eccezione della CPU del Web Server che presenta un valore pari a 2 a causa dell'alta utilizzazione.
+L'introduzione del proxy comporta anche un minore accodamento delle richieste. Si può notare infatti come ogni centro presenti delle code inferiori ad uno.
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{||c|c|c|c||}
@@ -271,6 +198,79 @@ Centro &Classe1 &Classe2 &Classe3\\
  LS1: 	&0.0001116	&2.8485547	&7.2950694	\\\hline
  LS2: 	&0.0001018	&2.7520924	&7.0480417	\\\hline
  LW2: 	&0.0000842	&2.2764875	&5.8300290	\\\hline
+\end{tabular}
+\end{center}
+\caption{Tempo di residenza}
+\label{tempodiresidenza}
+\end{table}
+L'introduzione del proxy server non risolve il problema della gestione di file di Classe 2 e 3, infatti rispetto al caso standard le differenze tra i tempi di residenza sono minime.
+\subsection{Risultati Link Addizionale}
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{||c|c|c|c|c||}
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
+\hline
+\hline
+ cpu web server i-esimo: 	&0.6684421	&0.0000003	&0.0000001	&0.6684424	\\\hline
+ disco i-esimo: 	&0.3230367	&0.0029392	&0.0018818	&0.3278577	\\\hline
+ inLink: 	&0.3070557	&0.0000001	&0.0000000	&0.3070559	\\\hline
+ outLink: 	&0.2874940	&0.0030771	&0.0019701	&0.0000000	\\\hline
+ cpu web switch: 	&0.3446655	&0.0000001	&0.0000000	&0.3446656	\\\hline
+ LAN: 	&0.0089958	&0.0000000	&0.0000000	&0.0089958	\\\hline
+ LS1: 	&0.0138175	&0.0000000	&0.0000000	&0.0138175	\\\hline
+ LS2:	&0.0089958	&0.0000000	&0.0000000	&0.0089958	\\\hline
+ LW2: 	&0.0001363	&0.0000000	&0.0000000	&0.0001363	\\\hline
+ LINK_ADD: 	&0.4622090	&0.0049471	&0.0031674	&0.4703235	\\\hline
+ LW3: 	&0.0070032	&0.0000750	&0.0000480	&0.0071261	\\\hline
+\end{tabular}
+\end{center}
+\caption{Utilizzazioni}
+\label{utilizzazioni}
+\end{table}
+Come già evidenziato nel modello simulativo, l'introduzione del link addizionale permette di ridurre notevolmente le utilizzazioni del web switch e delle componenti di rete “interne” (LS1, LS2, L2, LW2). In questo caso la risorsa collo di bottiglia diventa la CPU del Web Server. Anche in quest'ultimo caso, le differenze rispetto alle utilizzazioni  ottenuti col modello simulativo sono minime.
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{||c|c|c|c|c||}
+\hline
+Centro &Classe1 &Classe2 &Classe3 &Totale\\
+\hline
+\hline
+ cpu web server i-esimo: 	&2.0160664	&0.0000008	&0.0000002	&2.0160674	\\\hline
+ disco i-esimo: 	&0.4806076	&0.0043730	&0.0027997	&0.4877803	\\\hline
+ inLink: 	&0.4431176	&0.0000002	&0.0000000	&0.4431178	\\\hline
+ outLink: 	&0.4063756	&0.0043495	&0.0027847	&0.0000000	\\\hline
+ cpu web switch: 	&0.5259383	&0.0000002	&0.0000001	&0.5259386	\\\hline
+ LAN: 	&0.0090774	&0.0000000	&0.0000000	&0.0090774	\\\hline
+ LS1: 	&0.0140111	&0.0000000	&0.0000000	&0.0140111	\\\hline
+ LS2: 	&0.0090774	&0.0000000	&0.0000000	&0.0090774	\\\hline
+ LW2: 	&0.0001363	&0.0000000	&0.0000000	&0.0001363	\\\hline
+ LINK_ADD: 	&0.8726251	&0.0093399	&0.0059798	&0.8879447	\\\hline
+ LW3: 	&0.0070534	&0.0000755	&0.0000483	&0.0071773	\\\hline
+\end{tabular}
+\end{center}
+\caption{Lunghezza Code}
+\label{lunghezzacode}
+\end{table}
+Le code risultano essere tutte minori di uno, ad eccezione della CPU del Web Server che presenta un valore pari a 2 a causa dell'alta utilizzazione.
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{||c|c|c|c||}
+\hline
+Centro &Classe1 &Classe2 &Classe3\\
+\hline
+\hline
+ cpu web server i-esimo: 	&0.0402142	&0.0402142	&0.0402142	\\\hline
+ disco i-esimo: 	&0.1150395	&2616.8025427	&6701.5469112	\\\hline
+ inLink: 	&0.0001339	&0.0001339	&0.0001339	\\\hline
+ outlink: 	&0.0001228	&3.2863295	&8.4162080	\\\hline
+ cpu web switch: 	&0.0001590	&0.0001590	&0.0001590	\\\hline
+ LAN: 	&0.0000027	&0.0000027	&0.0000027	\\\hline
+ LS1: 	&0.0000042	&0.0000042	&0.0000042	\\\hline
+ LS2: 	&0.0000027	&0.0000027	&0.0000027	\\\hline
+ LW2: 	&0.0000027	&0.0000027	&0.0000027	\\\hline
+ LINK_ADD: 	&0.0002637	&7.0568543	&18.0724278	\\\hline
+ LW3: 	&0.0001407	&3.7646776	&9.6412454	\\\hline\hline
 \end{tabular}
 \end{center}
 \caption{Tempo di residenza}
