@@ -3,7 +3,7 @@ CFLAGS = -g -Wall -std=c99
 CSIMPATH = ../lib/csim_c-19.0
 INCFLAGS = -I./ -I$(CSIMPATH)/lib
 LDFLAGS = -Wl,-rpath,/usr/local/lib 
-OBJECTS = workload.o service.o client.o index.o index_analytical.o
+OBJECTS = workload.o service.o client.o index.o 
 LIBS = -lm $(CSIMPATH)/lib/csim.a
 
 all: main
@@ -17,8 +17,8 @@ cluster: cluster.c $(OBJECTS)
 transient: transient.c $(OBJECTS)
 	$(CC) $(INCFLAGS) $(LDFLAGS) $(CFLAGS) -o transient transient.c $(OBJECTS) $(LIBS)
 
-analytical: analytical.c $(OBJECTS)
-	$(CC) $(INCFLAGS) $(LDFLAGS) $(CFLAGS) -o analytical analytical.c $(OBJECTS) $(LIBS)
+analytical: analytical.c service.o common.h index_analytical.o
+	$(CC) $(INCFLAGS) $(LDFLAGS) $(CFLAGS) -o analytical analytical.c service.o index_analytical.o $(LIBS)
 
 ######## MODULE ########
 
