@@ -28,56 +28,63 @@ void statistics(int variant) {
 		{	
 			fprintf(fd_file, "&%.7f\t", utilizzazione_cpu_web_server[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 
 		fprintf(fd_file, "\n disco i-esimo: \t");
 		for(j=0; j< NUM_CLASSES+1; j++)
 		{	
 			fprintf(fd_file, "&%.7f\t", utilizzazione_disk[j]);
 		}
-
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n inLink: \t");
 		for(j=0; j< NUM_CLASSES+1; j++)
 		{
 			fprintf(fd_file, "&%.7f\t", utilizzazione_inLink[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n outLink: \t");
 		for(j=0; j< NUM_CLASSES+1; j++)
 		{	
 			fprintf(fd_file, "&%.7f\t", utilizzazione_outLink[j]);
 		}
-
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n cpu web switch: \t");
 		for(j=0; j< NUM_CLASSES+1; j++)
 		{
 			fprintf(fd_file, "&%.7f\t", utilizzazione_cpu_web_switch[j]);
 		}
-		
+		fprintf(fd_file, "\\\\\\hline");
+
 		fprintf(fd_file, "\n LAN: \t");
 		for(j=0; j< NUM_CLASSES+1; j++)
 		{	
 			fprintf(fd_file, "&%.7f\t", utilizzazione_L2[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n LS1: \t");
 		for(j=0; j< NUM_CLASSES+1; j++) 
 		{
 			fprintf(fd_file, "&%.7f\t", utilizzazione_ls1[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n LS2:\t");
 		for(j=0; j< NUM_CLASSES+1; j++) 
 		{	
 			fprintf(fd_file, "&%.7f\t", utilizzazione_ls2[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n LW2: \t");
 		for(j=0; j< NUM_CLASSES+1; j++) 
 		{
-			fprintf(fd_file, "%.7f\t", utilizzazione_lw2[j]);
-		}	
+			fprintf(fd_file, "&%.7f\t", utilizzazione_lw2[j]);
+		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		if(variant == LINK_ADD) {
 			fprintf(fd_file, "\n LINK_ADD: \t");
@@ -85,12 +92,14 @@ void statistics(int variant) {
 			{	
 				fprintf(fd_file, "&%.7f\t", utilizzazione_link_add[j]);
 			}
+			fprintf(fd_file, "\\\\\\hline");
 		  
 			fprintf(fd_file, "\n LW3: \t");
-		  for(j=0; j< NUM_CLASSES+1; j++)
-		  { 
+			  for(j=0; j< NUM_CLASSES+1; j++)
+			  { 
 				fprintf(fd_file, "&%.7f\t", utilizzazione_lw3[j]);
 			}
+			fprintf(fd_file, "\\\\\\hline");
 						
 		}
 		
@@ -101,54 +110,63 @@ void statistics(int variant) {
 		{
 			fprintf(fd_file, "&%.7f\t", qlen_cpu_web_server[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n disco i-esimo: \t");
 		for(j=0; j< NUM_CLASSES+1; j++)
 		{	
 			fprintf(fd_file, "&%.7f\t", qlen_disk[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n inLink: \t");
 		for(j=0; j< NUM_CLASSES+1; j++)
 		{
 			fprintf(fd_file, "&%.7f\t", qlen_inLink[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n outLink: \t");
 		for(j=0; j< NUM_CLASSES+1; j++)
 		{
 			fprintf(fd_file, "&%.7f\t", qlen_outLink[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n cpu web switch: \t");
 		for(j=0; j< NUM_CLASSES+1; j++)
 		{	
 			fprintf(fd_file, "&%.7f\t", qlen_cpu_web_switch[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n LAN: \t");
 		for(j=0; j< NUM_CLASSES+1; j++)
 		{	
 			fprintf(fd_file, "&%.7f\t", qlen_L2[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n LS1: \t");
 		for(j=0; j< NUM_CLASSES+1; j++)
 		{
 			fprintf(fd_file, "&%.7f\t", qlen_ls1[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n LS2: \t");
 		for(j=0; j< NUM_CLASSES+1; j++)
 		{
 			fprintf(fd_file, "&%.7f\t", qlen_ls2[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n LW2: \t");
 		for(j=0; j< NUM_CLASSES+1; j++)
 		{
 			fprintf(fd_file, "&%.7f\t", qlen_lw2[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
     
 		if(variant == LINK_ADD) {
 			fprintf(fd_file, "\n LINK_ADD: \t");
@@ -156,12 +174,14 @@ void statistics(int variant) {
 			{
 				fprintf(fd_file, "&%.7f\t", qlen_link_add[j]);
 			}
+			fprintf(fd_file, "\\\\\\hline");
 			
 			fprintf(fd_file, "\n LW3: \t");
 		  	for(j=0; j< NUM_CLASSES+1; j++)
 			{
 				fprintf(fd_file, "&%.7f\t", qlen_lw3[j]);
-			}	
+			}
+			fprintf(fd_file, "\\\\\\hline");
 		}
 		
 		fprintf(fd_file, "\n\n\\hline\nTempo Medio di Residenza\n\\hline\n");
@@ -171,54 +191,63 @@ void statistics(int variant) {
 		{
 			fprintf(fd_file, "&%.7f\t", rtime_cpu_web_server[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n disco i-esimo: \t");
 		for(j=0; j<NUM_CLASSES; j++)
 		{	
 			fprintf(fd_file, "&%.7f\t", rtime_disk[j]);
-    }
+		}
+		fprintf(fd_file, "\\\\\\hline");
     
 		fprintf(fd_file, "\n inLink: \t");
 		for(j=0; j<NUM_CLASSES; j++)
 		{
 			fprintf(fd_file, "&%.7f\t", rtime_inLink[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n outlink: \t");
 		for(j=0; j<NUM_CLASSES; j++)
 		{	
 			fprintf(fd_file, "&%.7f\t", rtime_outLink[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n cpu web switch: \t");
 		for(j=0; j<NUM_CLASSES; j++)
 		{	
 			fprintf(fd_file, "&%.7f\t", rtime_cpu_web_switch[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n LAN: \t");
 		for(j=0; j<NUM_CLASSES; j++)
 		{	
 			fprintf(fd_file, "&%.7f\t", rtime_L2[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		
 		fprintf(fd_file, "\n LS1: \t");
 		for(j=0; j<NUM_CLASSES; j++)
 		{	
 			fprintf(fd_file, "&%.7f\t", rtime_ls1[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
     
 		fprintf(fd_file, "\n LS2: \t");
 		for(j=0; j<NUM_CLASSES; j++)
 		{
 			fprintf(fd_file, "&%.7f\t", rtime_ls2[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
     
 		fprintf(fd_file, "\n LW2: \t");
 		for(j=0; j<NUM_CLASSES; j++)
 		{	
 			fprintf(fd_file, "&%.7f\t", rtime_lw2[j]);
 		}
+		fprintf(fd_file, "\\\\\\hline");
 		    
 		if(variant == LINK_ADD) {
 			fprintf(fd_file, "\n LINK_ADD: \t");
@@ -226,12 +255,14 @@ void statistics(int variant) {
 			{
 				fprintf(fd_file, "&%.7f\t", rtime_link_add[j]);
 			}
+			fprintf(fd_file, "\\\\\\hline");
 			
 			fprintf(fd_file, "\n LW3: \t");
 			for(j=0; j<NUM_CLASSES; j++)
 			{
 				fprintf(fd_file, "&%.7f\t", rtime_lw3[j]);
 			}
+			fprintf(fd_file, "\\\\\\hline");
 		}
 
 		fclose(fd_file);
